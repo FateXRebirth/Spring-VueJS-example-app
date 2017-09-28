@@ -3,10 +3,10 @@ package com.example.Controller;
 import com.example.Entity.Student;
 import com.example.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.Collection;
 
 /**
@@ -14,14 +14,35 @@ import java.util.Collection;
  */
 
 @RestController
-@RequestMapping(value = "/")
+@RequestMapping(value = "/students")
 public class StudentController {
 
     @Autowired
     private StudentService studentService;
 
-    @RequestMapping(value = "/students", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void insertStudent(@RequestBody Student student) {
+        this.studentService.insertStudent(student);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
     public Collection<Student> getAllStudents() {
         return this.studentService.getAllStudents();
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Student getStudentById(@PathVariable("id") String id) {
+        return this.studentService.getStudentById(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateStudents(@RequestBody Student student) {
+        this.studentService.updateStudent(student);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void removeStudentById(@PathVariable("id") String id) {
+        this.studentService.removeStudentById(id);
+    }
+
 }

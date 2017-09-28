@@ -6,12 +6,12 @@ package com.example.Entity;
 
 public class Student {
 
-    private int id;
+    private String id;
     private String name;
     private String course;
 
 
-    public Student(int id, String name, String course) {
+    public Student(String id, String name, String course) {
         this.id = id;
         this.name = name;
         this.course = course;
@@ -20,11 +20,11 @@ public class Student {
     public Student() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -43,4 +43,5 @@ public class Student {
     public void setCourse(String course) {
         this.course = course;
     }
+
 }

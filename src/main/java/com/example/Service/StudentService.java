@@ -17,7 +17,24 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public Collection<Student> getAllStudents() {
-        return this.studentRepository.getAllStudents();
+    public void insertStudent(Student student) {
+        studentRepository.insertStudent(student);
     }
+
+    public Collection<Student> getAllStudents() {
+        return studentRepository.getAllStudents();
+    }
+
+    public Student getStudentById(String id) {
+        return studentRepository.getStudentById(id);
+    }
+
+    public void updateStudent(Student student) {
+        studentRepository.updateStudent(student);
+    }
+
+    public void removeStudentById(String id) {
+        this.studentRepository.removeStudentById(id);
+    }
+
 }

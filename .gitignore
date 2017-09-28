@@ -1,2 +1,16 @@
-/.idea
-.gitignore
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+/build
+build/
+*/build/
+*/*/build/
+*/*/*/build/
+*.bin
+*.lock
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
