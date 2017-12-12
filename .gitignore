@@ -15,5 +15,6 @@ build/
 /.idea/libraries
 .idea/workspace.xml
 .DS_Store
-/node_modules
-
+frontend/node_modules
+target/
+*/target/
