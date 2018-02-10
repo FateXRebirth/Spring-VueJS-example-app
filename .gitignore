@@ -3,11 +3,6 @@
 *.ipr
 *.iws
 .idea/
-/build
-build/
-*/build/
-*/*/build/
-*/*/*/build/
 *.bin
 *.lock
 /local.properties
