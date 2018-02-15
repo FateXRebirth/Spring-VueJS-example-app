@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+
+import Root from '@/components/Root'
+import Index from '@/components/Index'
+import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
@@ -9,8 +12,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Root',
+      component: Root
+    },
+    {
+      path: '/index',
+      name: 'Index',
+      component: Index
+    },
+    {
+      path: '/*',
+      name: 'NotFound',
+      component: NotFound
     }
   ]
 })
