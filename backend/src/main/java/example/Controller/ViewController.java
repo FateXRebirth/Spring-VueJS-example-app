@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ViewController {
 
-    // Only case for thymeleaf, if you want to use it as template engine
     @GetMapping("/greeting")
     public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
@@ -24,17 +22,15 @@ public class ViewController {
     }
 
     @GetMapping("/login")
-    public String greetingForm(Model model) {
+    public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
         return "login";
     }
 
     @PostMapping("/login")
-    public String greetingSubmit(@ModelAttribute LoginForm loginForm) {
+    public String loginSubmit(@ModelAttribute LoginForm loginForm) {
 
-        String username = loginForm.getUsername();
-        String password = loginForm.getPassword();
-        if(username.equals("admin") && password.equals(("admin"))) {
+        if(loginForm.authenticate()) {
             return "success";
         }
 

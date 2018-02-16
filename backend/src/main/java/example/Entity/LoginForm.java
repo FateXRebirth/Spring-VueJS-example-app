@@ -21,8 +21,8 @@ public class LoginForm {
         this.password = password;
     }
 
-    public  boolean authenticate() {
-        return this.username == "admin" && this.password == "admin";
+    public boolean authenticate() {
+        return this.username.equals("admin") && this.password.equals("admin");
     }
 
     public String toString() {
