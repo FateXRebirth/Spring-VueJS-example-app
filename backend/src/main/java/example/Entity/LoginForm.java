@@ -3,6 +3,7 @@ package example.Entity;
 public class LoginForm {
 
     private String username;
+
     private String password;
 
     public String getUsername() {
@@ -21,12 +22,13 @@ public class LoginForm {
         this.password = password;
     }
 
-    public boolean authenticate() {
-        return this.username.equals("admin") && this.password.equals("admin");
+    @Override
+    public String toString() {
+        return "LoginForm{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
-    public String toString() {
-        return "Username: " + this.username + " , " + "Password: " + this.password;
-    }
 
 }

@@ -2,6 +2,9 @@ package example.Repository;
 
 import example.Config.SpringJdbcConfig;
 import example.Entity.Person;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -10,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -21,13 +25,17 @@ import java.util.Map;
 @Repository
 public class PersonRepository {
 
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
-
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
-
-    SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("person").usingGeneratedKeyColumns("id");;
-
-    SimpleJdbcCall test = new SimpleJdbcCall(SpringJdbcConfig.mysqlDataSource()).withProcedureName("test");
+    public class CustomSQLErrorCodeTranslator extends SQLErrorCodeSQLExceptionTranslator {
+        @Override
+        protected DataAccessException customTranslate
+                (String task, String sql, SQLException sqlException) {
+            if (sqlException.getErrorCode() == -104) {
+                return new DuplicateKeyException(
+                        "Custom Exception translator - Integrity constraint violation.", sqlException);
+            }
+            return null;
+        }
+    }
 
     private static final class PersonMapper implements RowMapper<Person> {
 
@@ -36,6 +44,21 @@ public class PersonRepository {
                     rs.getString("email"), rs.getString("type"));
             return person;
         }
+    }
+
+    private JdbcTemplate jdbcTemplate;
+    private CustomSQLErrorCodeTranslator customSQLErrorCodeTranslator;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private SimpleJdbcInsert simpleJdbcInsert;
+    private SimpleJdbcCall simpleJdbcCall;
+
+    public PersonRepository() {
+        jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
+        customSQLErrorCodeTranslator = new CustomSQLErrorCodeTranslator();
+        jdbcTemplate.setExceptionTranslator(customSQLErrorCodeTranslator);
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
+        simpleJdbcInsert = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("person").usingGeneratedKeyColumns("id");
+        simpleJdbcCall = new SimpleJdbcCall(SpringJdbcConfig.mysqlDataSource()).withProcedureName("test");
     }
 
     public void create(Person person) {
@@ -66,10 +89,14 @@ public class PersonRepository {
         return jdbcTemplate.queryForObject(query, new Object[] { id }, new PersonMapper());
     }
 
-    public String getPersonPasswordById(int id) {
-        SqlParameterSource parameters = new MapSqlParameterSource("id", id);
-        String query = "select password from person where id = :id";
-        return namedParameterJdbcTemplate.queryForObject(query, parameters, String.class);
+    public Person getPersonByUsername(String username) {
+        SqlParameterSource parameters = new MapSqlParameterSource("username", username);
+        String query = "select username, password, email, type from person where username = :username";
+        try {
+            return namedParameterJdbcTemplate.queryForObject(query, parameters, new PersonMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<Person> getPersons() {
@@ -82,6 +109,6 @@ public class PersonRepository {
     }
 
     public void StoredProcedure() {
-        System.out.println(test.execute());
+        System.out.println(simpleJdbcCall.execute());
     }
 }

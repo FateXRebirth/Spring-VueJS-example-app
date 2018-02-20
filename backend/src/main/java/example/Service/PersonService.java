@@ -22,8 +22,8 @@ public class PersonService {
         return personRepository.getPersonById(id);
     }
 
-    public String getPersonPasswordById(int id) {
-        return  personRepository.getPersonPasswordById(id);
+    public Person getPersonByUsername(String username) {
+        return personRepository.getPersonByUsername(username);
     }
 
     public List<Person> getPersons() {

@@ -1,6 +1,10 @@
 package example.Controller;
 
 import example.Entity.LoginForm;
+import example.Entity.Person;
+import example.Repository.PersonRepository;
+import example.Service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,10 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ViewController {
 
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
+    @Autowired
+    PersonService personService;
+
+    @GetMapping("/")
+    public String index() {
+        return "index";
     }
 
     @GetMapping("/login")
@@ -30,11 +36,18 @@ public class ViewController {
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginForm loginForm) {
 
-        if(loginForm.authenticate()) {
+        Person person = personService.getPersonByUsername(loginForm.getUsername());
+
+        if(person != null && person.getType().equals(("manager"))) {
             return "success";
         }
 
         return "redirect:/failure";
+    }
+
+    @GetMapping("/failure")
+    public String NotFound() {
+        return "failure";
     }
 
     // example 1
@@ -49,9 +62,11 @@ public class ViewController {
         //code
     }
 
-    @GetMapping("/failure")
-    public String NotFound() {
-        return "failure";
+    // example 3
+    @GetMapping("/greeting")
+    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "greeting";
     }
 
 }
