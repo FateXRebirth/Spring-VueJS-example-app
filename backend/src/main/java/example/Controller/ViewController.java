@@ -2,14 +2,18 @@ package example.Controller;
 
 import example.Entity.LoginForm;
 import example.Entity.Person;
-import example.Repository.PersonRepository;
+import example.Entity.RegisterForm;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.*;
+import java.util.Set;
 
 
 /**
@@ -34,7 +38,11 @@ public class ViewController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute LoginForm loginForm) {
+    public String loginSubmit(@ModelAttribute @Valid LoginForm loginForm, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            return "login";
+        }
 
         Person person = personService.getPersonByUsername(loginForm.getUsername());
 
@@ -45,7 +53,32 @@ public class ViewController {
         return "redirect:/failure";
     }
 
-    @GetMapping("/failure")
+    @GetMapping("/register")
+    public String registerForm(RegisterForm registerForm) {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerSubmit(@Valid RegisterForm registerForm, BindingResult bindingResult) {
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm);
+
+        for (ConstraintViolation<RegisterForm> violation : violations) {
+            // System.out.println(violation.getMessage());
+        }
+
+        if(bindingResult.hasErrors()) {
+            return "register";
+        }
+
+        System.out.println(registerForm);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/error")
     public String NotFound() {
         return "failure";
     }

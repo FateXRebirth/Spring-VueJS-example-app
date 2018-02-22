@@ -1,10 +1,11 @@
 package example.Entity;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
 
-public class LoginForm {
+public class RegisterForm {
 
     @NotEmpty(message = "Username required")
     @Size(min = 4, max = 20)
@@ -14,8 +15,14 @@ public class LoginForm {
     @Size(min = 6, max = 20)
     private String password;
 
+    @NotEmpty(message = "Email required")
+    @Email(message = "Email invalid")
+    private String email;
+
+    private int type;
+
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(String username) {
@@ -23,18 +30,36 @@ public class LoginForm {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
-        return "LoginForm{" +
+        return "RegisterForm{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", type=" + type +
                 '}';
     }
 
