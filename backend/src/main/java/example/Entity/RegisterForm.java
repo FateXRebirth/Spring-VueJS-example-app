@@ -12,14 +12,14 @@ public class RegisterForm {
     private String username;
 
     @NotEmpty(message = "Password required")
-    @Size(min = 6, max = 20)
+    @Size(min = 4, max = 20)
     private String password;
 
     @NotEmpty(message = "Email required")
     @Email(message = "Email invalid")
     private String email;
 
-    private int type;
+    private String type;
 
     public String getUsername() {
         return username;
@@ -45,11 +45,11 @@ public class RegisterForm {
         this.email = email;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 

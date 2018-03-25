@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.*;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class ViewController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute @Valid LoginForm loginForm, BindingResult bindingResult) {
+    public String loginSubmit(@ModelAttribute @Valid LoginForm loginForm, BindingResult bindingResult, HttpSession session) {
 
         if(bindingResult.hasErrors()) {
             return "login";
@@ -47,6 +48,7 @@ public class ViewController {
         Person person = personService.getPersonByUsername(loginForm.getUsername());
 
         if(person != null && person.getType().equals(("manager"))) {
+            session.setAttribute("uid", person.getUsername());
             return "success";
         }
 
@@ -73,12 +75,28 @@ public class ViewController {
             return "register";
         }
 
-        System.out.println(registerForm);
+        personService.create(new Person(registerForm.getUsername(), registerForm.getPassword(), registerForm.getEmail(), registerForm.getType()));
 
         return "redirect:/";
     }
 
-    @GetMapping("/error")
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        if(session.getAttribute("uid") != null){
+            session.removeAttribute("uid");
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session) {
+        if(session.getAttribute("uid") == null) {
+            return "redirect:/login";
+        }
+        return "dashboard";
+    }
+
+    @GetMapping("/failure")
     public String NotFound() {
         return "failure";
     }
