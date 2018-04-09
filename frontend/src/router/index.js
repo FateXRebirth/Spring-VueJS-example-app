@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Root from '@/components/Root'
-import Index from '@/components/Index'
-import NotFound from '@/components/NotFound'
+import BaseRoot from '@/components/BaseRoot'
+import BaseIndex from '@/components/BaseIndex'
+import BaseNotFound from '@/components/BaseNotFound'
 
 Vue.use(Router)
 
@@ -13,17 +13,17 @@ export default new Router({
     {
       path: '/',
       name: 'Root',
-      component: Root
+      component: BaseRoot
     },
     {
       path: '/index',
       name: 'Index',
-      component: Index
+      component: BaseIndex
     },
     {
       path: '/*',
       name: 'NotFound',
-      component: NotFound
+      component: BaseNotFound
     }
   ]
 })
