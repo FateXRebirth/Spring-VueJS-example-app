@@ -19,7 +19,7 @@ public class RegisterForm {
     @Email(message = "Email invalid")
     private String email;
 
-    private String type;
+    private int type;
 
     public String getUsername() {
         return username;
@@ -45,11 +45,11 @@ public class RegisterForm {
         this.email = email;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

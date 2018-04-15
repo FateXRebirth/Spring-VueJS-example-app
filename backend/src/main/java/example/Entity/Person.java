@@ -2,15 +2,14 @@ package example.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Person {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    @GeneratedValue
+    private long id;
 
     private String username;
     private String password;
@@ -49,8 +48,6 @@ public class Person {
         this.type = type;
     }
 
-    protected Person() {}
-
     public Person(String username, String password, String email, String type) {
         this.username = username;
         this.password = password;
@@ -61,8 +58,8 @@ public class Person {
     @Override
     public String toString() {
         return String.format(
-                "Person[id=%d, username='%s', password='%s', email='%s', type='%s']",
-                id, username, password, email, type);
+                "Person[username=%s, password='%s', email='%s', type='%s']",
+                username, password, email, type);
     }
 
 }

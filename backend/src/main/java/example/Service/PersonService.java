@@ -15,19 +15,26 @@ public class PersonService {
     PersonRepository personRepository;
 
     public void create(Person person) {
-        personRepository.save(person);
+        personRepository.create(person);
     }
 
     public Person getPersonById(int id) {
-        return personRepository.findById(id);
+        return personRepository.getPersonById(id);
     }
 
     public Person getPersonByUsername(String username) {
-        return personRepository.findByUsername(username);
+        return personRepository.getPersonByUsername(username);
     }
 
     public List<Person> getPersons() {
-        return personRepository.findAll();
+        return personRepository.getPersons();
     }
 
+    public List<Map<String, Object>> getPersonsDetail() {
+        return personRepository.getPersonsDetail();
+    }
+
+    public void StoredProcedure() {
+        personRepository.StoredProcedure();
+    }
 }
