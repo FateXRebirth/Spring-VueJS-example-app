@@ -2,10 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header('Index')"></head>
 <body>
+    <div th:replace="fragments/navbar :: navbar"></div>
     <h1>Welcome to Dashboard</h1>
     <p>Login <a href="/login">here</a></p>
     <p>Register <a href="/register">here</a></p>
     <p>Get your greeting <a href="/greeting">here</a></p>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Section</h1>
+            <h2 class="subtitle">
+                A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+            </h2>
+        </div>
+    </section>
     <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

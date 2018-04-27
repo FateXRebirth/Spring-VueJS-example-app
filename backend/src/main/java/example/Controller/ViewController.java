@@ -75,7 +75,7 @@ public class ViewController {
             return "register";
         }
 
-        System.out.println(registerForm);
+        personService.create(new Person(registerForm.getUsername(), registerForm.getPassword(), registerForm.getEmail(), registerForm.getType()));
 
         return "redirect:/";
     }
@@ -96,7 +96,7 @@ public class ViewController {
         return "dashboard";
     }
 
-    @GetMapping("/error")
+    @GetMapping("/failure")
     public String NotFound() {
         return "failure";
     }
