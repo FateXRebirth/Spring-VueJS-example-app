@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'NotFound'
+  name: 'BaseNotFound'
 }
 </script>
 

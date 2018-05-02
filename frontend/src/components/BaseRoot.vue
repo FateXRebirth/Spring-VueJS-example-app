@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'Root',
+  name: 'BaseRoot',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
