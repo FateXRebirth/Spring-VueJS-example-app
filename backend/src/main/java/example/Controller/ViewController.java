@@ -28,13 +28,16 @@ public class ViewController {
     PersonService personService;
 
     @GetMapping("/")
-    public String index() {
+    public String index(HttpSession session) {
         return "index";
     }
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
+    public String loginForm(Model model, HttpSession session) {
         model.addAttribute("loginForm", new LoginForm());
+        if(session.getAttribute("uid") != null){
+            return "redirect:/";
+        }
         return "login";
     }
 
@@ -49,14 +52,17 @@ public class ViewController {
 
         if(person != null && person.getType().equals(("manager"))) {
             session.setAttribute("uid", person.getUsername());
-            return "success";
+            return "redirect:/success";
         }
 
         return "redirect:/failure";
     }
 
     @GetMapping("/register")
-    public String registerForm(RegisterForm registerForm) {
+    public String registerForm(RegisterForm registerForm, HttpSession session) {
+        if(session.getAttribute("uid") != null){
+            return "redirect:/";
+        }
         return "register";
     }
 
@@ -96,8 +102,18 @@ public class ViewController {
         return "dashboard";
     }
 
+    @GetMapping("/success")
+    public String Success() {
+        return "success";
+    }
+
     @GetMapping("/failure")
     public String NotFound() {
+        return "failure";
+    }
+
+    @GetMapping("/*")
+    public String Error() {
         return "failure";
     }
 

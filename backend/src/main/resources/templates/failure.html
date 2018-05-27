@@ -2,6 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header('Not Found')"></head>
 <body>
-    Permission Denied.
+    <div class="error-page">
+        <div class="error-wrapper">
+            <h1 class="error">404</h1>
+        </div>
+        <div class="index-wrapper">
+            <a class="index" href="/" th:href="@{/}">
+                Click here to go back home page.
+            </a>
+        </div>
+    </div>
 </body>
 </html>

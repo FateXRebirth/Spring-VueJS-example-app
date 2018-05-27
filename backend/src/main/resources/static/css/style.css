@@ -1,3 +1,107 @@
 body {
-    padding-top: 52px;
+
 }
+
+.success-page, .error-page {
+    background-color: #FFD84D;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+
+}
+
+.success-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -300px;
+    width: 600px;
+    height: 300px;
+    text-align: center;
+}
+
+.error-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -150px;
+    width: 300px;
+    height: 300px;
+    text-align: center;
+}
+
+.success {
+    color: #00CBA9;
+    font-size: 8rem;
+}
+
+.error {
+    color: red;
+    font-size: 10rem;
+}
+
+.index-wrapper {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    margin-left: -300px;
+    width: 600px;
+    height: 100px;
+    text-align: center;
+}
+
+.index {
+    color: black;
+    font-size: 2rem;
+}
+
+.index:hover {
+    color: white;
+    text-decoration: unset;
+}
+
+.hr-20 {
+    background-color: unset;
+    height: 20px;
+}
+
+.hr-40 {
+    background-color: unset;
+    height: 40px;
+}
+
+.index-panel {
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.index-panel > .index-title {
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+.index-panel > .index-slogan {
+    font-size: 2rem;
+    color: #cccccc;
+}
+
+.index-panel > .index-description {
+    font-size: 2rem;
+    color: #cccccc;
+}
+
+.form-panel {
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.form-panel > .form-title {
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+.

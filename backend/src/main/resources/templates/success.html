@@ -2,6 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header('Welcome')"></head>
 <body>
-    Congratulations! You are old enough to sign up for this site.
+    <div class="success-page">
+        <div class="success-wrapper">
+            <h1 class="success">Welcome</h1>
+        </div>
+        <div class="index-wrapper">
+            <p class="index">
+                Redirect to home page after <strong id="seconds"> 5 </strong> seconds...
+            </p>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: success"></div>
 </body>
 </html>

@@ -3,38 +3,62 @@
 <head th:replace="fragments/header :: header('Register')"></head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
-<form action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" th:field="*{username}" /></td>
-            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="text" th:field="*{password}" /></td>
-            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td><input type="text" th:field="*{email}" /></td>
-            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-mail Error</td>
-        </tr>
-        <tr>
-            <td>Type:</td>
-            <td>
-                <select th:field="*{type}">
-                    <option value="admin">Administrator</option>
-                    <option value="user">User / Guest</option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type Error</td>
-        </tr>
-        <tr>
-            <td><button type="submit">Submit</button></td>
-        </tr>
-    </table>
-</form>
+<div class="section">
+    <div class="container">
+        <div class="form-panel">
+            <hr class="hr-20"/>
+            <h2 class="form-title">Register</h2>
+            <hr class="hr-20"/>
+            <form name="registerForm" action="#" th:action="@{/register}" th:object="${registerForm}" method="post" onsubmit="return validateRegisterForm()">
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Username" th:field="*{username}" name="username"/>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                        <input class="input" type="text" placeholder="Email" th:field="*{email}" name="email"/>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" type="password" placeholder="Password" th:field="*{password}" name="password"/>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" type="password" placeholder="Confirmation" name="confirmation"/>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+                <hr class="hr-20"/>
+                <div class="field is-grouped is-grouped-centered">
+                    <p class="control">
+                        <button class="button is-primary" type="submit">
+                            Register
+                        </button>
+                    </p>
+                    <p class="control">
+                        <a class="button is-light" href="/" th:href="@{/}">
+                            Cancel
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

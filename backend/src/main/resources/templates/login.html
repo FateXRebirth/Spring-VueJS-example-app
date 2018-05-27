@@ -3,23 +3,49 @@
 <head th:replace="fragments/header :: header('Login')"></head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
-<form action="#" th:action="@{/login}" th:object="${loginForm}" method="post">
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" th:field="*{username}" /></td>
-            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="text" th:field="*{password}" /></td>
-            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</td>
-        </tr>
-        <tr>
-            <td><button type="submit">Submit</button></td>
-        </tr>
-    </table>
-</form>
+<div class="section">
+    <div class="container">
+        <div class="form-panel">
+            <hr class="hr-20"/>
+            <h2 class="form-title">Login</h2>
+            <hr class="hr-20"/>
+            <form name="loginForm" action="#" th:action="@{/login}" th:object="${loginForm}" method="post" onsubmit="return validateLoginForm()">
+                <div class="field username">
+                    <p class="control has-icons-left has-icons-right">
+                        <input class="input" type="text" placeholder="Username" th:field="*{username}" name="username"/>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field username-error">
+                    
+                </div>
+                <div class="field password">
+                    <p class="control has-icons-left">
+                        <input class="input" type="password" placeholder="Password" th:field="*{password}" name="password"/>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+                <hr class="hr-20"/>
+                <div class="field is-grouped is-grouped-centered">
+                    <p class="control">
+                        <button type="submit" class="button is-primary">
+                            Login
+                        </button>
+                    </p>
+                    <p class="control">
+                        <a class="button is-light" href="/" th:href="@{/}">
+                            Cancel
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
