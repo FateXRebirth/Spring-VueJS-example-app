@@ -5,16 +5,9 @@ import example.Entity.Person;
 import example.Entity.RegisterForm;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
-import javax.validation.*;
-import java.util.Set;
 
 
 /**
@@ -22,6 +15,7 @@ import java.util.Set;
  */
 
 @Controller
+@RequestMapping("/")
 public class ViewController {
 
     @Autowired
@@ -33,8 +27,7 @@ public class ViewController {
     }
 
     @GetMapping("/login")
-    public String loginForm(Model model, HttpSession session) {
-        model.addAttribute("loginForm", new LoginForm());
+    public String loginForm(LoginForm loginForm, HttpSession session) {
         if(session.getAttribute("uid") != null){
             return "redirect:/";
         }
@@ -42,20 +35,12 @@ public class ViewController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute @Valid LoginForm loginForm, BindingResult bindingResult, HttpSession session) {
-
-        if(bindingResult.hasErrors()) {
-            return "login";
-        }
+    public String loginSubmit(LoginForm loginForm, HttpSession session) {
 
         Person person = personService.getPersonByUsername(loginForm.getUsername());
+        session.setAttribute("uid", person.getUsername());
 
-        if(person != null && person.getType().equals(("manager"))) {
-            session.setAttribute("uid", person.getUsername());
-            return "redirect:/success";
-        }
-
-        return "redirect:/failure";
+        return "redirect:/success";
     }
 
     @GetMapping("/register")
@@ -67,23 +52,14 @@ public class ViewController {
     }
 
     @PostMapping("/register")
-    public String registerSubmit(@Valid RegisterForm registerForm, BindingResult bindingResult) {
+    public String registerSubmit(RegisterForm registerForm, HttpSession session) {
 
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm);
+        Person newUser = new Person(registerForm.getUsername(), registerForm.getPassword(), registerForm.getEmail(), registerForm.getType());
 
-        for (ConstraintViolation<RegisterForm> violation : violations) {
-            // System.out.println(violation.getMessage());
-        }
+        personService.create(newUser);
+        session.setAttribute("uid", newUser.getUsername());
 
-        if(bindingResult.hasErrors()) {
-            return "register";
-        }
-
-        personService.create(new Person(registerForm.getUsername(), registerForm.getPassword(), registerForm.getEmail(), registerForm.getType()));
-
-        return "redirect:/";
+        return "redirect:/success";
     }
 
     @GetMapping("/logout")
@@ -115,25 +91,6 @@ public class ViewController {
     @GetMapping("/*")
     public String Error() {
         return "failure";
-    }
-
-    // example 1
-    @GetMapping("/get/{id}")
-    public @ResponseBody ResponseEntity<String> get(@PathVariable int id) {
-        return new ResponseEntity<String>("GET Response" + id, HttpStatus.OK);
-    }
-
-    // example 2
-    @PostMapping(path = "/members", consumes = "application/json", produces = "application/json")
-    public void example() {
-        //code
-    }
-
-    // example 3
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
     }
 
 }

@@ -32,66 +32,69 @@ var Pattern = {
 
 var message = function(message) {
   var element = document.createElement("p");
-  element.className = "help is-danger";
+  element.className = "help is-danger ";
   element.innerText = message;
   return element;
 }
 
-var validateLoginForm = function() {
+var validateLogin = function() {
 
-    const username = document.forms["loginForm"]["username"];
-    if(username.value == '') {
-      username.parentElement.parentElement.appendChild(message("Username required"));
-    }
-    if(username.value.length < 4 || username.value.length > 20) {
-      username.parentElement.parentElement.appendChild(message("Length of username should between 4 and 20"));
-    }
-
-    const password = document.forms["loginForm"]["password"];
-    if(password.value == '') {
-      password.parentElement.parentElement.appendChild(message("Password required"));
-    }
-    if(password.value.length < 4 || password.value.length > 20) {
-      password.parentElement.parentElement.appendChild(message("Length of password should between 4 and 20"));
-    }
     return false;
 }
 
-var validateRegisterForm = function() {
+var validateRegister = function() {
 
-    const username = document.forms["registerForm"]["username"];
-    if(username.value == '') {
-      username.parentElement.parentElement.appendChild(message("Username required"));
-    }
-    if(username.value.length < 4 || username.value.length > 20) {
-      username.parentElement.parentElement.appendChild(message("Length of username should between 4 and 20"));
-    }
-
-    const email = document.forms["registerForm"]["email"];
-    if(email.value == '') {
-      email.parentElement.parentElement.appendChild(message("Email required"));
-    }
-    if(!Pattern.email.test(email.value)) {
-      email.parentElement.parentElement.appendChild(message("Email invalid"));
-    }
-
-    const password = document.forms["registerForm"]["password"];
-    if(password.value == '') {
-      password.parentElement.parentElement.appendChild(message("Username required"));
-    }
-    if(password.value.length < 4 || password.value.length > 20) {
-      password.parentElement.parentElement.appendChild(message("Length of password should between 4 and 20"));
-    }
-
-    const confirmation = document.forms["registerForm"]["confirmation"];   
-    if(confirmation.value == '') {
-      confirmation.parentElement.parentElement.appendChild(message("Username required"));
-    }
-    if(confirmation.value.length < 4 || confirmation.value.length > 20) {
-      confirmation.parentElement.parentElement.appendChild(message("Length of confirmation should between 4 and 20"));
-    } 
-    if(confirmation.value != password.value) {
-      confirmation.parentElement.parentElement.appendChild(message("Password should same"));
-    }
     return false;
+}
+
+var check = function(event, type) {
+
+    var element = event.target;
+    var error = $(element).parent().next();
+    error.empty();
+
+    switch(type) {
+
+        case "username":
+            if(element.value.length == 0 ) {
+                error.append(message("Username Required"));
+            } else if (element.value.length < 4 || element.value.length > 20 ) {
+                error.append(message("Length of username should between 4 and 20"));
+            } else {
+                error.empty()
+            }
+        break;
+
+        case "password":
+            if(element.value.length == 0 ) {
+                error.append(message("Password Required"));
+            } else if (element.value.length < 4 || element.value.length > 20 ) {
+                error.append(message("Length of password should between 4 and 20"));
+            } else {
+                error.empty()
+            }
+        break;
+
+        case "email":
+            if(element.value.length == 0 ) {
+              error.append(message("Email Required"));
+            } else if (!Pattern.email.test(element.value)) {
+              error.append(message("Email Invalid"));
+            } else {
+                error.empty()
+            }
+        break;
+
+        case "confirmation":
+            if(element.value.length == 0 ) {
+                error.append(message("Confirmation Required"));
+            } else if (element.value.length < 4 || element.value.length > 20 ) {
+                error.append(message("Length of confirmation should between 4 and 20"));
+            } else {
+                error.empty()
+            }
+        ;
+        break;
+    }
+
 }

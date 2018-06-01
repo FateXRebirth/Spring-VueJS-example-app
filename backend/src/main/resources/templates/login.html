@@ -9,25 +9,24 @@
             <hr class="hr-20"/>
             <h2 class="form-title">Login</h2>
             <hr class="hr-20"/>
-            <form name="loginForm" action="#" th:action="@{/login}" th:object="${loginForm}" method="post" onsubmit="return validateLoginForm()">
+            <form name="loginForm" action="#" th:action="@{/login}" th:object="${loginForm}" method="post" onsubmit="return validateLogin()">
                 <div class="field username">
                     <p class="control has-icons-left has-icons-right">
-                        <input class="input" type="text" placeholder="Username" th:field="*{username}" name="username"/>
+                        <input class="input" type="text" placeholder="Username" th:field="*{username}" name="username" oninput="check(event, 'username')"/>
                         <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
                     </p>
-                </div>
-                <div class="field username-error">
-                    
+                    <div class="field errors"></div>
                 </div>
                 <div class="field password">
                     <p class="control has-icons-left">
-                        <input class="input" type="password" placeholder="Password" th:field="*{password}" name="password"/>
+                        <input class="input" type="password" placeholder="Password" th:field="*{password}" name="password" oninput="check(event, 'password')"/>
                         <span class="icon is-small is-left">
                             <i class="fas fa-lock"></i>
                         </span>
                     </p>
+                    <div class="field errors"></div>
                 </div>
                 <hr class="hr-20"/>
                 <div class="field is-grouped is-grouped-centered">
