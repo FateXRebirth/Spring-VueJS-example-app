@@ -1,5 +1,5 @@
 body {
-
+    position: relative;
 }
 
 .success-page, .error-page {
@@ -94,9 +94,11 @@ body {
 }
 
 .form-panel {
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
 }
 
 .form-panel > .form-title {
@@ -104,4 +106,22 @@ body {
     font-weight: bold;
 }
 
-.
+#success-message {
+    position: absolute;
+    width: 300px;
+    top: 100px;
+    left: 50%;
+    margin-left: -150px;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+#failure-message {
+    position: absolute;
+    width: 300px;
+    top: 100px;
+    left: 50%;
+    margin-left: -150px;
+    display: none;
+    transition: all 0.3s ease;
+}

@@ -37,6 +37,8 @@ public class ViewController {
     @PostMapping("/login")
     public String loginSubmit(LoginForm loginForm, HttpSession session) {
 
+        System.out.println(loginForm.toString());
+
         Person person = personService.getPersonByUsername(loginForm.getUsername());
         session.setAttribute("uid", person.getUsername());
 
