@@ -25,6 +25,7 @@
 
             </div>
             <div class="navbar-end" th:unless="${session.uid == null}">
+                <span class="navbar-item" th:text="|Welcome, ${session.uid}|">111</span>
                 <a class="navbar-item" href="/dashboard" th:href="@{/dashboard}">
                     Dashboard
                 </a>

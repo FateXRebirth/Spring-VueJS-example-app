@@ -1,6 +1,5 @@
 package example;
 
-import example.Entity.Person;
 import example.Repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +25,9 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner demo(PersonRepository repository) {
+    public CommandLineRunner demo() {
         return (args) -> {
             log.info("-------You Can Test Here-------");
-            repository.save(new Person("admin", "admin", "admin@example.com", "manager"));
         };
     }
 

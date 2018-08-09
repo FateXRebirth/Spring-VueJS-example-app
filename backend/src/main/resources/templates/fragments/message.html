@@ -25,4 +25,30 @@
         </article>
     </div>
 </div>
+<div th:fragment="success-right" th:remove="tag">
+    <div id="success-message-right">
+        <article class="message is-success">
+            <div class="message-header">
+                <p>Success</p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+
+            </div>
+        </article>
+    </div>
+</div>
+<div th:fragment="failure-left" th:remove="tag">
+    <div id="failure-message-left">
+        <article class="message is-danger">
+            <div class="message-header">
+                <p>Error</p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+
+            </div>
+        </article>
+    </div>
+</div>
 </html>

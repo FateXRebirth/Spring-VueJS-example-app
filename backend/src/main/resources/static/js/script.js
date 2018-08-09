@@ -91,6 +91,7 @@ var check = function(event, type) {
 
 }
 
+// Validate login form
 $('#loginForm').submit(function(event) {
 
     var exist = false;
@@ -114,9 +115,9 @@ $('#loginForm').submit(function(event) {
                     exist = true;
                     if(person.password == password.val()) {
                         $('#success-message .message-body').append(message("Successfully!"));
-                        $('#success-message').fadeIn(1000);
+                        $('#success-message').fadeIn();
                         setTimeout(function() {
-                           $('#success-message').fadeOut(1000);
+                           $('#success-message').fadeOut();
                         }, 3000)
                         return false;
                     } else {
@@ -131,93 +132,90 @@ $('#loginForm').submit(function(event) {
     }
 
     if($('#failure-message .message-body').children().length > 0) {
-        $('#failure-message').fadeIn(1000);
+        $('#failure-message').fadeIn();
         setTimeout(function() {
-            $('#failure-message').fadeOut(1000);
+            $('#failure-message').fadeOut();
         }, 3000)
         return false;
     }
 })
 
-// Validate login form
-var validateLogin = function() {
+// Validate register form
+$('#registerForm').submit(function(event) {
 
-    $.ajax({
-        async: false,
-        method: "POST",
-        contentType : "application/json",
-        url: "http://localhost:8081/login2",
-        data: JSON.stringify({ username: "admin", password: "admin" })
-    }).done(function( msg ) {
-        alert( "Data Saved: " + msg );
-    });
+    event.preventDefault();
 
     var exist = false;
 
     $('.message-body').empty();
 
     var username = $('input[name=username]');
+    var email = $('input[name=email]');
     var password = $('input[name=password]');
+    var confirmation = $('input[name=confirmation]');
 
     if($('.help.is-danger').length > 0) return false;
 
     if(username.val() == "" || password.val() == "") {
         if(username.val() == "") username.parent().next().append(message("Username Required"));
+        if(email.val() == "") email.parent().next().append(message("E-mail Required"));
         if(password.val() == "") password.parent().next().append(message("Password Required"));
+        if(confirmation.val() == "") confirmation.parent().next().append(message("Confirmation Required"));
         return false;
     } else {
-        $.ajax("http://localhost:8081/api/get/person/all", { async: false })
+        $.ajax("http://localhost:8081/api/get/person/email", { async: false })
         .done(function(data) {
-            data.forEach( function(person) {
-                if(person.username == username.val()) {
+            data.forEach( function(Email) {
+                if(Email == email.val()) {
                     exist = true;
-                    if(person.password == password.val()) {
-                        $('#success-message .message-body').append(message("Successfully!"));
-                        $('#success-message').fadeIn(1000);
-                        setTimeout(function() {
-                           $('#success-message').fadeOut(1000);
-                        }, 3000)
-                        return false;
-                    } else {
-                        $('#failure-message .message-body').append(message("Password is not correct"));
-                    }
+                    $('#failure-message .message-body').append(message("This email has been used"));
                 }
             })
-            if(!exist) {
-                $('#failure-message .message-body').append(message("Username does not exist"));
-            }
         })
-        $.ajax({
-            async: false,
-            method: "POST",
-            contentType : "application/json",
-            url: "http://localhost:8081/login2",
-            data: JSON.stringify({ username: "admin", password: "admin" })
-        }).done(function( msg ) {
-            alert( "Data Saved: " + msg );
-        });
+        if(!exist) {
+            if(password.val() == confirmation.val()) {
+                var data = {
+                    username: username.val(),
+                    email: email.val(),
+                    password: password.val(),
+                    type: 'user'
+                }
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:8081/api/post/person",
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("success")
+                    },
+                    error: function (e) {
+                        console.log("failure")
+                    }
+                });
+                $('#success-message .message-body').append(message("Successfully! You can login now"));
+                $('#success-message').fadeIn();
+                setTimeout(function() {
+                   $('#success-message').fadeOut();
+                   window.location.replace("/login")
+                }, 3000)
+                return false;
+            } else {
+                $('#failure-message .message-body').append(message("Password should be same"));
+            }
+        }
     }
 
     if($('#failure-message .message-body').children().length > 0) {
-        $('#failure-message').fadeIn(1000);
+        $('#failure-message').fadeIn();
         setTimeout(function() {
-            $('#failure-message').fadeOut(1000);
+            $('#failure-message').fadeOut();
         }, 3000)
         return false;
     }
-}
+})
 
-// Validate register form
-var validateRegister = function() {
-
-    fetch('http://localhost:8081/api/get/person/all').then( (response) => response.json()).then(function(data) {
-        console.log(data);
-    })
-
-    const username = document.forms["registerForm"]["username"];
-    const email = document.forms["registerForm"]["email"];
-    const password = document.forms["registerForm"]["password"];
-    const confirmation = document.forms["registerForm"]["confirmation"];
-
-    return false;
-}
+$(function() {
+    console.log("document ready")
+})

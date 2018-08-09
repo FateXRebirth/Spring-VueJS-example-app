@@ -60,9 +60,12 @@ public class Person {
 
     @Override
     public String toString() {
-        return String.format(
-                "Person[id=%d, username='%s', password='%s', email='%s', type='%s']",
-                id, username, password, email, type);
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
-
 }

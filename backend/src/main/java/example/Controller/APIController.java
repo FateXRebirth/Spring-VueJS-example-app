@@ -1,6 +1,7 @@
 package example.Controller;
 
 import example.Entity.Person;
+import example.Entity.RegisterForm;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,22 @@ public class APIController {
     @GetMapping("/get/person/all")
     public List<Person> getPersons() {
         return personService.getPersons();
+    }
+
+    @GetMapping("/get/person/username")
+    public List<String> getUsername() {
+        return personService.getAllUsername();
+    }
+
+    @GetMapping("/get/person/email")
+    public List<String> getEmail() {
+        return personService.getAllEmail();
+    }
+
+    @PostMapping("/post/person")
+    public void register(@RequestBody RegisterForm registerForm) {
+        Person newUser = new Person(registerForm.getUsername(), registerForm.getPassword(), registerForm.getEmail(), registerForm.getType());
+        personService.create(newUser);
     }
 
 }

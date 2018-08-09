@@ -101,9 +101,10 @@ body {
     position: relative;
 }
 
-.form-panel > .form-title {
+.form-title {
     font-size: 5rem;
     font-weight: bold;
+    text-align: center;
 }
 
 #success-message {
@@ -122,6 +123,26 @@ body {
     top: 100px;
     left: 50%;
     margin-left: -150px;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+#success-message-right {
+    position: absolute;
+    width: 300px;
+    top: 130px;
+    right: 50%;
+    margin-right: -600px;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+#failure-message-left {
+    position: absolute;
+    width: 300px;
+    top: 130px;
+    left: 50%;
+    margin-left: -600px;
     display: none;
     transition: all 0.3s ease;
 }

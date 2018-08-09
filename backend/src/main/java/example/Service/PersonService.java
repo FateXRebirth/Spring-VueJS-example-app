@@ -30,4 +30,12 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    public List<String> getAllUsername() {
+        return personRepository.findAllUsername();
+    }
+
+    public List<String> getAllEmail() {
+        return personRepository.findAllEmail();
+    }
+
 }
