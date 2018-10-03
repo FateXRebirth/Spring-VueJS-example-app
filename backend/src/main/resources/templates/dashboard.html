@@ -21,20 +21,29 @@
                         You can create a new brand !
                     </h2>
                     <div class="form-panel">
-                        <input class="input" type="text" placeholder="Text input"/>
-                        <hr class="hr-20"/>
-                        <div class="field is-grouped is-grouped-centered">
-                            <p class="control">
-                                <button type="submit" class="button is-dark">
-                                    Create
-                                </button>
-                            </p>
-                            <p class="control">
-                                <button type="submit" class="button is-danger">
-                                    Clear
-                                </button>
-                            </p>
-                        </div>
+                        <form name="brand">
+                            <div class="field is-grouped">
+                                <div class="control is-expanded">
+                                    <input class="input" type="text" name="brandName" placeholder="Name"/>
+                                </div>
+                                <div class="control is-expanded">
+                                    <input class="input" type="text" name="brandChineseName" placeholder="Chinese Name (Optional)"/>
+                                </div>
+                            </div>
+                            <hr class="hr-20"/>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                    <button type="button" onclick="BrandCreate()" class="button is-dark">
+                                        Create
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button type="button" onclick="BrandReset()" class="button is-danger">
+                                        Clear
+                                    </button>
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -50,8 +59,19 @@
                         Model must be associated with a brand
                     </h2>
                     <div class="form-panel">
-                        <input class="input" type="text" placeholder="Text input"/>
-                        <hr class="hr-20"/>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <div class="select is-info">
+                                    <select>
+                                        <option>Select Brand</option>
+                                        <option>With options</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control is-expanded">
+                                <input class="input" type="text" placeholder="Text input"/>
+                            </div>
+                        </div>
                         <div class="field is-grouped is-grouped-centered">
                             <p class="control">
                                 <button type="submit" class="button is-dark">

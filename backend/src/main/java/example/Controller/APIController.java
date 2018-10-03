@@ -29,22 +29,17 @@ public class APIController {
         return personService.getPersonByUsername(username);
     }
 
-    @GetMapping("/get/person/all")
+    @GetMapping("/person/GetAllPerson")
     public List<Person> getPersons() {
         return personService.getPersons();
     }
 
-    @GetMapping("/get/person/username")
-    public List<String> getUsername() {
-        return personService.getAllUsername();
-    }
-
-    @GetMapping("/get/person/email")
+    @GetMapping("/person/GetAllPersonEmail")
     public List<String> getEmail() {
         return personService.getAllEmail();
     }
 
-    @PostMapping("/post/person")
+    @PostMapping("/person/CreatePerson")
     public void register(@RequestBody RegisterForm registerForm) {
         Person newUser = new Person(registerForm.getUsername(), registerForm.getPassword(), registerForm.getEmail(), registerForm.getType());
         personService.create(newUser);

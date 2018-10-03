@@ -121,6 +121,7 @@ body {
     margin-left: -150px;
     display: none;
     transition: all 0.3s ease;
+    z-index: 10;
 }
 
 #failure-message {
@@ -131,6 +132,7 @@ body {
     margin-left: -150px;
     display: none;
     transition: all 0.3s ease;
+    z-index: 10;
 }
 
 #success-message-right {
@@ -141,6 +143,7 @@ body {
     margin-right: -600px;
     display: none;
     transition: all 0.3s ease;
+    z-index: 10;
 }
 
 #failure-message-left {
@@ -151,4 +154,5 @@ body {
     margin-left: -600px;
     display: none;
     transition: all 0.3s ease;
+    z-index: 10;
 }

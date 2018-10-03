@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+$('.delete').click(function(event) {
+    $(this).closest('.message').fadeOut();
+})
+
 // Regular Expression
 var Pattern = {
     email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -108,7 +112,7 @@ $('#loginForm').submit(function(event) {
         if(password.val() == "") password.parent().next().append(message("Password Required"));
         return false;
     } else {
-        $.ajax("http://localhost:8081/api/get/person/all", { async: false })
+        $.ajax("http://localhost:8081/api/person/GetAllPerson", { async: false })
         .done(function(data) {
             data.forEach( function(person) {
                 if(person.username == username.val()) {
@@ -163,7 +167,7 @@ $('#registerForm').submit(function(event) {
         if(confirmation.val() == "") confirmation.parent().next().append(message("Confirmation Required"));
         return false;
     } else {
-        $.ajax("http://localhost:8081/api/get/person/email", { async: false })
+        $.ajax("http://localhost:8081/api/person/GetAllPersonEmail", { async: false })
         .done(function(data) {
             data.forEach( function(Email) {
                 if(Email == email.val()) {
@@ -184,7 +188,7 @@ $('#registerForm').submit(function(event) {
                     async: false,
                     type: "POST",
                     contentType: "application/json",
-                    url: "http://localhost:8081/api/post/person",
+                    url: "http://localhost:8081/api/person/CreatePerson",
                     data: JSON.stringify(data),
                     dataType: 'json',
                     success: function (data) {
@@ -216,6 +220,41 @@ $('#registerForm').submit(function(event) {
     }
 })
 
-$(function() {
-    console.log("document ready")
-})
+function BrandCreate() {
+    var form = $('form[name=brand]');
+    const Name = form.find($('input[name=brandName]')).val();
+    const chineseName = form.find($('input[name=brandChineseName]')).val()
+    if(Name != "") {
+        var data = {
+
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            contentType: "application/json",
+            url: "http://localhost:8081/api/post/person",
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (data) {
+                console.log("success")
+            },
+            error: function (e) {
+                console.log("failure")
+            }
+        });
+    }
+//    $('#success-message-right .message-body').append(message("Successfully! You can login now"));
+//    $('#success-message-right').fadeIn();
+//    setTimeout(function() {
+//       $('#success-message-right').fadeOut();
+//       window.location.replace("/login")
+//    }, 1500)
+//    $('#failure-message-left .message-body').append(message("Password should be same"));
+//    $('#failure-message-left').fadeIn();
+//    setTimeout(function() {
+//        $('#failure-message-left').fadeOut();
+//    }, 1500)
+}
+function BrandReset() {
+    $('form[name=brand]')[0].reset();
+}
