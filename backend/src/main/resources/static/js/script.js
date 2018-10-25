@@ -188,7 +188,7 @@ $('#registerForm').submit(function(event) {
                     async: false,
                     type: "POST",
                     contentType: "application/json",
-                    url: "http://localhost:8081/api/person/CreatePerson",
+                    url: "http://localhost:8081/api/person/Create",
                     data: JSON.stringify(data),
                     dataType: 'json',
                     success: function (data) {
