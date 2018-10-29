@@ -11,7 +11,7 @@
             <hr class="hr-20"/>
             <h2 class="form-title">Register</h2>
             <hr class="hr-20"/>
-            <form id="registerForm" name="registerForm" action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
+            <form id="registerForm" name="registerForm" action="#" th:action="@{/register}" th:object="${registerRequest}" method="post">
                 <div class="field">
                     <p class="control has-icons-left">
                         <input class="input" type="text" placeholder="Username" th:field="*{username}" name="username" oninput="check(event, 'username')"/>

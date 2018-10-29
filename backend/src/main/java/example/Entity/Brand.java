@@ -9,10 +9,12 @@ import javax.persistence.Id;
 public class Brand {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Integer id;
 
     private String brand;
+
+    protected Brand() {}
 
     public Brand(String brand) {
         this.brand = brand;

@@ -10,7 +10,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     private String username;
     private String password;

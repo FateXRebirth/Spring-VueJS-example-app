@@ -10,12 +10,14 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     private String brand;
     private String model;
     private String year;
     private String owner;
+
+    protected Car() {}
 
     public Car(String brand, String model, String year, String owner) {
         this.brand = brand;

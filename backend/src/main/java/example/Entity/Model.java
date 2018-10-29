@@ -10,9 +10,11 @@ public class Model {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     private String model;
+
+    protected Model() {}
 
     public Model(String model) {
         this.model = model;

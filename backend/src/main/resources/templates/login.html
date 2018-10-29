@@ -12,7 +12,7 @@
             <hr class="hr-20"/>
             <h2 class="form-title">Login</h2>
             <hr class="hr-20"/>
-            <form id="loginForm" name="loginForm" th:action="@{/login}" th:object="${loginForm}" method="post">
+            <form id="loginForm" name="loginForm" th:action="@{/login}" th:object="${loginRequest}" method="post">
                 <div class="field username">
                     <p class="control has-icons-left has-icons-right">
                         <input class="input" type="text" placeholder="Username" th:field="*{username}" name="username" oninput="check(event, 'username')"/>

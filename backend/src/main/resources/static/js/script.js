@@ -191,13 +191,9 @@ $('#registerForm').submit(function(event) {
                     url: "http://localhost:8081/api/person/Create",
                     data: JSON.stringify(data),
                     dataType: 'json',
-                    success: function (data) {
-                        console.log("success")
-                    },
-                    error: function (e) {
-                        console.log("failure")
-                    }
-                });
+                }).done(function(msg) {
+                    console.log(msg)
+                })
                 $('#success-message .message-body').append(message("Successfully! You can login now"));
                 $('#success-message').fadeIn();
                 setTimeout(function() {
@@ -221,40 +217,41 @@ $('#registerForm').submit(function(event) {
 })
 
 function BrandCreate() {
+
+    $('.message-body').empty();
+
     var form = $('form[name=brand]');
     const Name = form.find($('input[name=brandName]')).val();
-    const chineseName = form.find($('input[name=brandChineseName]')).val()
     if(Name != "") {
         var data = {
-
+            name: Name
         }
         $.ajax({
             async: false,
             type: "POST",
             contentType: "application/json",
-            url: "http://localhost:8081/api/post/person",
+            url: "http://localhost:8081/api/brand/Create",
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function (data) {
-                console.log("success")
-            },
-            error: function (e) {
-                console.log("failure")
+        }).done(function(response) {
+            if(response == 0) {
+                $('#success-message-right .message-body').append(message("Successfully!"));
+                $('#success-message-right').fadeIn();
+                setTimeout(function() {
+                   $('#success-message-right').fadeOut();
+                }, 1500)
+            } else {
+                $('#failure-message-left .message-body').append(message("Something wrong"));
+                $('#failure-message-left').fadeIn();
+                setTimeout(function() {
+                    $('#failure-message-left').fadeOut();
+                }, 1500)
             }
-        });
+        })
     }
-//    $('#success-message-right .message-body').append(message("Successfully! You can login now"));
-//    $('#success-message-right').fadeIn();
-//    setTimeout(function() {
-//       $('#success-message-right').fadeOut();
-//       window.location.replace("/login")
-//    }, 1500)
-//    $('#failure-message-left .message-body').append(message("Password should be same"));
-//    $('#failure-message-left').fadeIn();
-//    setTimeout(function() {
-//        $('#failure-message-left').fadeOut();
-//    }, 1500)
 }
+
 function BrandReset() {
     $('form[name=brand]')[0].reset();
 }
+

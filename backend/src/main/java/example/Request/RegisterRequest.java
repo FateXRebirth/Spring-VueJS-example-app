@@ -1,6 +1,6 @@
-package example.Entity;
+package example.Request;
 
-public class RegisterForm {
+public class RegisterRequest {
 
     private String username;
 
@@ -44,7 +44,7 @@ public class RegisterForm {
 
     @Override
     public String toString() {
-        return "RegisterForm{" +
+        return "RegisterRequest{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
