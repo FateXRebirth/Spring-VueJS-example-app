@@ -12,27 +12,27 @@ public class Brand {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private String brand;
+    private String name;
 
     protected Brand() {}
 
-    public Brand(String brand) {
-        this.brand = brand;
+    public Brand(String name) {
+        this.name = name;
     }
 
     public String getBrand() {
-        return brand;
+        return name;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrand(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "Brand{" +
                 "id=" + id +
-                ", brand='" + brand + '\'' +
+                ", brand='" + name + '\'' +
                 '}';
     }
 }

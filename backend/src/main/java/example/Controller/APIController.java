@@ -6,9 +6,11 @@ import example.Entity.Person;
 import example.Request.BrandRequest;
 import example.Request.RegisterRequest;
 
+import example.Response.BrandResponse;
 import example.Service.CarService;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -52,11 +54,19 @@ public class APIController {
     @Autowired
     CarService carService;
 
+    @GetMapping("/brand/GetAllBrand")
+    public List<BrandResponse> getBrands() {
+        return carService.getBrands();
+    }
+
     @PostMapping("/brand/Create")
     public int brand(@RequestBody BrandRequest brandRequest) {
-        Brand newBrand = new Brand(brandRequest.getName());
-        carService.CreateBrand(newBrand);
-        return 0;
+        if(carService.getBrandByName(brandRequest.getName()) == null) {
+            carService.CreateBrand(new Brand(brandRequest.getName()));
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
 }
