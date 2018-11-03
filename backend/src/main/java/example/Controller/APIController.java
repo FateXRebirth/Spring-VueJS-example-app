@@ -1,12 +1,15 @@
 package example.Controller;
 
 import example.Entity.Brand;
+import example.Entity.Model;
 import example.Entity.Person;
 
 import example.Request.BrandRequest;
+import example.Request.ModelRequest;
 import example.Request.RegisterRequest;
 
 import example.Response.BrandResponse;
+import example.Response.ModelResponse;
 import example.Service.CarService;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +66,21 @@ public class APIController {
     public int brand(@RequestBody BrandRequest brandRequest) {
         if(carService.getBrandByName(brandRequest.getName()) == null) {
             carService.CreateBrand(new Brand(brandRequest.getName()));
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    @GetMapping("/model/GetAllModel")
+    public List<ModelResponse> getModels() {
+        return carService.getModels();
+    }
+
+    @PostMapping("/model/Create")
+    public int model(@RequestBody ModelRequest modelRequest) {
+        if(carService.getModelByName(modelRequest.getName()) == null) {
+            carService.CreateModel(new Model(modelRequest.getId(), modelRequest.getName()));
             return 0;
         } else {
             return 1;

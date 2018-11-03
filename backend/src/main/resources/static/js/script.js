@@ -214,12 +214,27 @@ $('#registerForm').submit(function(event) {
     }
 })
 
+// Reset target form
+function ResetForm(target) {
+    $(target).get(0).reset();
+}
+
+// Update brand select options after creating a new brand
+function Update() {
+     $('#brands').empty()
+     $('#brands').append($('<option>', { value : 0 }).text("Select Brand"));
+    $.ajax("http://localhost:8081/api/brand/GetAllBrand", { async: false })
+        .done(function(data) {
+            data.forEach( function(option) {
+                $('#brands').append($('<option>', { value : option.id }).text(option.name));
+            })
+    })
+}
+
 function BrandCreate() {
-
     $('.message-body').empty();
-
     var form = $('form[name=brand]');
-    const Name = form.find($('input[name=brandName]')).val();
+    const Name = form.find($('input[name=brand]')).val();
     if(Name != "") {
         var data = {
             name: Name
@@ -238,6 +253,7 @@ function BrandCreate() {
                 setTimeout(function() {
                    $('#success-message-right').fadeOut();
                 }, 1500)
+                Update()
             } else {
                 $('#failure-message-left .message-body').append(message("Duplicate Brand Name"));
                 $('#failure-message-left').fadeIn();
@@ -249,7 +265,38 @@ function BrandCreate() {
     }
 }
 
-function BrandReset() {
-    $('form[name=brand]')[0].reset();
+function ModelCreate() {
+    $('.message-body').empty();
+    var form = $('form[name=model]');
+    const ID = form.find($('#brands')).val();
+    const Name = form.find($('input[name=model]')).val();
+    if(Name != "" && ID != 0) {
+        var data = {
+            id: ID,
+            name: Name
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            contentType: "application/json",
+            url: "http://localhost:8081/api/model/Create",
+            data: JSON.stringify(data),
+            dataType: 'json',
+        }).done(function(response) {
+            if(response == 0) {
+                $('#success-message-right .message-body').append(message("Create Successfully!"));
+                $('#success-message-right').fadeIn();
+                setTimeout(function() {
+                   $('#success-message-right').fadeOut();
+                }, 1500)
+                Update()
+            } else {
+                $('#failure-message-left .message-body').append(message("Duplicate Model Name"));
+                $('#failure-message-left').fadeIn();
+                setTimeout(function() {
+                    $('#failure-message-left').fadeOut();
+                }, 1500)
+            }
+        })
+    }
 }
-

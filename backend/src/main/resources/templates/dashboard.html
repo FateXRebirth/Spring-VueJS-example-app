@@ -4,7 +4,6 @@
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 <div th:replace="fragments/message :: failure-left"></div>
-<div th:replace="fragments/message :: success-right"></div>
 
 <div class="section">
     <div class="container">
@@ -24,7 +23,7 @@
                         <form name="brand">
                             <div class="field is-grouped">
                                 <div class="control is-expanded">
-                                    <input class="input" type="text" name="brandName" placeholder="Name"/>
+                                    <input class="input" type="text" name="brand" placeholder="Type a brand name ..."/>
                                 </div>
                                 <!--<div class="control is-expanded">-->
                                     <!--<input class="input" type="text" name="brandChineseName" placeholder="Chinese Name (Optional)"/>-->
@@ -38,7 +37,7 @@
                                     </button>
                                 </p>
                                 <p class="control">
-                                    <button type="button" onclick="BrandReset()" class="button is-danger">
+                                    <button type="button" onclick="ResetForm(brand)" class="button is-danger">
                                         Clear
                                     </button>
                                 </p>
@@ -59,31 +58,33 @@
                         Model must be associated with a brand
                     </h2>
                     <div class="form-panel">
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <div class="select is-info">
-                                    <select>
-                                        <option>Select Brand</option>
-                                        <option>With options</option>
-                                    </select>
+                        <form name="model">
+                            <div class="field is-grouped">
+                                <div class="control">
+                                    <div class="select is-info">
+                                        <select id="brands">
+                                            <option>Select Brand</option>
+                                            <option>With options</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control is-expanded">
+                                    <input class="input" type="text" name="model" placeholder="Type a model name ..."/>
                                 </div>
                             </div>
-                            <div class="control is-expanded">
-                                <input class="input" type="text" placeholder="Text input"/>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                    <button type="button" onclick="ModelCreate()" class="button is-dark">
+                                        Create
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button type="button" onclick="ResetForm(model)" class="button is-danger">
+                                        Clear
+                                    </button>
+                                </p>
                             </div>
-                        </div>
-                        <div class="field is-grouped is-grouped-centered">
-                            <p class="control">
-                                <button type="submit" class="button is-dark">
-                                    Create
-                                </button>
-                            </p>
-                            <p class="control">
-                                <button type="submit" class="button is-danger">
-                                    Clear
-                                </button>
-                            </p>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -99,7 +100,7 @@
                         Primary subtitle
                     </h2>
                     <div class="form-panel">
-                        <input class="input" type="text" placeholder="Text input"/>
+                        <input class="input" type="text" placeholder="Type a model name ..."/>
                         <hr class="hr-20"/>
                         <div class="field is-grouped is-grouped-centered">
                             <p class="control">
@@ -121,5 +122,14 @@
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<div th:replace="fragments/message :: success-right"></div>
+
+<script>
+    $(document).ready(function() {
+        Update();
+    })
+</script>
+
 </body>
 </html>

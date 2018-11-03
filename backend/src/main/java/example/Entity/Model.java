@@ -9,30 +9,42 @@ import javax.persistence.Id;
 public class Model {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private String model;
+    private Integer parentID;
+
+    private String name;
 
     protected Model() {}
 
-    public Model(String model) {
-        this.model = model;
+    public Model(Integer parentID, String name) {
+        this.parentID = parentID;
+        this.name = name;
     }
 
-    public String getModel() {
-        return model;
+    public String getName() {
+        return name;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(Integer parentID) {
+        this.parentID = parentID;
     }
 
     @Override
     public String toString() {
         return "Model{" +
                 "id=" + id +
-                ", model='" + model + '\'' +
+                ", parentID=" + parentID +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
