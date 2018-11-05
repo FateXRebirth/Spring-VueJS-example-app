@@ -1,10 +1,12 @@
 package example.Controller;
 
 import example.Entity.Brand;
+import example.Entity.Car;
 import example.Entity.Model;
 import example.Entity.Person;
 
 import example.Request.BrandRequest;
+import example.Request.CarRequest;
 import example.Request.ModelRequest;
 import example.Request.RegisterRequest;
 
@@ -15,6 +17,8 @@ import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -24,6 +28,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class APIController {
+
+    @Autowired
+    HttpSession session;
 
     @Autowired
     PersonService personService;
@@ -80,7 +87,17 @@ public class APIController {
     @PostMapping("/model/Create")
     public int model(@RequestBody ModelRequest modelRequest) {
         if(carService.getModelByName(modelRequest.getName()) == null) {
-            carService.CreateModel(new Model(modelRequest.getId(), modelRequest.getName()));
+            carService.CreateModel(new Model(modelRequest.getBrandID(), modelRequest.getName()));
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    @PostMapping
+    public int car(@RequestBody CarRequest carRequest) {
+        if(carService.getCarBySpecification(carRequest.getBrandID(), carRequest.getModelID(), carRequest.getYearID()) == null) {
+            carService.CreateCar(new Car(carRequest.getBrandID(), carRequest.getModelID(), carRequest.getYearID(), session.getAttribute("uid").toString()));
             return 0;
         } else {
             return 1;

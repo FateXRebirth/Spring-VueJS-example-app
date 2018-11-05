@@ -37,7 +37,7 @@
                                     </button>
                                 </p>
                                 <p class="control">
-                                    <button type="button" onclick="ResetForm(brand)" class="button is-danger">
+                                    <button type="button" onclick="ResetForm('brand')" class="button is-danger">
                                         Clear
                                     </button>
                                 </p>
@@ -62,7 +62,7 @@
                             <div class="field is-grouped">
                                 <div class="control">
                                     <div class="select is-info">
-                                        <select id="brands">
+                                        <select class="brands">
                                             <option>Select Brand</option>
                                             <option>With options</option>
                                         </select>
@@ -79,7 +79,7 @@
                                     </button>
                                 </p>
                                 <p class="control">
-                                    <button type="button" onclick="ResetForm(model)" class="button is-danger">
+                                    <button type="button" onclick="ResetForm('model')" class="button is-danger">
                                         Clear
                                     </button>
                                 </p>
@@ -94,26 +94,52 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title text-center">
-                        Primary title
+                        Car
                     </h1>
                     <h2 class="subtitle text-center">
-                        Primary subtitle
+                        Create a new car with Brand, Model and Year...
                     </h2>
                     <div class="form-panel">
-                        <input class="input" type="text" placeholder="Type a model name ..."/>
-                        <hr class="hr-20"/>
-                        <div class="field is-grouped is-grouped-centered">
-                            <p class="control">
-                                <button type="submit" class="button is-dark">
-                                    Create
-                                </button>
-                            </p>
-                            <p class="control">
-                                <button type="submit" class="button is-danger">
-                                    Clear
-                                </button>
-                            </p>
-                        </div>
+                        <form name="car">
+                            <div class="field is-grouped">
+                                <div class="control is-expanded text-center">
+                                    <div class="select is-info">
+                                        <select class="brands">
+                                            <option>Select Brand</option>
+                                            <option>With options</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control is-expanded text-center">
+                                    <div class="select is-info">
+                                        <select class="models">
+                                            <option>Select Model</option>
+                                            <option>With options</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control is-expanded text-center">
+                                    <div class="select is-info">
+                                        <select class="years">
+                                            <option>Select Year</option>
+                                            <option>With options</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                    <button type="button" onclick="CarCreate()" class="button is-dark">
+                                        Create
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button type="button" onclick="ResetForm('car')" class="button is-danger">
+                                        Clear
+                                    </button>
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

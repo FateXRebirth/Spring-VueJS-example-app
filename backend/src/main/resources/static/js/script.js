@@ -216,17 +216,37 @@ $('#registerForm').submit(function(event) {
 
 // Reset target form
 function ResetForm(target) {
-    $(target).get(0).reset();
+    if(target == 'brand' || target == 'model') {
+        $('form[name=' + target + ']').get(0).reset();
+    } else if(target == 'model') {
+        const model = 'form[name' + target + ']';
+        $(model).get(0).reset();
+        $(model).find('.brands').val("").change();
+    } else {
+        const car = 'form[name' + target + ']';
+        $(car).find('.brands').val("").change();
+        $(car).find('.models').val("").change();
+        $(car).find('.years').val("").change();
+    }
+
 }
 
 // Update brand select options after creating a new brand
 function Update() {
-     $('#brands').empty()
-     $('#brands').append($('<option>', { value : 0 }).text("Select Brand"));
+    $('.brands').empty();
+    $('.brands').append($('<option>', { value : 0 }).text("Select Brand"));
     $.ajax("http://localhost:8081/api/brand/GetAllBrand", { async: false })
         .done(function(data) {
             data.forEach( function(option) {
-                $('#brands').append($('<option>', { value : option.id }).text(option.name));
+                $('.brands').append($('<option>', { value : option.id }).text(option.name));
+            })
+    })
+    $('.models').empty();
+    $('.models').append($('<option>', { value : 0 }).text("Select Model"));
+    $.ajax("http://localhost:8081/api/model/GetAllModel", { async: false })
+        .done(function(data) {
+            data.forEach( function(option) {
+                $('.models').append($('<option>', { value : option.id }).text(option.name));
             })
     })
 }
@@ -254,6 +274,7 @@ function BrandCreate() {
                    $('#success-message-right').fadeOut();
                 }, 1500)
                 Update()
+                ResetForm('brand')
             } else {
                 $('#failure-message-left .message-body').append(message("Duplicate Brand Name"));
                 $('#failure-message-left').fadeIn();
@@ -268,7 +289,7 @@ function BrandCreate() {
 function ModelCreate() {
     $('.message-body').empty();
     var form = $('form[name=model]');
-    const ID = form.find($('#brands')).val();
+    const ID = form.find($('.brands')).val();
     const Name = form.find($('input[name=model]')).val();
     if(Name != "" && ID != 0) {
         var data = {
@@ -290,8 +311,47 @@ function ModelCreate() {
                    $('#success-message-right').fadeOut();
                 }, 1500)
                 Update()
+                ResetForm('model')
             } else {
                 $('#failure-message-left .message-body').append(message("Duplicate Model Name"));
+                $('#failure-message-left').fadeIn();
+                setTimeout(function() {
+                    $('#failure-message-left').fadeOut();
+                }, 1500)
+            }
+        })
+    }
+}
+
+function CarCreate() {
+    $('.message-body').empty();
+    var form = $('form[name=car]');
+    const brand = form.find($('.brands')).val();
+    const model = form.find($('.models')).val();
+    const year = form.find($('.years')).val();
+    if(brand != 0 && model != 0 && year != 0) {
+        var data = {
+            brand: brand,
+            model: model,
+            year: year
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            contentType: "application/json",
+            url: "http://localhost:8081/api/car/Create",
+            data: JSON.stringify(data),
+            dataType: 'json',
+        }).done(function(response) {
+            if(response == 0) {
+                $('#success-message-right .message-body').append(message("Create Successfully!"));
+                $('#success-message-right').fadeIn();
+                setTimeout(function() {
+                   $('#success-message-right').fadeOut();
+                }, 1500)
+                ResetForm('car')
+            } else {
+                $('#failure-message-left .message-body').append(message("This car already exists"));
                 $('#failure-message-left').fadeIn();
                 setTimeout(function() {
                     $('#failure-message-left').fadeOut();

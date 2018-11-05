@@ -2,16 +2,16 @@ package example.Request;
 
 public class ModelRequest {
 
-    private int id;
+    private int brandID;
 
     private String name;
 
-    public int getId() {
-        return id;
+    public int getBrandID() {
+        return brandID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBrandID(int brandID) {
+        this.brandID = brandID;
     }
 
     public String getName() {
@@ -25,9 +25,8 @@ public class ModelRequest {
     @Override
     public String toString() {
         return "ModelRequest{" +
-                "id=" + id +
+                "brandID=" + brandID +
                 ", name='" + name + '\'' +
                 '}';
     }
-
 }

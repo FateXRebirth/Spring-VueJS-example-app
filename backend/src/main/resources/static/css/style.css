@@ -136,9 +136,9 @@ body {
 }
 
 #success-message-right {
-    position: absolute;
+    position: fixed;
     width: 300px;
-    top: 130px;
+    top: 60px;
     right: 50%;
     margin-right: -600px;
     display: none;
@@ -147,12 +147,21 @@ body {
 }
 
 #failure-message-left {
-    position: absolute;
+    position: fixed;
     width: 300px;
-    top: 130px;
+    top: 60px;
     left: 50%;
     margin-left: -600px;
     display: none;
     transition: all 0.3s ease;
     z-index: 10;
+}
+
+.col-3 {
+    float: left;
+    width: 33%;
+}
+
+.clear-fix {
+    clear: both;
 }

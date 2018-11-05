@@ -2,8 +2,10 @@ package example.Service;
 
 
 import example.Entity.Brand;
+import example.Entity.Car;
 import example.Entity.Model;
 import example.Repository.BrandRepository;
+import example.Repository.CarRepository;
 import example.Repository.ModelRepository;
 import example.Response.BrandResponse;
 import example.Response.ModelResponse;
@@ -44,4 +46,16 @@ public class CarService {
     public List<ModelResponse> getModels() {
         return modelRepository.findModelsDetail();
     }
+
+    @Autowired
+    CarRepository carRepository;
+
+    public void CreateCar(Car car) {
+        carRepository.save(car);
+    }
+
+    public Car getCarBySpecification(int brandID, int modelID, int yearID) {
+        return carRepository.findBySpecification(brandID, modelID, yearID);
+    }
+
 }

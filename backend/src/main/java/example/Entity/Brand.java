@@ -14,17 +14,17 @@ public class Brand {
 
     private String name;
 
-    protected Brand() {}
-
-    public Brand(String name) {
-        this.name = name;
-    }
-
     public String getBrand() {
         return name;
     }
 
     public void setBrand(String name) {
+        this.name = name;
+    }
+
+    protected Brand() {}
+
+    public Brand(String name) {
         this.name = name;
     }
 

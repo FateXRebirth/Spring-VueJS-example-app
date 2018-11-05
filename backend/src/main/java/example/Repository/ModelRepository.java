@@ -12,6 +12,6 @@ public interface ModelRepository extends JpaRepository<Model, Integer>{
 
     Model findByName(String name);
 
-    @Query("SELECT new example.Response.ModelResponse(m.parentID, m.name) FROM Model AS m")
+    @Query("SELECT new example.Response.ModelResponse(m.brandID, m.name) FROM Model AS m")
     List<ModelResponse> findModelsDetail();
 }

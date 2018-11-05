@@ -12,15 +12,18 @@ public class Model {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private Integer parentID;
+    private Integer brandID;
 
     private String name;
 
     protected Model() {}
 
-    public Model(Integer parentID, String name) {
-        this.parentID = parentID;
-        this.name = name;
+    public Integer getBrandID() {
+        return brandID;
+    }
+
+    public void setBrandID(Integer brandID) {
+        this.brandID = brandID;
     }
 
     public String getName() {
@@ -31,19 +34,16 @@ public class Model {
         this.name = name;
     }
 
-    public Integer getParentID() {
-        return parentID;
-    }
-
-    public void setParentID(Integer parentID) {
-        this.parentID = parentID;
+    public Model(Integer brandID, String name) {
+        this.brandID = brandID;
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "Model{" +
                 "id=" + id +
-                ", parentID=" + parentID +
+                ", brandID=" + brandID +
                 ", name='" + name + '\'' +
                 '}';
     }

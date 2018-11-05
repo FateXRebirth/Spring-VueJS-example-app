@@ -12,60 +12,63 @@ public class Car {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
-    private String brand;
-    private String model;
-    private String year;
-    private String owner;
+    private Integer brandID;
+
+    private Integer modelID;
+
+    private Integer yearID;
+
+    private String creator;
+
+    public Integer getBrandID() {
+        return brandID;
+    }
+
+    public void setBrandID(int brandID) {
+        this.brandID = brandID;
+    }
+
+    public Integer getModelID() {
+        return modelID;
+    }
+
+    public void setModelID(Integer modelID) {
+        this.modelID = modelID;
+    }
+
+    public Integer getYearID() {
+        return yearID;
+    }
+
+    public void setYearID(Integer yearID) {
+        this.yearID = yearID;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 
     protected Car() {}
 
-    public Car(String brand, String model, String year, String owner) {
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-        this.owner = owner;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public Car(Integer brandID, Integer modelID, Integer yearID, String creator) {
+        this.brandID = brandID;
+        this.modelID = modelID;
+        this.yearID = yearID;
+        this.creator = creator;
     }
 
     @Override
     public String toString() {
         return "Car{" +
                 "id=" + id +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", year='" + year + '\'' +
-                ", owner='" + owner + '\'' +
+                ", brandID='" + brandID + '\'' +
+                ", modelID='" + modelID + '\'' +
+                ", yearID='" + yearID + '\'' +
+                ", creator='" + creator + '\'' +
                 '}';
     }
 }
