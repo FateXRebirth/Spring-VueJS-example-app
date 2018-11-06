@@ -216,19 +216,16 @@ $('#registerForm').submit(function(event) {
 
 // Reset target form
 function ResetForm(target) {
-    if(target == 'brand' || target == 'model') {
+    if(target == 'brand') {
         $('form[name=' + target + ']').get(0).reset();
     } else if(target == 'model') {
-        const model = 'form[name' + target + ']';
-        $(model).get(0).reset();
-        $(model).find('.brands').val("").change();
+        $('form[name=' + target + ']').get(0).reset();
+        $('form[name=' + target + ']').find('.brands').val("0").change();
     } else {
-        const car = 'form[name' + target + ']';
-        $(car).find('.brands').val("").change();
-        $(car).find('.models').val("").change();
-        $(car).find('.years').val("").change();
+        $('form[name=' + target + ']').find('.brands').val("0").change();
+        $('form[name=' + target + ']').find('.models').val("0").change();
+        $('form[name=' + target + ']').find('.years').val("0").change();
     }
-
 }
 
 // Update brand select options after creating a new brand
@@ -247,6 +244,14 @@ function Update() {
         .done(function(data) {
             data.forEach( function(option) {
                 $('.models').append($('<option>', { value : option.id }).text(option.name));
+            })
+    })
+    $('.years').empty();
+    $('.years').append($('<option>', { value : 0 }).text("Select Year"));
+    $.ajax("http://localhost:8081/api/year/GetAllYear", { async: false })
+        .done(function(data) {
+            data.forEach( function(option) {
+                $('.years').append($('<option>', { value : option.id }).text(option.name));
             })
     })
 }

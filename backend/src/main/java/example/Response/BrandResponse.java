@@ -23,7 +23,6 @@ public class BrandResponse {
     }
 
     public BrandResponse(Integer ID, String name) {
-
         this.ID = ID;
         this.name = name;
     }

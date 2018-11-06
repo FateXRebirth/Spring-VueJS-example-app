@@ -1,6 +1,6 @@
 package example.Response;
 
-public class ModelResponse {
+public class YearResponse {
 
     private Integer ID;
 
@@ -22,7 +22,7 @@ public class ModelResponse {
         this.name = name;
     }
 
-    public ModelResponse(Integer ID, String name) {
+    public YearResponse(Integer ID, String name) {
         this.ID = ID;
         this.name = name;
     }

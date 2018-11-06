@@ -7,8 +7,10 @@ import example.Entity.Model;
 import example.Repository.BrandRepository;
 import example.Repository.CarRepository;
 import example.Repository.ModelRepository;
+import example.Repository.YearRepository;
 import example.Response.BrandResponse;
 import example.Response.ModelResponse;
+import example.Response.YearResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,13 @@ import java.util.List;
 
 @Service
 public class CarService {
+
+    @Autowired
+    YearRepository yearRepository;
+
+    public List<YearResponse> getYears() {
+        return yearRepository.findYearsDetail();
+    }
 
     @Autowired
     BrandRepository brandRepository;

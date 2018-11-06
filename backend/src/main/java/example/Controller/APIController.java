@@ -12,6 +12,7 @@ import example.Request.RegisterRequest;
 
 import example.Response.BrandResponse;
 import example.Response.ModelResponse;
+import example.Response.YearResponse;
 import example.Service.CarService;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,12 @@ public class APIController {
         }
     }
 
-    @PostMapping
+    @GetMapping("/year/GetAllYear")
+    public List<YearResponse> getYears() {
+        return carService.getYears();
+    }
+
+    @PostMapping("/car/Create")
     public int car(@RequestBody CarRequest carRequest) {
         if(carService.getCarBySpecification(carRequest.getBrandID(), carRequest.getModelID(), carRequest.getYearID()) == null) {
             carService.CreateCar(new Car(carRequest.getBrandID(), carRequest.getModelID(), carRequest.getYearID(), session.getAttribute("uid").toString()));
