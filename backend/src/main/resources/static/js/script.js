@@ -229,7 +229,7 @@ function ResetForm(target) {
 }
 
 // Update brand select options after creating a new brand
-function Update() {
+function UpdateBrands() {
     $('.brands').empty();
     $('.brands').append($('<option>', { value : 0 }).text("Select Brand"));
     $.ajax("http://localhost:8081/api/brand/GetAllBrand", { async: false })
@@ -238,14 +238,31 @@ function Update() {
                 $('.brands').append($('<option>', { value : option.id }).text(option.name));
             })
     })
-    $('.models').empty();
-    $('.models').append($('<option>', { value : 0 }).text("Select Model"));
-    $.ajax("http://localhost:8081/api/model/GetAllModel", { async: false })
+}
+
+$('#brands').change(function() {
+    const BrandID = $(event.target).val();
+    const data = {
+        brandID : BrandID
+    }
+    $.ajax({
+        async: false,
+        type: "POST",
+        contentType: "application/json",
+        url: "http://localhost:8081/api/model/GetAllModelByBrandID",
+        data: JSON.stringify(data),
+        dataType: 'json'
+        })
         .done(function(data) {
+            $('.models').empty();
+            $('.models').append($('<option>', { value : 0 }).text("Select Model"));
             data.forEach( function(option) {
                 $('.models').append($('<option>', { value : option.id }).text(option.name));
             })
     })
+})
+
+function UpdateYears() {
     $('.years').empty();
     $('.years').append($('<option>', { value : 0 }).text("Select Year"));
     $.ajax("http://localhost:8081/api/year/GetAllYear", { async: false })
@@ -261,7 +278,7 @@ function BrandCreate() {
     var form = $('form[name=brand]');
     const Name = form.find($('input[name=brand]')).val();
     if(Name != "") {
-        var data = {
+        const data = {
             name: Name
         }
         $.ajax({
@@ -278,7 +295,7 @@ function BrandCreate() {
                 setTimeout(function() {
                    $('#success-message-right').fadeOut();
                 }, 1500)
-                Update()
+                UpdateBrands()
                 ResetForm('brand')
             } else {
                 $('#failure-message-left .message-body').append(message("Duplicate Brand Name"));
@@ -297,8 +314,8 @@ function ModelCreate() {
     const ID = form.find($('.brands')).val();
     const Name = form.find($('input[name=model]')).val();
     if(Name != "" && ID != 0) {
-        var data = {
-            id: ID,
+        const data = {
+            brandID: ID,
             name: Name
         }
         $.ajax({
@@ -315,8 +332,8 @@ function ModelCreate() {
                 setTimeout(function() {
                    $('#success-message-right').fadeOut();
                 }, 1500)
-                Update()
                 ResetForm('model')
+                ResetForm('car')
             } else {
                 $('#failure-message-left .message-body').append(message("Duplicate Model Name"));
                 $('#failure-message-left').fadeIn();
@@ -335,10 +352,10 @@ function CarCreate() {
     const model = form.find($('.models')).val();
     const year = form.find($('.years')).val();
     if(brand != 0 && model != 0 && year != 0) {
-        var data = {
-            brand: brand,
-            model: model,
-            year: year
+        const data = {
+            brandID: brand,
+            modelID: model,
+            yearID: year
         }
         $.ajax({
             async: false,

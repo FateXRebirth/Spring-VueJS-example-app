@@ -104,7 +104,7 @@
                             <div class="field is-grouped">
                                 <div class="control is-expanded text-center">
                                     <div class="select is-info">
-                                        <select class="brands">
+                                        <select class="brands" id="brands">
                                             <option>Select Brand</option>
                                             <option>With options</option>
                                         </select>
@@ -153,7 +153,8 @@
 
 <script>
     $(document).ready(function() {
-        Update();
+        UpdateBrands();
+        UpdateYears();
     })
 </script>
 

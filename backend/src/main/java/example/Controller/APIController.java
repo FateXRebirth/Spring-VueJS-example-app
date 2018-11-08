@@ -17,6 +17,7 @@ import example.Service.CarService;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -85,13 +86,23 @@ public class APIController {
         return carService.getModels();
     }
 
+    @PostMapping("/model/GetAllModelByBrandID")
+    public List<ModelResponse> getModelsByBrandID(@RequestBody ModelRequest modelRequest) {
+        return carService.getModelsByBrandID(modelRequest.getBrandID());
+    }
+
     @PostMapping("/model/Create")
     public int model(@RequestBody ModelRequest modelRequest) {
-        if(carService.getModelByName(modelRequest.getName()) == null) {
-            carService.CreateModel(new Model(modelRequest.getBrandID(), modelRequest.getName()));
-            return 0;
-        } else {
-            return 1;
+        try {
+            if(carService.getModelByNameAndID(modelRequest.getBrandID(), modelRequest.getName()) == null) {
+                carService.CreateModel(new Model(modelRequest.getBrandID(), modelRequest.getName()));
+                return 0;
+            } else {
+                return  1;
+            }
+        } catch (IncorrectResultSizeDataAccessException e) {
+            System.out.println(e);
+            return  1;
         }
     }
 

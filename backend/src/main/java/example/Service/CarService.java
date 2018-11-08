@@ -52,8 +52,16 @@ public class CarService {
         return modelRepository.findByName(name);
     }
 
+    public Model getModelByNameAndID(int id, String name) {
+        return modelRepository.findByNameAndID(id, name);
+    }
+
     public List<ModelResponse> getModels() {
         return modelRepository.findModelsDetail();
+    }
+
+    public List<ModelResponse> getModelsByBrandID(int id) {
+        return modelRepository.findAllByBrandID(id);
     }
 
     @Autowired
