@@ -5,7 +5,6 @@
       <h1 class="title">
         Nuxt
       </h1>
-      <progress-bar/>
       <h2 class="subtitle">
         My fine Nuxt.js project
       </h2>
@@ -19,12 +18,10 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
-import ProgressBar from '~/components/ProgressBar.vue'
 
 export default {
   components: {
     Logo,
-    ProgressBar
   }
 }
 </script>

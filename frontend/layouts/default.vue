@@ -1,8 +1,22 @@
 <template>
   <div>
+    <!-- <loading/> -->
+    <progress-bar/>
     <nuxt/>
   </div>
 </template>
+
+<script>
+import Loading from '~/components/Loading.vue'
+import ProgressBar from '~/components/ProgressBar.vue'
+
+export default {
+  components: {
+    Loading,
+    ProgressBar
+  }
+}
+</script>
 
 <style>
 html
