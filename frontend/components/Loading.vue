@@ -1,24 +1,49 @@
 <template>
   <div class="loader-wrapper">
-    <div class="loader"></div>
+    <!-- <div class="loader"></div> -->
+    <el-progress type="circle" :percentage="percentage" color="#39AF78"></el-progress>
   </div>
 </template>
 
 <script>
 export default {
+  data: function() {
+    return {
+      percentage: 0,
+    }
+  },
+  beforeMount() {
+    const self = this;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (self.percentage >= 100) {
+          clearInterval(id);
+          $(self.$el).fadeOut(1000)
+      } else {
+        self.percentage++;
+      }
+    }
+  },
   mounted: () => {
-    $('.loader-wrapper').fadeOut(1000);
+    // $('.loader-wrapper').fadeOut(1000);
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.el-progress {
+  position: absolute;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+}
 .loader-wrapper {
   position: fixed;
   z-index: 9999;
   width: 100vw;
   height: 100vh;
-  background-color: rgba($color: gray, $alpha: 0.9);
+  background-color: white;
 }
 .loader {
   border: 20px #f3f3f3 solid;

@@ -1,7 +1,9 @@
 <template>
-  <div id="myProgress">
-    <div id="myBar">0%</div>
-</div>
+  <div class="progress-wrapper">
+    <div id="myProgress">
+        <div id="myBar">0%</div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -15,6 +17,7 @@ export default {
       function frame() {
         if (width >= 100) {
             clearInterval(id);
+            $('.progress-wrapper').fadeOut(1000);
         } else {
             width++; 
             elem.style.width = width + '%'; 
@@ -27,7 +30,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.progress-wrapper {
+  position: fixed;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: gray, $alpha: 0.9);
+}
 #myProgress {
+  position: absolute;
+  bottom: 0;
   width: 100%;
   background-color: grey;
 }

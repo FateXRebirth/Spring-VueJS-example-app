@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- <loading/> -->
-    <progress-bar/>
+    <loading/>
+    <!-- <progress-bar/> -->
     <nuxt/>
   </div>
 </template>
