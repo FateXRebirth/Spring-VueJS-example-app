@@ -1,0 +1,37 @@
+@mixin nCustomHr($color) {
+  margin: 0;
+  border: 0;
+  height: 1px;
+  background-color: $color;
+  color: $color;
+  /* IE6 */
+  @content;
+}
+
+@for $i from 1 through 10 {
+  $offset: 10;
+  $unit: 10px;
+  .hr-#{$i*$offset} {
+      @include nCustomHr(transparent);
+      height: $i*$unit;
+  }
+}
+
+// @if $angle=="to top" or $angle=="bottom" {
+//   $_angle-with-vendor-prefix: bottom;
+//   $_angle: to top;
+// }
+// @else if $angle=="to top left" or $angle=="bottom right" {
+//   $_angle-with-vendor-prefix: bottom right;
+//   $_angle: to top left;
+// }
+// @else {
+//   $_angle-with-vendor-prefix: $angle % 360;
+//   $_angle: (90 - $angle) % 360;
+// }
+
+.container {
+  width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+}
