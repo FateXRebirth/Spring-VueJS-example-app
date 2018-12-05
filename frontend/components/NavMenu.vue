@@ -26,6 +26,19 @@
         activeIndex2: '1'
       };
     },
+    mounted() {
+      const element = this.$el;
+      const pos = $(element).offset().top + $(element).outerHeight();
+      $(window).scroll( () => {
+        if($(window).scrollTop() > pos ) {
+          // $(element).addClass('hidden');
+          $(element).fadeOut(500);
+        } else {
+          // $(element).removeClass('hidden');
+          $(element).fadeIn(500);
+        }
+      })
+    },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
@@ -33,3 +46,12 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+.el-menu {
+  display: block;
+  &.hidden {
+    display: none;
+  }
+}
+</style>

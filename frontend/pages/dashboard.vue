@@ -1,14 +1,16 @@
 <template>
   <main class="dashboard">
+    <side-menu/>
     <div class="container">
-       <section class="dashboard__header">
+      <section class="dashboard__header">
         <logo/><h1>NUXT</h1>
         <h3>Universal Vue.js Applications</h3>
       </section>
       <hr class="hr-30">
-      <nav-menu/>
+      <div class="dashboard__nav">
+        <nav-menu/>
+      </div>
     </div>
-   
   </main>
 </template>
 
@@ -16,12 +18,14 @@
 import Logo from '~/components/Logo.vue';
 import Carousel from '~/components/Carousel.vue';
 import NavMenu from '~/components/NavMenu.vue';
+import SideMenu from '~/components/SideMenu.vue';
 
 export default {
   components: {
     Logo,
     Carousel,
-    NavMenu
+    NavMenu,
+    SideMenu
   },
 }
 </script>
@@ -43,6 +47,9 @@ export default {
       font-size: 40px;
       font-weight: 200;
     }
+  }
+  &__nav {
+
   }
 }
 </style>
