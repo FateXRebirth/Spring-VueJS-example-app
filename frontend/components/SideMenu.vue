@@ -41,7 +41,7 @@
     mounted() {
       const element = this.$el;
       $(window).scroll( () => {
-        if( $(window).scrollTop() >= 335 ) {
+        if( $(window).scrollTop() >= 435 ) {
           $(element).fadeIn(500);
         } else {
           $(element).fadeOut(500);
@@ -63,7 +63,8 @@
 .el-menu {
   width: 200px;
   margin-top: 100px;
-  margin-left: 250px;
+  margin-left: 220px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   position: fixed;
   display: none;
   &.active {

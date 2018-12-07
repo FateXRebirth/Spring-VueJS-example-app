@@ -31,11 +31,11 @@
       const pos = $(element).offset().top + $(element).outerHeight();
       $(window).scroll( () => {
         if($(window).scrollTop() > pos ) {
-          // $(element).addClass('hidden');
-          $(element).fadeOut(500);
+          $(element).addClass('hidden');
+          // $(element).stop().fadeOut(500);
         } else {
-          // $(element).removeClass('hidden');
-          $(element).fadeIn(500);
+          $(element).removeClass('hidden');
+          // $(element).stop().fadeIn(500);
         }
       })
     },
@@ -49,9 +49,11 @@
 
 <style lang="scss" scoped>
 .el-menu {
-  display: block;
+  // display: block;
+  opacity: 1;
   &.hidden {
-    display: none;
+    // display: none;
+    opacity: 0;
   }
 }
 </style>
