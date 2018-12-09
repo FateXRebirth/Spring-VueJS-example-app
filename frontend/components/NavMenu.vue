@@ -1,20 +1,13 @@
 <template>
-  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1">Processing Center</el-menu-item>
-    <el-submenu index="2">
-      <template slot="title">Workspace</template>
-      <el-menu-item index="2-1">item one</el-menu-item>
-      <el-menu-item index="2-2">item two</el-menu-item>
-      <el-menu-item index="2-3">item three</el-menu-item>
-      <el-submenu index="2-4">
-        <template slot="title">item four</template>
-        <el-menu-item index="2-4-1">item one</el-menu-item>
-        <el-menu-item index="2-4-2">item two</el-menu-item>
-        <el-menu-item index="2-4-3">item three</el-menu-item>
-      </el-submenu>
-    </el-submenu>
-    <el-menu-item index="3" disabled>Info</el-menu-item>
-    <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
+  <el-menu :default-active="activeIndex" :active-text-color="'#39AF78'" class="el-menu-demo" mode="horizontal" :router="true" @select="handleSelect">
+    <el-menu-item index="/">Home</el-menu-item>
+    <el-menu-item index="/dashboard">Dashboard</el-menu-item>
+    <el-menu-item index="">Search</el-menu-item>
+    <el-menu-item index="">Buy</el-menu-item>
+       
+    <el-menu-item class="reverse" index="/logout">Logout</el-menu-item>
+    <el-menu-item class="reverse" index="/register">Register</el-menu-item>
+    <el-menu-item class="reverse" index="/login">Login</el-menu-item>
   </el-menu>
 </template>
 
@@ -54,6 +47,9 @@
   &.hidden {
     // display: none;
     opacity: 0;
+  }
+  & .reverse {
+    float: right;
   }
 }
 </style>

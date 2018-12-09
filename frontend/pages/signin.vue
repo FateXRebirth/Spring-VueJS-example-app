@@ -40,8 +40,8 @@ export default {
     var validatePassword = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('Please input the password'));
-      } else if (value.length < 6 || value.length > 12) {
-        callback(new Error('Password must be greater than 6 and less than 12'));
+      } else if (value.length < 5 || value.length > 12) {
+        callback(new Error('Password must be greater than 5 and less than 12'));
       } else {
         callback();
       }
@@ -66,7 +66,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.$axios.$post("/login", {
+            username: this.loginForm.account,
+            password: this.loginForm.password
+          })
+          .then((res) => {
+            console.log(res.returnCode)
+          })
         } else {
           console.log('error submit!!');
           return false;
