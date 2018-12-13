@@ -1,8 +1,8 @@
 <template>
   <div>
-    <carousel/>
-    <modal/>
-    <nav-menu/>
+    <Carousel/>
+    <Modal/>
+    <NavMenu/>
   </div>
 </template>
 

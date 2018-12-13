@@ -25,13 +25,13 @@ export default {
   },
   mounted(redirect) {
     setTimeout(function() {
-      window.location.href = 'dashboard';
+      // window.location.href = 'dashboard';
     }, 3000)
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .container
 {
   min-height: 100vh;

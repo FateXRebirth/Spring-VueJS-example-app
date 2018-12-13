@@ -2,18 +2,24 @@
   <div>
     <loading/>
     <!-- <progress-bar/> -->
+    <Nav />
     <nuxt/>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Loading from '~/components/Loading.vue'
 import ProgressBar from '~/components/ProgressBar.vue'
+import Nav from '~/components/Nav.vue'
+import Footer from '~/components/Footer.vue'
 
 export default {
   components: {
     Loading,
-    ProgressBar
+    ProgressBar,
+    Nav,
+    Footer
   }
 }
 </script>

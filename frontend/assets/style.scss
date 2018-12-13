@@ -30,6 +30,10 @@
 //   $_angle: (90 - $angle) % 360;
 // }
 
+.clear-fix {
+  clear: both;
+}
+
 .container {
   width: 1000px;
   margin: 0 auto;
