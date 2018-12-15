@@ -5,8 +5,8 @@
       <li class="link link--left" :class="{ active: path == '/dashboard'}"><a href="/dashboard">Dashboard</a></li>
       <li class="link link--left" :class="{ active: path == '/search'}"><a href="/search">Search</a></li>
       <li class="link link--left" :class="{ active: path == '/buy'}"><a href="/buy">Buy</a></li>
-      <li class="link link--right" :class="{ active: path == '/signin'}"><a href="/signin">Login</a></li>
-      <li class="link link--right" :class="{ active: path == '/logout'}"><a href="/logout">Logout</a></li>
+      <li class="link link--right" :class="{ active: path == '/login'}"><a href="/login">Login</a></li>
+      <li class="link link--right" :class="{ active: path == '/logout'}"><a href="#" @click="logout();">Logout</a></li>
       <li class="link link--right" :class="{ active: path == '/register'}"><a href="/register">Register</a></li>
       <div class="clear-fix"></div>
     </ul>
@@ -23,6 +23,12 @@ export default {
   mounted: function() {
     this.path =  window.location.pathname;
   },
+  methods: {
+    logout: function() {
+      this.$store.dispatch('logout'); 
+      this.$router.push('/');
+    }
+  }
 }
 </script>
 

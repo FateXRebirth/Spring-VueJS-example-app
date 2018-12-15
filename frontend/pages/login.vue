@@ -64,25 +64,26 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$axios.$post("/login", {
-            username: this.loginForm.account,
-            password: this.loginForm.password
-          })
-          .then((res) => {
-            console.log(res.returnCode)
-          })
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
+      this.$store.dispatch('login', { username:"admin", password: "admin"});
+      // this.$refs[formName].validate((valid) => {
+      //   if (valid) {
+      //     this.$axios.$post("/login", {
+      //       username: this.loginForm.account,
+      //       password: this.loginForm.password
+      //     })
+      //     .then((res) => {
+      //       console.log(res.returnCode)
+      //     })
+      //   } else {
+      //     console.log('error submit!!');
+      //     return false;
+      //   }
+      // });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  }
+  },
 }
 </script>
 

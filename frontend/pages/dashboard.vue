@@ -34,6 +34,7 @@ export default {
     NavMenu,
     Banner,
   },
+  middleware: 'auth',
 }
 </script>
 

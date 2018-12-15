@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading/>
+    <!-- <loading/> -->
     <!-- <progress-bar/> -->
     <Nav />
     <nuxt/>

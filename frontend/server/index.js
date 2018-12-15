@@ -25,11 +25,12 @@ const CONFIG = {
   renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
-app.use(logger())
+// app.use(logger())
 app.use(bodyParser());
 app.use(router.routes())
 app.use(router.allowedMethods());
-app.use(session(CONFIG, app));
+// app.use(session(CONFIG, app));
+router.use(session(CONFIG, app));
 // or if you prefer all default config, just use => app.use(session(app));
 
 // Import and Set Nuxt.js options
@@ -46,9 +47,9 @@ async function start() {
     await builder.build()
   }
 
-  app.use(ctx => {
+  app.use( (ctx) => {
     ctx.status = 200 // koa defaults to 404 when it sees that status is unset
-    ctx.body = ctx.request.body;
+    ctx.req.session = ctx.session
     return new Promise((resolve, reject) => {
       ctx.res.on('close', resolve)
       ctx.res.on('finish', resolve)
@@ -65,24 +66,33 @@ async function start() {
 
 start()
 
-router.post('/login', (ctx, next) => {
-  const data =  ctx.request.body
-  let returnCode;
+router.post('/api/login', (ctx) => {
+  console.log("login");
+  let data =  ctx.request.body.body;
+  data = JSON.parse(data);
   if(data.username == 'admin' && data.password == 'admin') {
-    returnCode = 1;
     ctx.session.authUser = { 
       username: data.username,
-      password: data.password
+    }
+    return ctx.body = {
+      returnCode: 0,
+      returnMessage: "",
+      username: data.username,
     }
   } else {
-    returnCode = 0;
-  }
-  ctx.body = {
-    "returnCode": returnCode
+    return ctx.body = {
+      returnCode: 1,
+      returnMessage: "Bad credentials",
+      username: "",
+    }
   }
 });
 
-router.get('/logout', (ctx, next) => {
+router.get('/api/logout', (ctx) => {
+  console.log("logout");
+  delete ctx.session;
   ctx.session = null;
-  ctx.redirect('/');
+  return ctx.body = {
+    returnCode: 0
+  }
 });

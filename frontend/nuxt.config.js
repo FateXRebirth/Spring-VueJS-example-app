@@ -4,7 +4,7 @@ module.exports = {
   mode: 'universal',
 
   router: {
-    middleware: 'auth'
+    // middleware: 'auth'
   },
 
   /*
