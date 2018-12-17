@@ -27,7 +27,13 @@ const store = () => new Vuex.Store({
         commit('SET_USER', req.session.authUser)
       }
     },
-    login ({ commit }, { username, password }) {
+    login ({ commit }, { username }) {
+      commit('SET_USER', { username: username });
+    },
+    logout ({ commit }) {
+      commit('SET_USER', null);
+    },
+    Login ({ commit }, { username, password }) {
       return this.$axios.post('/api/login', {
         // Send the client cookies to the server
         credentials: 'same-origin',
@@ -42,16 +48,19 @@ const store = () => new Vuex.Store({
       })
       .then((res) => {
         if (res.data.returnCode === 1) {
-          throw new Error(res.returnMessage)
+          throw new Error(res.data.returnMessage)
         } else {
           return res.data.username;
         }
       })
+      .catch((err) => {
+        console.log(err)
+      })
       .then((authUser) => {
-        commit('SET_USER', authUser);
+        commit('SET_USER', { username: authUser });
       })
     },
-    logout ({ commit }) {
+    Logout ({ commit }) {
       return this.$axios.get('/api/logout', {
         // Send the client cookies to the server
         credentials: 'same-origin',

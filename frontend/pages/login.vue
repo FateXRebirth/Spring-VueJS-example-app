@@ -17,7 +17,7 @@
             <el-button @click="resetForm('loginForm')">Reset</el-button>
         </el-form-item>
       </el-form>
-      <span class="link"><nuxt-link to="/register">Sign Up</nuxt-link> for enjoying more powerful feature!</span>
+      <span class="link"><a href="/register">Sign Up</a> for enjoying more powerful feature!</span>
     </div>
   </section>
 </template>
@@ -64,21 +64,55 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$store.dispatch('login', { username:"admin", password: "admin"});
-      // this.$refs[formName].validate((valid) => {
-      //   if (valid) {
-      //     this.$axios.$post("/login", {
-      //       username: this.loginForm.account,
-      //       password: this.loginForm.password
-      //     })
-      //     .then((res) => {
-      //       console.log(res.returnCode)
-      //     })
-      //   } else {
-      //     console.log('error submit!!');
-      //     return false;
-      //   }
-      // });
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const username = this.loginForm.account;
+          const password = this.loginForm.password; 
+          this.$axios.post('/api/login', {
+          // Send the client cookies to the server
+            credentials: 'same-origin',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              username,
+              password
+            })
+          })
+          .then((res) => {
+            if (res.data.returnCode === 1) {
+              throw new Error(res.data.returnMessage)
+            } else {
+              return res.data.username;
+            }
+          })
+          .then((authUser) => {
+            this.$store.dispatch('login', authUser);
+            this.$message({
+              showClose: true,
+              message: 'Login Successfully',
+              type: 'success',
+              duration: 1500
+            });
+            // this.$router.push('/dashboard');
+            setTimeout(function() {
+              window.location.href = '/dashboard';
+            }, 1500)
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$message({
+              showClose: true,
+              message: 'Username or Password Not Found',
+              type: 'error'
+            });
+          })
+        } else {
+          console.log('Validation Failure');
+          return false;
+        }
+      });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

@@ -5,9 +5,9 @@
       <li class="link link--left" :class="{ active: path == '/dashboard'}"><a href="/dashboard">Dashboard</a></li>
       <li class="link link--left" :class="{ active: path == '/search'}"><a href="/search">Search</a></li>
       <li class="link link--left" :class="{ active: path == '/buy'}"><a href="/buy">Buy</a></li>
-      <li class="link link--right" :class="{ active: path == '/login'}"><a href="/login">Login</a></li>
-      <li class="link link--right" :class="{ active: path == '/logout'}"><a href="#" @click="logout();">Logout</a></li>
-      <li class="link link--right" :class="{ active: path == '/register'}"><a href="/register">Register</a></li>
+      <li class="link link--right" :class="{ active: path == '/logout'}" v-if="auth"><a href="#" @click="logout();">Logout</a></li>
+      <li class="link link--right" :class="{ active: path == '/login'}" v-if="!auth"><a href="/login">Login</a></li>
+      <li class="link link--right" :class="{ active: path == '/register'}" v-if="!auth"><a href="/register">Register</a></li>
       <div class="clear-fix"></div>
     </ul>
   </section>
@@ -15,18 +15,35 @@
 
 <script>
 export default {
-  data() {
-    return {
-      path: String
+  computed: {
+    path: function() {
+      return this.$router.history.current.path;
+    },
+    auth: function() {
+      return this.$store.getters.getAuthenticatedUser;
     }
-  },
-  mounted: function() {
-    this.path =  window.location.pathname;
   },
   methods: {
     logout: function() {
-      this.$store.dispatch('logout'); 
-      this.$router.push('/');
+      this.$axios.get('/api/logout', {
+        // Send the client cookies to the server
+        credentials: 'same-origin',
+        method: 'POST'
+      })
+      .then((res) => {
+        if (res.data.returnCode === 0) {
+          this.$store.dispatch('logout'); 
+          this.$message({
+            showClose: true,
+            message: 'Logout Successfully',
+            type: 'success',
+            duration: 1500
+          });
+          setTimeout(function() {
+            window.location.href = '/';
+          }, 1500)
+        }
+      })
     }
   }
 }

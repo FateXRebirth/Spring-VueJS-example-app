@@ -67,7 +67,6 @@ async function start() {
 start()
 
 router.post('/api/login', (ctx) => {
-  console.log("login");
   let data =  ctx.request.body.body;
   data = JSON.parse(data);
   if(data.username == 'admin' && data.password == 'admin') {
@@ -89,7 +88,6 @@ router.post('/api/login', (ctx) => {
 });
 
 router.get('/api/logout', (ctx) => {
-  console.log("logout");
   delete ctx.session;
   ctx.session = null;
   return ctx.body = {
