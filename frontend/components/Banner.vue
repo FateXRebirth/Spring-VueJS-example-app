@@ -28,7 +28,7 @@ export default {
       }
     },
     Img: function() {
-      return require('~/static/images/kv' + this.img + '.jpeg');
+      return require('~/static/images/banner/banner' + this.img + '.jpeg');
     }
   },
   mounted() {
