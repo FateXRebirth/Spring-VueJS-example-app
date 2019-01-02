@@ -18,13 +18,15 @@ export default {
   props: {
     content: String,
     img: Number,
-    type: String
+    type: String,
+    active: Boolean
   },
   computed: {
     classList: function() {
       return {
         'banner--left': this.type == "left",
-        'banner--right': this.type == "right"
+        'banner--right': this.type == "right",
+        'active': this.active
       }
     },
     Img: function() {
@@ -32,18 +34,20 @@ export default {
     }
   },
   mounted() {
-    const element = $(this.$el).find('.banner');
-    const pos = $(element).offset().top + $(element).outerHeight();
-    $(window).scroll( () => {
-      let height = $(window).scrollTop() + $(window).height();
-      if( height > pos ) {
-        $(element).addClass('active');
-        // $(element).stop().fadeOut(500);
-      } else {
-        $(element).removeClass('active');
-        // $(element).stop().fadeIn(500);
-      }
-    })
+    if(!this.active) {
+      const element = $(this.$el).find('.banner');
+      const pos = $(element).offset().top + $(element).outerHeight();
+        $(window).scroll( () => {
+        let height = $(window).scrollTop() + $(window).height();
+        if( height > pos ) {
+          $(element).addClass('active');
+          // $(element).stop().fadeOut(500);
+        } else {
+          $(element).removeClass('active');
+          // $(element).stop().fadeIn(500);
+        }
+      })
+    }
   }
 }
 </script>

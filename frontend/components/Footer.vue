@@ -12,8 +12,10 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-  height: 50px;
-  list-style: 50px;
-  text-align: center;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6f6f6;
 }
 </style>

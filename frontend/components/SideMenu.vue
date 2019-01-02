@@ -1,74 +1,77 @@
 <template>
-  <el-menu
-    default-active="2"
-    class="el-menu-vertical-demo"
-    @open="handleOpen"
-    @close="handleClose">
-    <el-submenu index="1">
-      <template slot="title">
-        <i class="el-icon-location"></i>
-        <span>Navigator One</span>
-      </template>
-      <el-menu-item-group title="Group One">
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item one</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="1-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-submenu index="1-4">
-        <template slot="title">item four</template>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
-      </el-submenu>
-    </el-submenu>
-    <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
-      <span>Navigator Two</span>
-    </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <i class="el-icon-document"></i>
-      <span>Navigator Three</span>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <i class="el-icon-setting"></i>
-      <span>Navigator Four</span>
-    </el-menu-item>
-  </el-menu>
+   <ul class="menu">
+    <li class="submenu submenu--title">
+      Dashboard
+    </li>
+    <li class="submenu">
+      <a href="/dashboard" :class="{ active: path == '/dashboard'}">
+        <i class="el-icon-menu"></i> Home
+      </a>
+    </li>
+    <li class="submenu">
+      <a href="/dashboard/info" :class="{ active: path == '/dashboard/info'}">
+        <i class="el-icon-info"></i> Info
+      </a>
+    </li>
+    <li class="submenu">
+      <a href="/dashboard/favorite" :class="{ active: path == '/dashboard/favorite'}">
+        <i class="el-icon-message"></i> Favorite
+      </a>
+    </li>
+    <li class="submenu">
+      <a href="/dashboard/message" :class="{ active: path == '/dashboard/message'}">
+        <i class="el-icon-star-on"></i> Message
+      </a>
+    </li>
+    <li class="submenu">
+      <a href="/dashboard/management" :class="{ active: path == '/dashboard/management'}">
+        <i class="el-icon-setting"></i> Management
+      </a>
+    </li>
+  </ul>
 </template>
 
 <script>
   export default {
-    mounted() {
-      const element = this.$el;
-      $(window).scroll( () => {
-        if( $(window).scrollTop() >= 435 ) {
-          $(element).fadeIn(500);
-        } else {
-          $(element).fadeOut(500);
-        }
-      })
-    },
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
+    computed: {
+      path: function() {
+        return this.$router.history.current.path;
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-.el-menu {
-  width: 200px;
-  margin-top: 100px;
-  margin-left: 5%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  position: fixed;
-  display: none;
-  &.active {
-    display: block;
+.menu {
+  min-height: 750px;
+  background-color: #f3f3f3;
+  background-image: linear-gradient(to bottom,#f3f3f3 0,#fff 100%);
+  background-repeat: repeat-x;
+  .submenu {
+    padding: 20px 0px;
+    padding-left: 20px;
+    a {
+      // color: #909399;
+      color: #666666;
+      text-decoration: none;
+      &.active {
+        color: #39AF78;
+      }
+    }
+    i {
+      padding-right: 10px;
+      &:before {
+        font-size: 20px;
+      }
+    }
+    &--title {
+      text-align: center;
+      padding-left: 0;
+      color: white;
+      font-weight: 600;
+      font-size: 25px;
+      background-color: rgba($color: #39AF78, $alpha: 0.7);
+    }
   }
 }
 </style>

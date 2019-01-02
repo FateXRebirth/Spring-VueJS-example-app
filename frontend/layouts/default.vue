@@ -3,7 +3,9 @@
     <!-- <loading/> -->
     <!-- <progress-bar/> -->
     <Nav />
+    <hr class="hr-30">
     <nuxt/>
+    <hr class="hr-30">
     <Footer />
   </div>
 </template>
