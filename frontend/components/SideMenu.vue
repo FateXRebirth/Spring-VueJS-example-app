@@ -24,6 +24,11 @@
       </a>
     </li>
     <li class="submenu">
+      <a href="/dashboard/upgrade" :class="{ active: path == '/dashboard/upgrade'}">
+        <i class="el-icon-news"></i> Upgrade
+      </a>
+    </li>
+    <li class="submenu">
       <a href="/dashboard/management" :class="{ active: path == '/dashboard/management'}">
         <i class="el-icon-setting"></i> Management
       </a>

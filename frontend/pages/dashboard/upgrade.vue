@@ -8,7 +8,7 @@
         <SideMenu />
       </el-aside>
       <el-main>   
-        <Header title="Index" />
+        <Header title="Upgrade" />
       </el-main>
     </el-container>
   </section>

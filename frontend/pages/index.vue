@@ -18,10 +18,7 @@
     <Banner type="right" content="Best Price" :active="true" :img="2"/>
     <hr class="hr-50">
     <section class="Rank">
-      <div class="title">
-        <span>最新平行輸入中古車</span>
-        <a href="#">看更多平行輸入中古車<i class="el-icon-caret-right"></i></a>
-      </div>
+      <Header title="最新平行輸入中古車" subTitle="看更多平行輸入中古車" url="" />
       <el-row :gutter="10">
         <el-col :span="8" v-for="car in Cars" :key="car.cover">
           <Car :img="car.cover"/>
@@ -32,10 +29,7 @@
     <Banner type="left" content="Best Quality" :active="true" :img="3"/>
     <hr class="hr-50">
     <section class="Rank">
-      <div class="title">
-        <span>最新網路好店中古車</span>
-        <a href="#">看更多網路好店中古車<i class="el-icon-caret-right"></i></a>
-      </div>
+      <Header title="最新網路好店中古車" subTitle="看更多網路好店中古車" url="" />
       <el-row :gutter="10">
         <el-col :span="8" v-for="car in Cars" :key="car.cover">
           <Car :img="car.cover"/>
@@ -50,13 +44,15 @@ import Logo from '~/components/Logo.vue'
 import Carousel from '~/components/Carousel.vue';
 import Banner from '~/components/Banner.vue';
 import Car from '~/components/Car.vue';
+import Header from '~/components/Header.vue';
 
 export default {
   components: {
     Logo,
     Carousel,
     Banner,
-    Car
+    Car,
+    Header
   },
   mounted(redirect) {
     setTimeout(function() {
@@ -82,20 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  height: 30px;
-  padding: 5px;
-  position: relative;
-  border-left: 5px #39AF78 solid;
-  margin-bottom: 10px;
-  span {
-    padding-left: 20px;
-  }
-  a {
-    position: absolute;
-    right: 0;
-  }
-}
 // .container
 // {
 //   min-height: 100vh;

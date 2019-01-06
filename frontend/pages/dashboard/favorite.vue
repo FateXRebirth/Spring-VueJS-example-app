@@ -8,7 +8,7 @@
         <SideMenu />
       </el-aside>
       <el-main>   
-        Favorite
+        <Header title="Favorite" />
       </el-main>
     </el-container>
   </section>
@@ -17,11 +17,13 @@
 <script>
 import SideMenu from '~/components/SideMenu.vue';
 import Breadcrumb from '~/components/Breadcrumb.vue';
+import Header from '~/components/Header.vue';
 
 export default {
   components: {
     SideMenu,
-    Breadcrumb
+    Breadcrumb,
+    Header
   },
   middleware: 'auth'
 }
