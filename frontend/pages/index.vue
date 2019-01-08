@@ -19,6 +19,7 @@
     <hr class="hr-50">
     <section class="Rank">
       <Header title="最新平行輸入中古車" subTitle="看更多平行輸入中古車" url="" />
+      <hr class="hr-30">
       <el-row :gutter="10">
         <el-col :span="8" v-for="car in Cars" :key="car.cover">
           <Car :img="car.cover"/>
@@ -30,6 +31,7 @@
     <hr class="hr-50">
     <section class="Rank">
       <Header title="最新網路好店中古車" subTitle="看更多網路好店中古車" url="" />
+      <hr class="hr-30">
       <el-row :gutter="10">
         <el-col :span="8" v-for="car in Cars" :key="car.cover">
           <Car :img="car.cover"/>
