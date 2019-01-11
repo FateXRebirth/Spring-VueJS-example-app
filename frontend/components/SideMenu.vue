@@ -15,12 +15,12 @@
     </li>
     <li class="submenu">
       <a href="/dashboard/favorite" :class="{ active: path == '/dashboard/favorite'}">
-        <i class="el-icon-message"></i> Favorite
+        <i class="el-icon-star-on"></i> Favorite
       </a>
     </li>
     <li class="submenu">
       <a href="/dashboard/message" :class="{ active: path == '/dashboard/message'}">
-        <i class="el-icon-star-on"></i> Message
+        <i class="el-icon-message"></i> Message
       </a>
     </li>
     <li class="submenu">
