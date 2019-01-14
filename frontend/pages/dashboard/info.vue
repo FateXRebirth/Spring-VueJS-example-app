@@ -20,15 +20,22 @@
           <el-form-item label="E-mail" prop="email">
             <el-input v-model="infoForm.email" :disabled="true"></el-input>
           </el-form-item>
-          <el-form-item label="Password" prop="password">
-            <el-input type="password" v-model="infoForm.password"></el-input>
+          <el-form-item label="PasswordOld" v-if="!change">
+            <el-input type="password" v-model="infoForm.passwordOld" :disabled="true"></el-input>
           </el-form-item>
-          <el-form-item label="Confirmation" prop="confirmation">
-            <el-input type="password" v-model="infoForm.confirmation"></el-input>
-          </el-form-item>
+          <div v-if="change">
+            <el-form-item label="Password" prop="password">
+              <el-input type="password" v-model="infoForm.password"></el-input>
+            </el-form-item>
+            <el-form-item label="Confirmation" prop="confirmation">
+              <el-input type="password" v-model="infoForm.confirmation"></el-input>
+            </el-form-item>
+          </div>
           <el-form-item>
             <el-button type="primary" @click="submitForm('infoForm')">Submit</el-button>
             <el-button @click="resetForm('infoForm')">Reset</el-button>
+            <el-button type="warning" @click="changePassword()" v-if="!change">Change Password</el-button>
+            <el-button type="danger" @click="changePassword()" v-if="change">Cancel</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -87,10 +94,12 @@ export default {
       }
     }; 
     return {
+      change: false,
       labelPosition: 'left',
       infoForm: {
-        account: '',
+        account: 'admin',
         email: 'admin@example.com',
+        passwordOld: '123456',
         password: '',
         confirmation: '',
       },
@@ -111,6 +120,15 @@ export default {
     };
   },
   methods: {
+    changePassword() {
+      if(this.change == false) {
+        this.change = true;
+      } else {
+        this.change = false;
+        this.infoForm.password = '';
+        this.infoForm.confirmation = '';
+      }
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
