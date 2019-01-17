@@ -12,14 +12,7 @@
         <hr class="hr-30">
         <el-form :model="upgradeForm" status-icon :rules="rules" ref="upgradeForm" label-width="100px" label-position="labelPosition">
           <el-form-item label="Type" prop="type">
-            <el-select v-model="upgradeForm.type" placeholder="Type">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+            <Select :data="options" type="Type" @callback="GetValue"/>
           </el-form-item>
           <el-form-item label="Name" prop="name">
             <el-input v-model="upgradeForm.name"></el-input>
@@ -44,12 +37,14 @@
 import SideMenu from '~/components/SideMenu.vue';
 import Breadcrumb from '~/components/Breadcrumb.vue';
 import Header from '~/components/Header.vue';
+import Select from '~/components/Select.vue';
 
 export default {
   components: {
     SideMenu,
     Breadcrumb,
-    Header
+    Header,
+    Select
   },
   middleware: 'auth',
   data() {
@@ -131,6 +126,9 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    GetValue(value) {
+      this.upgradeForm.type = value;
     }
   }
 }

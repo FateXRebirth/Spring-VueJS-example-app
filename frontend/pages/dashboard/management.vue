@@ -34,7 +34,7 @@
           </el-table-column>
           <el-table-column label="Price" width="70" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.Price }}</span>
+              <span>{{ scope.row.Price }} 萬</span>
             </template>
           </el-table-column>
           <el-table-column label="View" width="80" align="center">

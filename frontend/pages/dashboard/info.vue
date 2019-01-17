@@ -20,7 +20,7 @@
           <el-form-item label="E-mail" prop="email">
             <el-input v-model="infoForm.email" :disabled="true"></el-input>
           </el-form-item>
-          <el-form-item label="PasswordOld" v-if="!change">
+          <el-form-item label="Password" v-if="!change">
             <el-input type="password" v-model="infoForm.passwordOld" :disabled="true"></el-input>
           </el-form-item>
           <div v-if="change">
