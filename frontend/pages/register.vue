@@ -23,6 +23,8 @@
             <el-button @click="resetForm('registerForm')">Reset</el-button>
         </el-form-item>
       </el-form>
+      <span class="link"> Already have a account ? <a href="/login"> Login </a> Now ! </span>
+      <hr class="hr-60">
     </div>
   </section>
 </template>
@@ -132,7 +134,8 @@ export default {
   color: #35495e;
   letter-spacing: 1px;
 }
-.el-form-item {
-  width: 500px;
+span {
+  width: 350px;
+  display: block;
 }
 </style>

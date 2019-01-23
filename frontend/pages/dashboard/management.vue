@@ -98,12 +98,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-container {
-  min-height: 750px;
-}
-.el-button--mini {
-  padding: 5px 10px;
-}
 .cover {
   display: block;
   width: 150px;

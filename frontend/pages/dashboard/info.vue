@@ -147,7 +147,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-container {
-  min-height: 750px;
-}
+
 </style>

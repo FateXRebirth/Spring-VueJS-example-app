@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" @change="handleChange($event)" :placeholder="type">
+  <el-select v-model="value" @change="handleChange" :placeholder="type">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -19,15 +19,13 @@ export default {
     }
   },
   methods: {
-    handleChange(event) {
-      this.$emit('callback', this.value);
+    handleChange(value) {
+      this.$emit('callback', this.type, this.value);
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.el-select {
-  width: 100%;
-}
+
 </style>

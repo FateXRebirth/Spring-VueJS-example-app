@@ -139,20 +139,8 @@ export default {
   color: #35495e;
   letter-spacing: 1px;
 }
-.subtitle
-{
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-.link {
-  color: #999;
-  a {
-    &:hover {
-      color: red;
-    }
-  }
+span {
+  width: 350px;
+  display: block;
 }
 </style>

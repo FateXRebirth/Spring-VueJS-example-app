@@ -78,9 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-container {
-  min-height: 750px;
-}
 table {
   width: 100%;
   text-align: center;

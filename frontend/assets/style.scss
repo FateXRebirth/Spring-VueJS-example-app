@@ -17,19 +17,6 @@
   }
 }
 
-// @if $angle=="to top" or $angle=="bottom" {
-//   $_angle-with-vendor-prefix: bottom;
-//   $_angle: to top;
-// }
-// @else if $angle=="to top left" or $angle=="bottom right" {
-//   $_angle-with-vendor-prefix: bottom right;
-//   $_angle: to top left;
-// }
-// @else {
-//   $_angle-with-vendor-prefix: $angle % 360;
-//   $_angle: (90 - $angle) % 360;
-// }
-
 .clear-fix {
   clear: both;
 }

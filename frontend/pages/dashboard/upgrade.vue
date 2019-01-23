@@ -12,7 +12,7 @@
         <hr class="hr-30">
         <el-form :model="upgradeForm" status-icon :rules="rules" ref="upgradeForm" label-width="100px" label-position="labelPosition">
           <el-form-item label="Type" prop="type">
-            <Select :data="options" type="Type" @callback="GetValue"/>
+            <Select :data="options" type="type" @callback="GetValue"/>
           </el-form-item>
           <el-form-item label="Name" prop="name">
             <el-input v-model="upgradeForm.name"></el-input>
@@ -127,15 +127,13 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    GetValue(value) {
-      this.upgradeForm.type = value;
+    GetValue(type, value) {
+      this.upgradeForm[type] = value;
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.el-container {
-  min-height: 750px;
-}
+
 </style>

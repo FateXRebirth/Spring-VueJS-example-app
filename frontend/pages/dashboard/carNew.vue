@@ -84,18 +84,27 @@
           <el-col :span="6"></el-col>
           <el-col :span="6"></el-col>
         </el-row>
-        
-          
-         
-         
-        </el-form>
-
+    
         <Header title="Equipment" />
+        <hr class="hr-30">
+        <el-checkbox :indeterminate="EquipmentIsIndeterminate1" v-model="EquipmentCheckAll1" @change="handleCheckAllChange1"> 內外裝配備 </el-checkbox>
+        <div style="margin: 15px 0;"></div>
+        <el-checkbox-group v-model="EquipmentCheckedOption1" @change="handleCheckedCitiesChange1">
+          <el-checkbox-button v-for="option in EquipmentOption1" :label="option" :key="option">{{option}}</el-checkbox-button>
+        </el-checkbox-group>
+        <hr class="hr-30">
+        <el-checkbox :indeterminate="EquipmentIsIndeterminate2" v-model="EquipmentCheckAll2" @change="handleCheckAllChange2"> 安全配備 </el-checkbox>
+        <div style="margin: 15px 0;"></div>
+        <el-checkbox-group v-model="EquipmentCheckedOption2" @change="handleCheckedCitiesChange2">
+          <el-checkbox-button v-for="option in EquipmentOption2" :label="option" :key="option">{{option}}</el-checkbox-button>
+        </el-checkbox-group>
         <hr class="hr-30">
         <Header title="Photos" />
         <hr class="hr-30">
         <Header title="Contact" />
         <hr class="hr-30">
+
+        </el-form>
       </el-main>
     </el-container>
   </section>
@@ -107,6 +116,35 @@ import Breadcrumb from '~/components/Breadcrumb.vue';
 import Header from '~/components/Header.vue';
 import Select from '~/components/Select.vue';
 
+const YearOptions = [{
+        value: '2008',
+        label: '2008'
+      }, {
+        value: '2009',
+        label: '2009'
+      }, {
+        value: '2010',
+        label: '2010'
+      }, {
+        value: '2011',
+        label: '2011'
+      }, {
+        value: '2012',
+        label: '2012'
+      }];
+const MonthOptions = [{
+        value: '1',
+        label: '1'
+      }, {
+        value: '2',
+        label: '2'
+      }, {
+        value: '3',
+        label: '3'
+      }];
+const EquipmentOption1 = ['衛星導航', '恆溫空調', '影音系統', '免鑰匙啟閉系統', '電動座椅', '皮椅', '方向盤控制鈕', 'HID', '電動滑側門', '天窗'];
+const EquipmentOption2 = ['日行燈', 'ABS', '巡跡防滑系統', '胎壓偵測', '倒車影像', '定速', '車側盲點偵測系統', '車道偏移系統', '安全氣囊'];
+
 export default {
   components: {
     SideMenu,
@@ -117,36 +155,56 @@ export default {
   middleware: 'auth',
   data() {
     return {
-      options: [{
-        value: '1',
-        label: '原廠認證'
-      }, {
-        value: '2',
-        label: '公會認證'
-      }, {
-        value: '3',
-        label: '網路好店'
-      }, {
-        value: '4',
-        label: '平輸好店'
-      }],
+      BrandOptions: [],
+      SeriesOptions: [],
+      CategoryOptions: [],
+      YearOptions: YearOptions,
+      MonthOptions: MonthOptions,
+      TransmissionOptions: [],
+      GearTypeOptions: [],
+      GasTypeOptions: [],
+      EngineOptions: [],
+      PassengerOptions: [],
+      ColorOptions: [],      
+      EquipmentCheckAll1: false,
+      EquipmentCheckedOption1: [],
+      EquipmentIsIndeterminate1: false,
+      EquipmentOption1: EquipmentOption1,
+      EquipmentCheckAll2: false,
+      EquipmentCheckedOption2: [],
+      EquipmentIsIndeterminate2: false,
+      EquipmentOption2: EquipmentOption2,
       labelPosition: 'top',
       carForm: {
-        account: 'admin',
-        email: 'admin@example.com',
-        passwordOld: '123456',
-        password: '',
-        confirmation: '',
-        type: ""
+        brand: '',
+        series: '',
+        category: '',
+        year: '',
+        month: '',
       },
     }
   },
   methods: {
-    handleAction(CarID, Action) {
-      console.log("Target: %s, Action: %s", CarID, Action);
-    },
     GetValue(type, value) {
 
+    },
+    handleCheckAllChange1(value) {
+      this.EquipmentCheckedOption1 = value ? EquipmentOption1 : [];
+      this.EquipmentIsIndeterminate1 = false;
+    },
+    handleCheckAllChange2(value) {
+      this.EquipmentCheckedOption2 = value ? EquipmentOption2 : [];
+      this.EquipmentIsIndeterminate2 = false;
+    },
+    handleCheckedCitiesChange1(value) {
+      let checkedCount = value.length;
+      this.EquipmentCheckAll1 = checkedCount === this.EquipmentOption1.length;
+      this.EquipmentIsIndeterminate1 = checkedCount > 0 && checkedCount < this.EquipmentOption1.length;
+    },
+    handleCheckedCitiesChange2(value) {
+      let checkedCount = value.length;
+      this.EquipmentCheckAll2 = checkedCount === this.EquipmentOption2.length;
+      this.EquipmentIsIndeterminate2 = checkedCount > 0 && checkedCount < this.EquipmentOption2.length;
     }
   }
 }
