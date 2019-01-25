@@ -15,20 +15,20 @@
             個人
           </el-form-item>
           <el-form-item label="Account" prop="account">
-            <el-input v-model="infoForm.account"></el-input>
+            <el-input v-model="infoForm.account" placeholder="account here"></el-input>
           </el-form-item>
           <el-form-item label="E-mail" prop="email">
-            <el-input v-model="infoForm.email" :disabled="true"></el-input>
+            <el-input v-model="infoForm.email" :disabled="true" placeholder="e-mail here"></el-input>
           </el-form-item>
           <el-form-item label="Password" v-if="!change">
-            <el-input type="password" v-model="infoForm.passwordOld" :disabled="true"></el-input>
+            <el-input type="password" v-model="infoForm.passwordOld" :disabled="true" placeholder="password here"></el-input>
           </el-form-item>
           <div v-if="change">
             <el-form-item label="Password" prop="password">
-              <el-input type="password" v-model="infoForm.password"></el-input>
+              <el-input type="password" v-model="infoForm.password" placeholder="password here"></el-input>
             </el-form-item>
             <el-form-item label="Confirmation" prop="confirmation">
-              <el-input type="password" v-model="infoForm.confirmation"></el-input>
+              <el-input type="password" v-model="infoForm.confirmation" placeholder="confirmation here"></el-input>
             </el-form-item>
           </div>
           <el-form-item>

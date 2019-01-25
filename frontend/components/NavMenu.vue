@@ -41,5 +41,15 @@
 </script>
 
 <style lang="scss" scoped>
-
+.el-menu {
+  // display: block;
+  opacity: 1;
+  &.hidden {
+    // display: none;
+    opacity: 0;
+  }
+  & .reverse {
+    float: right;
+  }
+}
 </style>

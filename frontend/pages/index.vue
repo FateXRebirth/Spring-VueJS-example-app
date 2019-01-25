@@ -15,7 +15,19 @@
     </div> -->
     <Carousel/>
     <hr class="hr-50">
-    <Banner type="right" content="Best Price" :active="true" :img="2"/>
+    <Banner type="left" content="車的好壞，由你決定！" :active="true" :img="3"/>
+    <hr class="hr-50">
+    <section class="Rank">
+      <Header title="最新網路好店中古車" subTitle="看更多網路好店中古車" url="" />
+      <hr class="hr-30">
+      <el-row :gutter="10">
+        <el-col :span="8" v-for="car in Cars" :key="car.cover">
+          <Car :img="car.cover"/>
+        </el-col>
+      </el-row>
+    </section>
+    <hr class="hr-50">
+    <Banner type="right" content="專注完美，近乎苛求！" :active="true" :img="2"/>
     <hr class="hr-50">
     <section class="Rank">
       <Header title="最新平行輸入中古車" subTitle="看更多平行輸入中古車" url="" />
@@ -27,17 +39,6 @@
       </el-row>
     </section>
     <hr class="hr-50">
-    <Banner type="left" content="Best Quality" :active="true" :img="3"/>
-    <hr class="hr-50">
-    <section class="Rank">
-      <Header title="最新網路好店中古車" subTitle="看更多網路好店中古車" url="" />
-      <hr class="hr-30">
-      <el-row :gutter="10">
-        <el-col :span="8" v-for="car in Cars" :key="car.cover">
-          <Car :img="car.cover"/>
-        </el-col>
-      </el-row>
-    </section>
   </section>
 </template>
 

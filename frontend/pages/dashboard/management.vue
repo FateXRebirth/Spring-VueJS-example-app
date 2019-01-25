@@ -10,6 +10,8 @@
       <el-main>   
         <Header title="Management" />
         <hr class="hr-30">
+        <el-button type="primary" icon="el-icon-edit-outline" @click="Create">Create New</el-button>
+        <hr class="hr-30">
         <el-table :data="tableData" style="width: 100%">
           <el-table-column label="Status" width="70" align="center">
             <template slot-scope="scope">
@@ -92,6 +94,9 @@ export default {
   methods: {
     handleAction(CarID, Action) {
       console.log("Target: %s, Action: %s", CarID, Action);
+    },
+    Create() {
+      window.location.href = '/dashboard/carNew';
     }
   }
 }
@@ -102,5 +107,8 @@ export default {
   display: block;
   width: 150px;
   height: auto;
+}
+.el-button--mini {
+  padding: 5px 10px;
 }
 </style>

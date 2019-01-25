@@ -15,13 +15,13 @@
             <Select :data="options" type="type" @callback="GetValue"/>
           </el-form-item>
           <el-form-item label="Name" prop="name">
-            <el-input v-model="upgradeForm.name"></el-input>
+            <el-input v-model="upgradeForm.name" placeholder="name here"></el-input>
           </el-form-item>
           <el-form-item label="Cellphone" prop="cellphone">
-            <el-input v-model="upgradeForm.cellphone"></el-input>
+            <el-input v-model="upgradeForm.cellphone" placeholder="cellphone here"></el-input>
           </el-form-item>
           <el-form-item label="Address" prop="address">
-            <el-input v-model="upgradeForm.address"></el-input>
+            <el-input v-model="upgradeForm.address" placeholder="address here"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('upgradeForm')">Submit</el-button>

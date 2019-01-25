@@ -7,7 +7,7 @@
       <el-aside width="200px">
         <SideMenu />
       </el-aside>
-      <el-main>   
+      <el-main class="carNew">   
         <el-form :label-position="labelPosition" label-width="100px" :model="carForm">
         <Header title="Basic" />
         <hr class="hr-30">
@@ -73,12 +73,12 @@
         <el-row :gutter="10">
           <el-col :span="6">
             <el-form-item label="Mileage" prop="mileage">
-              <el-input v-model="carForm.mileage"><template slot="append">公里</template></el-input>
+              <el-input v-model="carForm.mileage" placeholder="mileage here"><template slot="append">公里</template></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="Price" prop="price">
-              <el-input v-model="carForm.price"><template slot="append">萬</template></el-input>
+              <el-input v-model="carForm.price" placeholder="price here"><template slot="append">萬</template></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6"></el-col>
@@ -100,11 +100,50 @@
         </el-checkbox-group>
         <hr class="hr-30">
         <Header title="Photos" />
+        <hr class="hr-60">
+        <el-upload
+          class="upload-demo"
+          drag
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :on-success="handleSuccess"
+          :on-error="handleError"
+          :on-progress="handleProgress"
+          :on-change="handleChange"
+          :before-upload="beforeUpload"
+          :before-remove="beforeRemove"
+          :file-list="fileList"
+          multiple>
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">
+            Drop file here or <em>click to upload</em>
+            <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
+          </div>  
+        </el-upload>
         <hr class="hr-30">
         <Header title="Contact" />
         <hr class="hr-30">
-
+        <div class="contactInfo">
+          <el-form-item prop="name">
+            <el-input v-model="carForm.name" placeholder="name here">
+              <template slot="prepend"><i class="el-icon-info"></i>Name</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="cellphone">
+           <el-input v-model="carForm.cellphone" placeholder="cellphone here">
+            <template slot="prepend"><i class="el-icon-phone"></i>Cellphone</template>
+          </el-input>
+          </el-form-item>
+          <el-form-item prop="address">
+           <el-input v-model="carForm.address" placeholder="address here">
+            <template slot="prepend"><i class="el-icon-location"></i>Address</template>
+          </el-input>
+          </el-form-item>
+        </div>
         </el-form>
+        <hr class="hr-50">
+        <el-button type="primary" icon="el-icon-edit-outline" @click="Create">Create</el-button>
       </el-main>
     </el-container>
   </section>
@@ -181,6 +220,9 @@ export default {
         category: '',
         year: '',
         month: '',
+        name: '',
+        cellphone: '',
+        address: ''
       },
     }
   },
@@ -205,11 +247,61 @@ export default {
       let checkedCount = value.length;
       this.EquipmentCheckAll2 = checkedCount === this.EquipmentOption2.length;
       this.EquipmentIsIndeterminate2 = checkedCount > 0 && checkedCount < this.EquipmentOption2.length;
+    },
+    handlePreview(file) {
+      console.log("handlePreview")
+      console.log(file)
+    },
+    handleRemove(file, fileList) {
+      console.log("handleRemove")
+      console.log(file)
+      console.log(fileList)
+    },
+    handleSuccess(response, file, fileList) {
+      console.log("handleSuccess")
+      console.log(response)
+      console.log(file)
+      console.log(fileList)
+    },
+    handleError(err, file, fileList) {
+      console.log("handleError")
+      console.log(err)
+      console.log(file)
+      console.log(fileList)
+    },
+    handleProgress(event, file, fileList) {
+      console.log("handleProgress")
+      console.log(event)
+      console.log(file)
+      console.log(fileList)
+    },
+    handleChange(file, fileList) {
+      console.log("handleChange")
+      console.log(file)
+      console.log(fileList)
+    },
+    beforeUpload(file) {
+      console.log("beforeUpload")
+      console.log(file)
+    },
+    beforeRemove(file, fileList) {
+      console.log("beforeRemove")
+      console.log(file)
+      console.log(fileList)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.contactInfo {
+  width: 600px;
+  .el-input {
+    margin: 10px 0px;
+  }
+}
+.el-button {
+  margin: 0 auto;
+  display: block;
+}
 </style>
