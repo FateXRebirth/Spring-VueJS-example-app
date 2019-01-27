@@ -13,7 +13,7 @@
         <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
       </div>
     </div> -->
-    <Carousel/>
+    <Carousel :images="Images" width="1200" height="360"/>
     <hr class="hr-50">
     <Banner type="left" content="車的好壞，由你決定！" :active="true" :img="3"/>
     <hr class="hr-50">
@@ -64,6 +64,12 @@ export default {
   },
   data() {
     return {
+      Images: [
+        "/images/kv/kv1.jpeg",
+        "/images/kv/kv2.jpeg",
+        "/images/kv/kv3.jpeg",
+        "/images/kv/kv4.jpeg"
+      ],
       Cars: [
         {
           cover: 'images/sample/car-sample1.jpg'

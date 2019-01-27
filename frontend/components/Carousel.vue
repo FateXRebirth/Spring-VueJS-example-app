@@ -1,12 +1,19 @@
 <template>
   <div class="block">
-    <el-carousel height="360px">
-      <el-carousel-item v-for="item in 8" :key="item">
-        <img :src="'images/kv/kv' + item + '.jpeg'" alt="">
+    <el-carousel height="360px" :style="{ height: height + 'px'}">
+      <el-carousel-item v-for="image in images" :key="image">
+        <img :src="image" :style="{ width: width + 'px'}">
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
+
+<script>
+export default {
+   props: ['images', 'width', 'height'],
+}
+</script>
+
 
 <style lang="scss" scoped>
 .block {
@@ -14,7 +21,6 @@
 }
 .el-carousel {
   & img {
-    width: 1200px;
     height: auto;
   }
 }

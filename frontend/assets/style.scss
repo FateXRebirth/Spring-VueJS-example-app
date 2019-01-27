@@ -17,7 +17,12 @@
   }
 }
 
+.hide {
+  display: none !important;
+}
+
 .clear-fix {
+  border: 0;
   clear: both;
 }
 
