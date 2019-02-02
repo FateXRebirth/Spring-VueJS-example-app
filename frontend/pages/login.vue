@@ -5,6 +5,7 @@
       <h1 class="title">
         Nuxt
       </h1>
+      <hr class="hr-20">
       <el-form :label-position="labelPosition" :model="loginForm" :rules="rules" ref="loginForm">
         <el-form-item label="Account" prop="account">
             <el-input type="text" v-model="loginForm.account" auto-complete="off"></el-input>
@@ -12,12 +13,13 @@
         <el-form-item label="Password" prop="password">
             <el-input type="password" v-model="loginForm.password" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm('loginForm')">Login</el-button>
-            <el-button @click="resetForm('loginForm')">Reset</el-button>
-        </el-form-item>
+        <hr class="hr-20">
+        <el-button type="primary" @click="submitForm('loginForm')">Login</el-button>
+        <el-button @click="resetForm('loginForm')">Reset</el-button>
       </el-form>
+      <hr class="hr-30">
       <span class="link"><a href="/register">Sign Up</a> for enjoying more powerful feature!</span>
+      <hr class="hr-30">
     </div>
   </section>
 </template>
@@ -124,7 +126,7 @@ export default {
 <style lang="scss" scoped>
 .container
 {
-  min-height: 100vh;
+  min-height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,5 +144,6 @@ export default {
 span {
   width: 350px;
   display: block;
+  margin: 0 auto;
 }
 </style>

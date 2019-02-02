@@ -12,9 +12,9 @@ export default {
   mounted() {
     $(window).scroll( () => {
       if($(window).scrollTop() > 200) {
-        $(this.$el).find('div.button').show();
+        $(this.$el).find('div.button').addClass('active');
       } else {
-        $(this.$el).find('div.button').hide();
+        $(this.$el).find('div.button').removeClass('active');
       }
     })
   },
@@ -37,7 +37,7 @@ export default {
   background-color: #f6f6f6;
   & .button {
     color: white;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -52,6 +52,9 @@ export default {
     cursor: pointer;
     & .el-icon-arrow-up {
       font-size: 30px;
+    }
+    &.active {
+      display: flex;
     }
   }
 }

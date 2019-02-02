@@ -57,3 +57,16 @@
     }
   }
 }
+
+.el-form {
+  & .el-form-item {
+    margin: 20px 0px;
+    &__label {
+      width: 100px;
+    }
+    &__content {
+      width: 250px;
+      display: inline-block;
+    }
+  }
+}
