@@ -10,65 +10,49 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Integer ID;
 
-    private Integer brandID;
+    private Integer brandid;
 
-    private Integer modelID;
+    private Integer seriesid;
 
-    private Integer yearID;
+    private Integer categoryid;
 
-    private String creator;
-
-    public Integer getBrandID() {
-        return brandID;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setBrandID(int brandID) {
-        this.brandID = brandID;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getModelID() {
-        return modelID;
+    public Integer getBrandid() {
+        return brandid;
     }
 
-    public void setModelID(Integer modelID) {
-        this.modelID = modelID;
+    public void setBrandid(Integer brandid) {
+        this.brandid = brandid;
     }
 
-    public Integer getYearID() {
-        return yearID;
+    public Integer getSeriesid() {
+        return seriesid;
     }
 
-    public void setYearID(Integer yearID) {
-        this.yearID = yearID;
+    public void setSeriesid(Integer seriesid) {
+        this.seriesid = seriesid;
     }
 
-    public String getCreator() {
-        return creator;
+    public Integer getCategoryid() {
+        return categoryid;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setCategoryid(Integer categoryid) {
+        this.categoryid = categoryid;
     }
 
-    protected Car() {}
-
-    public Car(Integer brandID, Integer modelID, Integer yearID, String creator) {
-        this.brandID = brandID;
-        this.modelID = modelID;
-        this.yearID = yearID;
-        this.creator = creator;
-    }
-
-    @Override
-    public String toString() {
-        return "Car{" +
-                "id=" + id +
-                ", brandID='" + brandID + '\'' +
-                ", modelID='" + modelID + '\'' +
-                ", yearID='" + yearID + '\'' +
-                ", creator='" + creator + '\'' +
-                '}';
+    public Car(Integer brandid, Integer seriesid, Integer categoryid) {
+        this.brandid = brandid;
+        this.seriesid = seriesid;
+        this.categoryid = categoryid;
     }
 }
