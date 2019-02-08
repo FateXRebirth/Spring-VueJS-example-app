@@ -1,35 +1,32 @@
 package example.Repository;
 import example.Config.SpringJdbcConfig;
 import example.Entity.Car;
-import example.Entity.Person;
-import example.Response.CarDetail;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import example.Response.Cars;
+
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+
 import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Repository
 public class CarRepository {
+
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
-    SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("person").usingGeneratedKeyColumns("id");;
-    SimpleJdbcCall test = new SimpleJdbcCall(SpringJdbcConfig.mysqlDataSource()).withProcedureName("test");
-    private static final class PersonMapper implements RowMapper<Person> {
-        public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Person person = new Person(rs.getString("username"), rs.getString("password"),
-                    rs.getString("email"), rs.getString("type"));
-            return person;
-        }
-    }
 
     private static final class CarMapper implements RowMapper<Car> {
         public Car mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -39,9 +36,9 @@ public class CarRepository {
         }
     }
 
-    private static final class CarDetailMapper implements RowMapper<CarDetail> {
-        public CarDetail mapRow(ResultSet rs, int rowNum) throws SQLException {
-            CarDetail car = new CarDetail(
+    private static final class CarsMapper implements RowMapper<Cars> {
+        public Cars mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Cars cars = new Cars(
                     rs.getInt("CarID"),
                     rs.getInt("BrandID"),
                     rs.getInt("SeriesID"),
@@ -49,16 +46,11 @@ public class CarRepository {
                     rs.getString("BrandName"),
                     rs.getString("SeriesName"),
                     rs.getString("CategoryName"));
-            return car;
+            return cars;
         }
     }
 
-    public List<Car> getCars() {
-        String query = "select * from car";
-        return jdbcTemplate.query(query, new CarMapper());
-    }
-
-    public List<CarDetail> getCarsDetail() {
+    public List<Cars> getCarsWithQuery() {
         String query = "SELECT \n" +
                 "A.id AS CarID,\n" +
                 "A.brandid AS BrandID,\n" +
@@ -81,46 +73,69 @@ public class CarRepository {
                 "JOIN\n" +
                 "db.category AS C\n" +
                 "ON A.categoryid = C.id;";
-        return jdbcTemplate.query(query, new CarDetailMapper());
+        return jdbcTemplate.query(query, new CarsMapper());
     }
 
-    public void create(Person person) {
-        // String query = "insert into person(username, password, email, type) value(?, ?, ?, ?)";
-        // jdbcTemplate.update(query, new Object[] { person.getUsername(), person.getPassword(), person.getEmail(), person.getType()});
-        // Map<String, Object> parameters = new HashMap<String, Object>();
-        // parameters.put("username", person.getUsername());
-        // parameters.put("password", person.getPassword());
-        // parameters.put("email", person.getEmail());
-        // parameters.put("type", person.getType());
+    public void create(Car car) {
+        SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("car").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("username", person.getUsername())
-                .addValue("password", person.getPassword())
-                .addValue("email", person.getEmail())
-                .addValue("type", person.getType());
-        // SqlParameterSource parameters = new BeanPropertySqlParameterSource(person);
-        simpleJdbcInsert.execute(parameters);
-        // Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
-        // System.out.println("Generated id - " + id.longValue());
-    }
-    public Person getPersonById(int id) {
-        String query = "select * from person where id = ?";
-        return jdbcTemplate.queryForObject(query, new Object[] { id }, new PersonMapper());
-    }
-    public String getPersonPasswordById(int id) {
-        SqlParameterSource parameters = new MapSqlParameterSource("id", id);
-        String query = "select password from person where id = :id";
-        return namedParameterJdbcTemplate.queryForObject(query, parameters, String.class);
-    }
-    public List<Person> getPersons() {
-        String query = "select * from person";
-        return jdbcTemplate.query(query, new PersonMapper());
-    }
-    public List<Map<String, Object>> getPersonsDetail() {
-        return jdbcTemplate.queryForList("select * from person");
-    }
-    public void StoredProcedure() {
-        System.out.println(test.execute());
+                .addValue("brandid", car.getBrandid())
+                .addValue("seriesid", car.getSeriesid())
+                .addValue("categoryid", car.getCategoryid());
+        create.execute(parameters);
     }
 
+    public List<Cars> getCars() {
+        SimpleJdbcCall GetCars = new SimpleJdbcCall(SpringJdbcConfig.mysqlDataSource())
+                .withProcedureName("GetCars")
+                .returningResultSet("cars", BeanPropertyRowMapper.newInstance(Cars.class));
+        Map out = GetCars.execute(new HashMap<String, Object>(0));
+        return (List) out.get("cars");
+    }
+
+    public void editCarByID(int id, Car car) {
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("brandid", car.getBrandid())
+                .addValue("seriesid", car.getSeriesid())
+                .addValue("categoryid", car.getCategoryid());
+        String query = "UPDATE car\n" +
+                "SET brandid = :brandid', seriesid = :seriesid, categoryid = :categoryid'\n" +
+                "WHERE id = :id;";
+        namedParameterJdbcTemplate.update(query, parameters);
+    }
+
+    public Cars getCarByID(int id) {
+        SqlParameterSource parameters = new MapSqlParameterSource("id", id);
+//        SimpleJdbcCall GetCarByID = new SimpleJdbcCall(SpringJdbcConfig.mysqlDataSource())
+//                .withProcedureName("GetCarsByID")
+//                .returningResultSet("cars", new CarsMapper());
+//        Map<String, Object> out = GetCarByID.execute(parameters);
+//        return ((List<Cars>) out.get("cars")).get(0);
+        String query = "SELECT \n" +
+                "\tA.id AS CarID,\n" +
+                "\tA.brandid AS BrandID,\n" +
+                "\tA.seriesid AS SeriesID,\n" +
+                "\tA.categoryid AS CategoryID,\n" +
+                "\tB.`name` AS BrandName,\n" +
+                "\tS.`name` AS SeriesName,\n" +
+                "\tC.`name` AS CategoryName\n" +
+                "\tFROM\n" +
+                "\tdb.car AS A\n" +
+                "\tLEFT\n" +
+                "\tJOIN\n" +
+                "\tdb.brand AS B\n" +
+                "\tON A.brandid = B.brandid\n" +
+                "\tINNER\n" +
+                "\tJOIN\n" +
+                "\tdb.series AS S\n" +
+                "\tON S.id = A.seriesid\n" +
+                "\tINNER\n" +
+                "\tJOIN\n" +
+                "\tdb.category AS C\n" +
+                "\tON A.categoryid = C.id\n" +
+                "\tWHERE A.id = :id;";
+        return namedParameterJdbcTemplate.queryForObject(query, parameters, new CarsMapper());
+    }
 
 }

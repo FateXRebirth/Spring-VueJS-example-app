@@ -1,9 +1,8 @@
 package example.Service;
 
 
-import example.Entity.Car;
 import example.Repository.CarRepository;
-import example.Response.CarDetail;
+import example.Response.Cars;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,12 @@ public class CarService {
     @Autowired
     CarRepository carRepository;
 
-    public List<Car> getCars() {
+    public List<Cars> getCars() {
         return carRepository.getCars();
     }
 
-    public List<CarDetail> getCarsDetail() {
-        return carRepository.getCarsDetail();
+    public Cars getCarByID(int id) {
+        return carRepository.getCarByID(id);
     }
 
 }

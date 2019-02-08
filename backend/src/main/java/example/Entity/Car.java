@@ -12,11 +12,11 @@ public class Car {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer ID;
 
-    private Integer brandid;
+    private Integer BrandID;
 
-    private Integer seriesid;
+    private Integer SeriesID;
 
-    private Integer categoryid;
+    private Integer CategoryID;
 
     public Integer getID() {
         return ID;
@@ -27,32 +27,32 @@ public class Car {
     }
 
     public Integer getBrandid() {
-        return brandid;
+        return BrandID;
     }
 
     public void setBrandid(Integer brandid) {
-        this.brandid = brandid;
+        this.BrandID = brandid;
     }
 
     public Integer getSeriesid() {
-        return seriesid;
+        return SeriesID;
     }
 
     public void setSeriesid(Integer seriesid) {
-        this.seriesid = seriesid;
+        this.SeriesID = seriesid;
     }
 
     public Integer getCategoryid() {
-        return categoryid;
+        return CategoryID;
     }
 
     public void setCategoryid(Integer categoryid) {
-        this.categoryid = categoryid;
+        this.CategoryID = categoryid;
     }
 
     public Car(Integer brandid, Integer seriesid, Integer categoryid) {
-        this.brandid = brandid;
-        this.seriesid = seriesid;
-        this.categoryid = categoryid;
+        this.BrandID = brandid;
+        this.SeriesID = seriesid;
+        this.CategoryID = categoryid;
     }
 }

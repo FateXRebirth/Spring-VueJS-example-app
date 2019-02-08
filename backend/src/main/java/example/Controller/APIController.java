@@ -1,11 +1,10 @@
 package example.Controller;
 
-import example.Entity.Car;
 import example.Entity.Person;
 
 import example.Request.RegisterRequest;
 
-import example.Response.CarDetail;
+import example.Response.Cars;
 import example.Service.CarService;
 import example.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,13 +57,13 @@ public class APIController {
     CarService carService;
 
     @GetMapping("/cars")
-    public List<Car> getCars() {
+    public List<Cars> getCars() {
         return carService.getCars();
     }
 
-    @GetMapping("/cars/detail")
-    public List<CarDetail> getCarsDetail() {
-        return carService.getCarsDetail();
+    @GetMapping("/cars/{id}")
+    public Cars getCarByID(@PathVariable int id) {
+        return carService.getCarByID(id);
     }
 
 }

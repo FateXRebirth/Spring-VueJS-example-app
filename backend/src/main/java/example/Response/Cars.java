@@ -1,8 +1,8 @@
 package example.Response;
 
-public class CarDetail {
+public class Cars {
 
-    private Integer ID;
+    private Integer CarID;
     private Integer BrandID;
     private Integer SeriesID;
     private Integer CategoryID;
@@ -10,12 +10,12 @@ public class CarDetail {
     private String SeriesName;
     private String CategoryName;
 
-    public Integer getID() {
-        return ID;
+    public Integer getCarID() {
+        return CarID;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setCarID(Integer carID) {
+        this.CarID = carID;
     }
 
     public Integer getBrandID() {
@@ -66,8 +66,10 @@ public class CarDetail {
         CategoryName = categoryName;
     }
 
-    public CarDetail(Integer ID, Integer brandID, Integer seriesID, Integer categoryID, String brandName, String seriesName, String categoryName) {
-        this.ID = ID;
+    public Cars() {}
+
+    public Cars(Integer CarID, Integer brandID, Integer seriesID, Integer categoryID, String brandName, String seriesName, String categoryName) {
+        this.CarID = CarID;
         BrandID = brandID;
         SeriesID = seriesID;
         CategoryID = categoryID;
