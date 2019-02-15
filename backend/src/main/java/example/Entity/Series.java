@@ -6,13 +6,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Brand {
+public class Series {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer ID;
     private Integer BrandID;
     private String Name;
     private String DisplayName;
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
 
     public Integer getBrandID() {
         return BrandID;
@@ -38,7 +47,8 @@ public class Brand {
         DisplayName = displayName;
     }
 
-    public Brand(String name, String displayName) {
+    public Series(Integer brandID, String name, String displayName) {
+        BrandID = brandID;
         Name = name;
         DisplayName = displayName;
     }
