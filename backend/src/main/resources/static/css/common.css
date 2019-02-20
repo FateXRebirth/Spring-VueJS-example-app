@@ -1,0 +1,114 @@
+.hr {
+  margin: 0;
+  border: 0;
+  height: 1px;
+  background-color: transparent;
+  color: transparent; }
+  .hr-3 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 3px; }
+  .hr-5 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 5px; }
+  .hr-7 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 7px; }
+  .hr-10 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 10px; }
+  .hr-15 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 15px; }
+  .hr-20 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 20px; }
+  .hr-30 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 30px; }
+  .hr-40 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 40px; }
+  .hr-50 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 50px; }
+  .hr-60 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 60px; }
+  .hr-70 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 70px; }
+  .hr-80 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 80px; }
+  .hr-90 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 90px; }
+  .hr-100 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 100px; }
+  .hr-150 {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: transparent;
+    color: transparent;
+    height: 150px; }
+
+.text-center {
+  text-align: center; }

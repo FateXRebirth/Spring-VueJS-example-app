@@ -1,0 +1,76 @@
+@mixin nCustomHr($color) {
+  margin: 0;
+  border: 0;
+  height: 1px;
+  background-color: $color;
+  color: $color;
+  @content;
+}
+
+.hr {
+  @include nCustomHr(transparent);
+  &-3 {
+    @include nCustomHr(transparent);
+    height: 3px;
+  }
+  &-5 {
+    @include nCustomHr(transparent);
+    height: 5px;
+  }
+  &-7 {
+    @include nCustomHr(transparent);
+    height: 7px;
+  }
+  &-10 {
+    @include nCustomHr(transparent);
+    height: 10px;
+  }
+  &-15 {
+    @include nCustomHr(transparent);
+    height: 15px;
+  }
+  &-20 {
+    @include nCustomHr(transparent);
+    height: 20px;
+  }
+  &-30 {
+    @include nCustomHr(transparent);
+    height: 30px;
+  }
+  &-40 {
+    @include nCustomHr(transparent);
+    height: 40px;
+  }
+  &-50 {
+    @include nCustomHr(transparent);
+    height: 50px;
+  }
+  &-60 {
+    @include nCustomHr(transparent);
+    height: 60px;
+  }
+  &-70 {
+    @include nCustomHr(transparent);
+    height: 70px;
+  }
+  &-80 {
+    @include nCustomHr(transparent);
+    height: 80px;
+  }
+  &-90 {
+    @include nCustomHr(transparent);
+    height: 90px;
+  }
+  &-100 {
+    @include nCustomHr(transparent);
+    height: 100px;
+  }
+  &-150 {
+    @include nCustomHr(transparent);
+    height: 150px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}

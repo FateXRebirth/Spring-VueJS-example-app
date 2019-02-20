@@ -1,0 +1,32 @@
+.container {
+  max-width: 1000px;
+}
+
+.name {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 20px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.category {
+  color: dodgerblue;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.list {
+  list-style: initial;
+  margin-left: 20px;
+  & li {
+    margin: 7px 0px;
+    font-size: 20px;
+  }
+}
