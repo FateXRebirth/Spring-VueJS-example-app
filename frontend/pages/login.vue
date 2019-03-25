@@ -68,47 +68,38 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const username = this.loginForm.account;
-          const password = this.loginForm.password; 
-          this.$axios.post('/api/login', {
-          // Send the client cookies to the server
-            credentials: 'same-origin',
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              username,
-              password
-            })
-          })
+          const data = {
+            email: this.loginForm.account,
+            password: this.loginForm.password
+          }
+          this.$axios.post('/users/login', data)
           .then((res) => {
-            if (res.data.returnCode === 1) {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'error',
+                duration: 1500
+              });
               throw new Error(res.data.returnMessage)
             } else {
-              return res.data.username;
+              return res.data.returnData;
             }
           })
           .then((authUser) => {
-            this.$store.dispatch('login', authUser);
-            this.$message({
-              showClose: true,
-              message: 'Login Successfully',
-              type: 'success',
-              duration: 1500
-            });
-            // this.$router.push('/dashboard');
-            setTimeout(function() {
-              window.location.href = '/dashboard';
-            }, 1500)
+            // this.$store.dispatch('login', authUser);
+            // this.$message({
+            //   showClose: true,
+            //   message: 'Login Successfully',
+            //   type: 'success',
+            //   duration: 1500
+            // });
+            // setTimeout(function() {
+            //   window.location.href = '/dashboard';
+            // }, 1500)
           })
           .catch((err) => {
             console.log(err)
-            this.$message({
-              showClose: true,
-              message: 'Username or Password Not Found',
-              type: 'error'
-            });
           })
         } else {
           console.log('Validation Failure');

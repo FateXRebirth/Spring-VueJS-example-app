@@ -10,7 +10,7 @@
       <el-main>   
         <Header title="Information" />
         <hr class="hr-30">
-        <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-width="100px" label-position="labelPosition">
+        <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-position="labelPosition">
           <el-form-item label="Type">
             個人
           </el-form-item>
@@ -31,12 +31,12 @@
               <el-input type="password" v-model="infoForm.confirmation" placeholder="confirmation here"></el-input>
             </el-form-item>
           </div>
-          <el-form-item>
+          <div class="actions">
             <el-button type="primary" @click="submitForm('infoForm')">Submit</el-button>
             <el-button @click="resetForm('infoForm')">Reset</el-button>
             <el-button type="warning" @click="changePassword()" v-if="!change">Change Password</el-button>
             <el-button type="danger" @click="changePassword()" v-if="change">Cancel</el-button>
-          </el-form-item>
+          </div>
         </el-form>
       </el-main>
     </el-container>
@@ -147,5 +147,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.actions {
+  margin-left: 100px;
+}
 </style>

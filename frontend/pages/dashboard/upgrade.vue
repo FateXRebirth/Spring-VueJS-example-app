@@ -10,7 +10,7 @@
       <el-main>   
         <Header title="Upgrade" />
         <hr class="hr-30">
-        <el-form :model="upgradeForm" status-icon :rules="rules" ref="upgradeForm" label-width="100px" label-position="labelPosition">
+        <el-form :model="upgradeForm" status-icon :rules="rules" ref="upgradeForm" label-position="labelPosition">
           <el-form-item label="Type" prop="type">
             <Select :data="options" type="type" @callback="GetValue"/>
           </el-form-item>
@@ -23,10 +23,10 @@
           <el-form-item label="Address" prop="address">
             <el-input v-model="upgradeForm.address" placeholder="address here"></el-input>
           </el-form-item>
-          <el-form-item>
+          <div class="actions">
             <el-button type="primary" @click="submitForm('upgradeForm')">Submit</el-button>
             <el-button @click="resetForm('upgradeForm')">Reset</el-button>
-          </el-form-item>
+          </div>
         </el-form>
       </el-main>
     </el-container>
@@ -135,5 +135,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.actions {
+  margin-left: 100px;
+}
 </style>

@@ -4,11 +4,10 @@ const session = require('koa-session');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const logger = require('koa-logger');
-
 const app = new Koa()
 const router = new Router();
 const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 
 app.keys = ['secret', 'key'];
 
@@ -25,7 +24,7 @@ const CONFIG = {
   renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
-// app.use(logger())
+app.use(logger())
 app.use(bodyParser());
 app.use(router.routes())
 app.use(router.allowedMethods());
@@ -66,28 +65,19 @@ async function start() {
 
 start()
 
-router.post('/api/login', (ctx) => {
-  let data =  ctx.request.body.body;
-  data = JSON.parse(data);
-  if(data.username == 'admin' && data.password == 'admin') {
-    ctx.session.authUser = { 
-      username: data.username,
-    }
-    return ctx.body = {
-      returnCode: 0,
-      returnMessage: "",
-      username: data.username,
-    }
-  } else {
-    return ctx.body = {
-      returnCode: 1,
-      returnMessage: "Bad credentials",
-      username: "",
-    }
+// 寫入Session
+router.post('/api/session', (ctx, next) => {
+  ctx.session = {
+    username: "admin",
+    token: "koa:sess"
+  }
+  return ctx.body = {
+    returnCode: 0
   }
 });
 
-router.get('/api/logout', (ctx) => {
+// 刪除Session
+router.get('/api/session', (ctx, next) => {
   delete ctx.session;
   ctx.session = null;
   return ctx.body = {

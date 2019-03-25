@@ -7,8 +7,8 @@
       </h1>
       <hr class="hr-20">
       <el-form :label-position="labelPosition" :model="registerForm" :rules="rules" ref="registerForm">
-        <el-form-item label="Account" prop="account">
-          <el-input type="text" v-model="registerForm.account" auto-complete="off"></el-input>
+        <el-form-item label="Username" prop="username">
+          <el-input type="text" v-model="registerForm.username" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input type="email" v-model="registerForm.email" auto-complete="off"></el-input>
@@ -16,7 +16,7 @@
         <el-form-item label="Password" prop="password">
           <el-input type="password" v-model="registerForm.password" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Confirm" prop="confirmation">
+        <el-form-item label="Confirmation" prop="confirmation">
           <el-input type="password" v-model="registerForm.confirmation" auto-complete="off"></el-input>
         </el-form-item>
         <hr class="hr-20">
@@ -38,9 +38,9 @@ export default {
     Logo
   },
   data() {
-     var validateAccount = (rule, value, callback) => {
+     var validateUsername = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please input the account'));
+        callback(new Error('Please input the username'));
       } else {
         callback();
       }
@@ -78,14 +78,14 @@ export default {
     return {
       labelPosition: 'left',
       registerForm: {
-        account: '',
+        username: '',
         email: '',
         password: '',
         confirmation: '',
       },
       rules: {
-        account: [
-          { validator: validateAccount, trigger: 'blur' }
+        username: [
+          { validator: validateUsername, trigger: 'blur' }
         ],
         email: [
           { validator: validateEmail, trigger: 'blur' }
@@ -103,9 +103,38 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          const data = {
+            username: this.registerForm.username,
+            email: this.registerForm.email,
+            password: this.registerForm.password
+          }
+          this.$axios.post('/users/register', data)
+          .then((res) => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'error',
+                duration: 1500
+              });
+              throw new Error(res.data.returnMessage)
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'success',
+                duration: 1500
+              });
+              setTimeout(function() {
+                window.location.href = '/login';
+              }, 1500)
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
         } else {
-          console.log('error submit!!');
+          console.log('Validation Failure');
           return false;
         }
       });

@@ -1,7 +1,13 @@
 const pkg = require('./package')
+const env = require('./env')
 
 module.exports = {
   mode: 'universal',
+
+  env: {
+    BASE_URL: process.env.BASE_URL || env.BASE_URL,
+    API_URL: process.env.API_URL || env.API_URL
+  },
 
   router: {
     // middleware: 'auth'
@@ -62,6 +68,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: env.API_URL
   },
 
   /*
