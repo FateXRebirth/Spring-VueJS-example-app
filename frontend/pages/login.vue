@@ -72,31 +72,38 @@ export default {
             email: this.loginForm.account,
             password: this.loginForm.password
           }
-          this.$axios.post('/users/login', data)
+          this.$axios.post('/api/login', {
+            // Send the client cookies to the server
+            credentials: 'same-origin',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
           .then((res) => {
             if (res.data.returnCode != 0) {
               this.$message({
                 showClose: true,
                 message: res.data.returnMessage,
-                type: 'error',
-                duration: 1500
+                type: 'error'
               });
               throw new Error(res.data.returnMessage)
             } else {
-              return res.data.returnData;
+              return res.data.returnData.account;
             }
           })
           .then((authUser) => {
-            // this.$store.dispatch('login', authUser);
-            // this.$message({
-            //   showClose: true,
-            //   message: 'Login Successfully',
-            //   type: 'success',
-            //   duration: 1500
-            // });
-            // setTimeout(function() {
-            //   window.location.href = '/dashboard';
-            // }, 1500)
+            this.$store.dispatch('login', authUser);
+            this.$message({
+              showClose: true,
+              message: 'Login Successfully',
+              type: 'success',
+              duration: 1500
+            });
+            setTimeout(function() {
+              window.location.href = '/dashboard';
+            }, 1500)
           })
           .catch((err) => {
             console.log(err)

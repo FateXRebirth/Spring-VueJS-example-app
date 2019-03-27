@@ -7,8 +7,8 @@
       </h1>
       <hr class="hr-20">
       <el-form :label-position="labelPosition" :model="registerForm" :rules="rules" ref="registerForm">
-        <el-form-item label="Username" prop="username">
-          <el-input type="text" v-model="registerForm.username" auto-complete="off"></el-input>
+        <el-form-item label="Account" prop="account">
+          <el-input type="text" v-model="registerForm.account" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input type="email" v-model="registerForm.email" auto-complete="off"></el-input>
@@ -38,9 +38,9 @@ export default {
     Logo
   },
   data() {
-     var validateUsername = (rule, value, callback) => {
+     var validateAccount = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please input the username'));
+        callback(new Error('Please input the account'));
       } else {
         callback();
       }
@@ -78,14 +78,14 @@ export default {
     return {
       labelPosition: 'left',
       registerForm: {
-        username: '',
+        account: '',
         email: '',
         password: '',
         confirmation: '',
       },
       rules: {
-        username: [
-          { validator: validateUsername, trigger: 'blur' }
+        account: [
+          { validator: validateAccount, trigger: 'blur' }
         ],
         email: [
           { validator: validateEmail, trigger: 'blur' }
@@ -103,38 +103,9 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const data = {
-            username: this.registerForm.username,
-            email: this.registerForm.email,
-            password: this.registerForm.password
-          }
-          this.$axios.post('/users/register', data)
-          .then((res) => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                showClose: true,
-                message: res.data.returnMessage,
-                type: 'error',
-                duration: 1500
-              });
-              throw new Error(res.data.returnMessage)
-            } else {
-              this.$message({
-                showClose: true,
-                message: res.data.returnMessage,
-                type: 'success',
-                duration: 1500
-              });
-              setTimeout(function() {
-                window.location.href = '/login';
-              }, 1500)
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+          alert('submit!');
         } else {
-          console.log('Validation Failure');
+          console.log('error submit!!');
           return false;
         }
       });
