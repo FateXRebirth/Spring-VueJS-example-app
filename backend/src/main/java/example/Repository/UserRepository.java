@@ -131,7 +131,8 @@ public class UserRepository {
             SqlParameterSource parameters = new MapSqlParameterSource()
                     .addValue("account", register.getUsername())
                     .addValue("password", register.getPassword())
-                    .addValue("email", register.getEmail());
+                    .addValue("email", register.getEmail())
+                    .addValue("type", 0);
             create.executeAndReturnKey(parameters);
             result.setReturnCode(0);
             result.setReturnMessage("You can log in now");

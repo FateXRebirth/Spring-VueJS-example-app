@@ -8,8 +8,6 @@ public class Register {
 
     private String password;
 
-    private String confirmation;
-
     public String getUsername() {
         return username;
     }
@@ -34,21 +32,12 @@ public class Register {
         this.password = password;
     }
 
-    public String getConfirmation() {
-        return confirmation;
-    }
-
-    public void setConfirmation(String confirmation) {
-        this.confirmation = confirmation;
-    }
-
     @Override
     public String toString() {
         return "Register{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", confirmation='" + confirmation + '\'' +
                 '}';
     }
 }
