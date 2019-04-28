@@ -4,14 +4,6 @@ const session = require('koa-session');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const logger = require('koa-logger');
-const axios = require('axios');
-const env = require('../env.json')
-
-axios.default.baseURL = env.API_URL;
-const Axios = axios.create({
-  baseURL: env.API_URL
-});
-
 const app = new Koa()
 const router = new Router();
 const host = process.env.HOST || '127.0.0.1'
@@ -32,7 +24,7 @@ const CONFIG = {
   renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
-// app.use(logger())
+app.use(logger())
 app.use(bodyParser());
 app.use(router.routes())
 app.use(router.allowedMethods());
@@ -73,31 +65,20 @@ async function start() {
 
 start()
 
-router.post('/api/login', async (ctx, next) => {
-  const { email, password } = JSON.parse(ctx.request.body.body);
-  try {
-    const Result = await Axios.post('users/login',{
-      email: email,
-      password: password
-    })
-    if(Result.data.returnCode == 0) {
-      ctx.session.authUser = { 
-        username: Result.data.returnData.account,
-      }
-    }
-    return ctx.body = Result.data;
-  } 
-  catch(error) {
-    console.log('Axios Failed', error);
-    return ctx.body = {
-      returnCode: 999,
-      returnData: null,
-      returnMessage: "Server Error"
-    };
+// 寫入Session
+router.post('/api/session', (ctx, next) => {
+  const data = ctx.request.body;
+  ctx.session.authUser = {
+    username: data.account,
+    token: data.token
+  }
+  return ctx.body = {
+    returnCode: 0
   }
 });
 
-router.get('/api/logout', (ctx) => {
+// 刪除Session
+router.get('/api/session', (ctx, next) => {
   delete ctx.session;
   ctx.session = null;
   return ctx.body = {

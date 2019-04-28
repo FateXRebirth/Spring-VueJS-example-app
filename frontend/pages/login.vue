@@ -72,38 +72,41 @@ export default {
             email: this.loginForm.account,
             password: this.loginForm.password
           }
-          this.$axios.post('/api/login', {
-            // Send the client cookies to the server
-            credentials: 'same-origin',
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
+          // Login API
+          this.$axios.post('/users/login', data)
           .then((res) => {
             if (res.data.returnCode != 0) {
               this.$message({
                 showClose: true,
                 message: res.data.returnMessage,
-                type: 'error'
+                type: 'error',
+                duration: 1500
               });
               throw new Error(res.data.returnMessage)
             } else {
-              return res.data.returnData.account;
+              return res.data.returnData;
             }
           })
           .then((authUser) => {
-            this.$store.dispatch('login', authUser);
-            this.$message({
-              showClose: true,
-              message: 'Login Successfully',
-              type: 'success',
-              duration: 1500
-            });
-            setTimeout(function() {
-              window.location.href = '/dashboard';
-            }, 1500)
+            // Save to Session
+            this.$axios.post(process.env.BASE_URL + '/api/session', authUser)
+            .then((res) => {
+              if(res.data.returnCode != 0) {
+                 throw new Error("Server Error");
+              } else {
+                // Save to Client
+                this.$store.dispatch('login', authUser);
+                this.$message({
+                  showClose: true,
+                  message: 'Login Successfully',
+                  type: 'success',
+                  duration: 1500
+                });
+                setTimeout(function() {
+                  window.location.href = '/dashboard';
+                }, 1500)
+              }
+            })
           })
           .catch((err) => {
             console.log(err)

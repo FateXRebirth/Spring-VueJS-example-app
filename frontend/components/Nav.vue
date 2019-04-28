@@ -25,21 +25,21 @@ export default {
   },
   methods: {
     logout: function() {
-      this.$axios.get('/api/logout', {
-        // Send the client cookies to the server
-        credentials: 'same-origin',
-        method: 'POST'
-      })
+      // Clear Session
+      this.$axios.get(process.env.BASE_URL + '/api/session')
       .then((res) => {
-        if (res.data.returnCode === 0) {
+        if(res.data.returnCode != 0) {
+          throw new Error("Server Error");
+        } else {
+          // Clear Client
           this.$store.dispatch('logout'); 
           this.$message({
-            showClose: true,
-            message: 'Logout Successfully',
-            type: 'success',
-            duration: 1500
-          });
-          setTimeout(function() {
+              showClose: true,
+              message: 'Logout Successfully',
+              type: 'success',
+              duration: 1500
+            });
+           setTimeout(function() {
             window.location.href = '/';
           }, 1500)
         }
