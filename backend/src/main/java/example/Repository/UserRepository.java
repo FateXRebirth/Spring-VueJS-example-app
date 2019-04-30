@@ -1,14 +1,17 @@
 package example.Repository;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import example.Config.SpringJdbcConfig;
 import example.Entity.User;
-import example.Request.Login;
-import example.Request.Register;
+import example.Request.MemberLogin;
+import example.Request.MemberEdit;
+import example.Request.MemberRegister;
+import example.Request.MemberUpgrade;
 import example.Response.Result;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -59,19 +62,18 @@ public class UserRepository {
         }
     }
 
-    public Result editUserByID(int id, User user) {
+    public Result editUserByID(int id, MemberEdit memberEdit) {
         Result result = new Result();
         try {
             SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("account", user.getAccount())
-                    .addValue("password", user.getPassword())
-                    .addValue("email", user.getEmail())
-                    .addValue("type", user.getType())
-                    .addValue("name", user.getName())
-                    .addValue("phone", user.getPhone())
-                    .addValue("address", user.getAddress());
+                    .addValue("id", id)
+                    .addValue("account", memberEdit.getAccount())
+                    .addValue("password", memberEdit.getPassword())
+                    .addValue("name", memberEdit.getName())
+                    .addValue("phone", memberEdit.getPhone())
+                    .addValue("address", memberEdit.getAddress());
 
-            String query = "UPDATE user SET account = :account, password = :password, email = :email, type = :type, name = :name, phone = :phone, address = :address WHERE id = :id;";
+            String query = "UPDATE user SET account = :account, password = :password, name = :name, phone = :phone, address = :address WHERE id = :id;";
             namedParameterJdbcTemplate.update(query, parameters);
             result.setReturnCode(0);
             result.setReturnMessage("OK");
@@ -83,20 +85,47 @@ public class UserRepository {
         }
     }
 
-    public Result login(Login login) {
+    public Result upgradeUserByID(int id, MemberUpgrade memberUpgrade) {
         Result result = new Result();
-        if(isEmailExist(login.getEmail())) {
+        try {
+            SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("id", id)
+                    .addValue("type", memberUpgrade.getType())
+                    .addValue("name", memberUpgrade.getName())
+                    .addValue("phone", memberUpgrade.getPhone())
+                    .addValue("address", memberUpgrade.getAddress());
+
+            String query = "UPDATE user SET type = :type, name = :name, phone = :phone, address = :address WHERE id = :id;";
+            namedParameterJdbcTemplate.update(query, parameters);
+            result.setReturnCode(0);
+            result.setReturnMessage("OK");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage("SQL Access Exception");
+            return result;
+        }
+    }
+
+    public Result login(MemberLogin memberLogin) {
+        Result result = new Result();
+        if(isEmailExist(memberLogin.getEmail())) {
             // Account exist
             try {
-                SqlParameterSource parameters = new MapSqlParameterSource("email", login.getEmail());
+                SqlParameterSource parameters = new MapSqlParameterSource("email", memberLogin.getEmail());
                 String query = "SELECT * FROM user WHERE email = :email;";
                 User user = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(User.class));
-                if (user.getPassword().equals(login.getPassword())) {
+                if (user.getPassword().equals(memberLogin.getPassword())) {
                     // Correct
                     result.setReturnCode(0);
                     result.setReturnMessage("OK");
                     JSONObject obj = new JSONObject();
                     obj.put("account", user.getAccount());
+                    Algorithm algorithm = Algorithm.HMAC256("secret");
+                    String token = JWT.create()
+                            .withIssuer(user.getAccount())
+                            .sign(algorithm);
+                    obj.put("token", token);
                     result.setReturnData(obj);
                     return result;
                 } else {
@@ -118,9 +147,9 @@ public class UserRepository {
         }
     }
 
-    public Result register(Register register) {
+    public Result register(MemberRegister memberRegister) {
         Result result = new Result();
-        if(isEmailExist(register.getEmail())) {
+        if(isEmailExist(memberRegister.getEmail())) {
             // E-mail exist
             result.setReturnCode(1);
             result.setReturnMessage("E-mail has been registered");
@@ -129,9 +158,9 @@ public class UserRepository {
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("user").usingGeneratedKeyColumns("id");
             SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("account", register.getUsername())
-                    .addValue("password", register.getPassword())
-                    .addValue("email", register.getEmail())
+                    .addValue("account", memberRegister.getUsername())
+                    .addValue("password", memberRegister.getPassword())
+                    .addValue("email", memberRegister.getEmail())
                     .addValue("type", 0);
             create.executeAndReturnKey(parameters);
             result.setReturnCode(0);
