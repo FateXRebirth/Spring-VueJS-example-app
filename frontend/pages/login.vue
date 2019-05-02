@@ -49,7 +49,7 @@ export default {
       }
     };
     return {
-      labelPosition: 'top',
+      labelPosition: 'left',
       loginForm: {
         account: '',
         password: '',

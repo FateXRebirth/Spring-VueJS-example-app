@@ -113,7 +113,6 @@
           :on-change="handleChange"
           :before-upload="beforeUpload"
           :before-remove="beforeRemove"
-          :file-list="fileList"
           multiple>
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">
@@ -155,32 +154,6 @@ import Breadcrumb from '~/components/Breadcrumb.vue';
 import Header from '~/components/Header.vue';
 import Select from '~/components/Select.vue';
 
-const YearOptions = [{
-        value: '2008',
-        label: '2008'
-      }, {
-        value: '2009',
-        label: '2009'
-      }, {
-        value: '2010',
-        label: '2010'
-      }, {
-        value: '2011',
-        label: '2011'
-      }, {
-        value: '2012',
-        label: '2012'
-      }];
-const MonthOptions = [{
-        value: '1',
-        label: '1'
-      }, {
-        value: '2',
-        label: '2'
-      }, {
-        value: '3',
-        label: '3'
-      }];
 const EquipmentOption1 = ['衛星導航', '恆溫空調', '影音系統', '免鑰匙啟閉系統', '電動座椅', '皮椅', '方向盤控制鈕', 'HID', '電動滑側門', '天窗'];
 const EquipmentOption2 = ['日行燈', 'ABS', '巡跡防滑系統', '胎壓偵測', '倒車影像', '定速', '車側盲點偵測系統', '車道偏移系統', '安全氣囊'];
 
@@ -191,14 +164,40 @@ export default {
     Header,
     Select
   },
-  middleware: 'auth',
+  // middleware: 'auth',
+  async asyncData ({ app }) {
+    // let BrandOptions = await app.$axios.get('http://127.0.0.1:8080/BrandOptions.json');
+    // let SeriesOptions = await app.$axios.get('http://127.0.0.1:8080/SeriesOptions.json');
+    // let CategoryOptions = await app.$axios.get('http://127.0.0.1:8080/CategoryOptions.json');
+    let YearOptions = await app.$axios.get('http://127.0.0.1:8080/YearOptions.json');
+    let MonthOptions = await app.$axios.get('http://127.0.0.1:8080/MonthOptions.json');
+    // let TransmissionOptions = await app.$axios.get('http://127.0.0.1:8080/TransmissionOptions.json');
+    // let GearTypeOptions = await app.$axios.get('http://127.0.0.1:8080/GearTypeOptions.json');
+    // let GasTypeOptions = await app.$axios.get('http://127.0.0.1:8080/GasTypeOptions.json');
+    // let EngineOptions = await app.$axios.get('http://127.0.0.1:8080/EngineOptions.json');
+    // let PassengerOptions = await app.$axios.get('http://127.0.0.1:8080/PassengerOptions.json');
+    // let ColorOptions = await app.$axios.get('http://127.0.0.1:8080/ColorOptions.json');
+    return {
+      // BrandOptions: BrandOptions.data,
+      // SeriesOptions: SeriesOptions.data,
+      // CategoryOptions: CategoryOptions.data,
+      YearOptions: YearOptions.data,
+      MonthOptions: MonthOptions.data,
+      // TransmissionOptions: TransmissionOptions.data,
+      // GearTypeOptions: GearTypeOptions.data,
+      // GasTypeOptions: GasTypeOptions.data,
+      // EngineOptions: EngineOptions.data,
+      // PassengerOptions: PassengerOptions.data,
+      // ColorOptions: ColorOptions.data
+    }
+  },
   data() {
     return {
       BrandOptions: [],
       SeriesOptions: [],
       CategoryOptions: [],
-      YearOptions: YearOptions,
-      MonthOptions: MonthOptions,
+      YearOptions: [],
+      MonthOptions: [],
       TransmissionOptions: [],
       GearTypeOptions: [],
       GasTypeOptions: [],
@@ -215,20 +214,32 @@ export default {
       EquipmentOption2: EquipmentOption2,
       labelPosition: 'top',
       carForm: {
-        brand: '',
-        series: '',
-        category: '',
-        year: '',
-        month: '',
-        name: '',
-        cellphone: '',
-        address: ''
+        Brand: '',
+        Series: '',
+        Category: '',
+        Year: '',
+        Month: '',
+        Name: '',
+        Cellphone: '',
+        Address: ''
       },
     }
   },
+  watch: {
+    carForm: {
+      handler (newVal, oldVal) {
+        console.log(JSON.stringify(newVal));
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   methods: {
+    Create() {
+      
+    },
     GetValue(type, value) {
-
+      this.carForm[type] = value;
     },
     handleCheckAllChange1(value) {
       this.EquipmentCheckedOption1 = value ? EquipmentOption1 : [];
