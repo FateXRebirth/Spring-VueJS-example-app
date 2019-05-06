@@ -1,0 +1,42 @@
+[
+  {
+    "label": "衛星導航",
+    "value": 1
+  },
+  {
+    "label": "恆溫空調",
+    "value": 2
+  },
+  {
+    "label": "影音系統",
+    "value": 4
+  },
+  {
+    "label": "免鑰匙啟閉系統",
+    "value": 8
+  },
+  {
+    "label": "電動座椅",
+    "value": 16
+  },  
+  {
+    "label": "皮椅",
+    "value": 32
+  },
+  {
+    "label": "方向盤控制鈕",
+    "value": 64
+  },
+  {
+    "label": "HID",
+    "value": 128
+  },
+  {
+    "label": "電動側滑門",
+    "value": 256
+  },
+  {
+    "label": "電動天窗",
+    "value": 512
+  }
+]

@@ -1,0 +1,38 @@
+[
+	{
+    "label": "轎車",
+    "value": 1
+	},
+	{
+    "label": "掀背車",
+    "value": 2
+	},
+	{
+    "label": "休旅車",
+    "value": 3
+	},
+	{
+    "label": "旅行車",
+    "value": 4
+	},
+	{
+    "label": "跑車",
+    "value": 5
+	},
+	{
+    "label": "貨車",
+    "value": 6
+	},
+	{
+    "label": "敞篷車",
+    "value": 7
+	},
+	{
+    "label": "廂型車",
+    "value": 8
+	},
+	{
+    "label": "貨卡車",
+    "value": 9
+  }
+]
