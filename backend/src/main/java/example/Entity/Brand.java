@@ -10,16 +10,16 @@ public class Brand {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer BrandID;
+    private Integer ID;
     private String Name;
     private String DisplayName;
 
-    public Integer getBrandID() {
-        return BrandID;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setBrandID(Integer brandID) {
-        BrandID = brandID;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getName() {

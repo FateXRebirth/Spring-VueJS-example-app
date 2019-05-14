@@ -10,15 +10,18 @@ public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
-
+    private Integer ID;
     private String account;
     private String password;
     private String email;
-    private int type;
+    private Integer type;
     private String name;
     private String phone;
     private String address;
+
+    public Integer getID() { return ID; }
+
+    public void setID(Integer ID) { this.ID = ID; }
 
     public String getAccount() {
         return account;
@@ -48,7 +51,7 @@ public class User {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -79,9 +82,13 @@ public class User {
     public User() {
     }
 
-    public User(String account, String password, String email) {
+    public User(String account, String password, String email, Integer type, String name, String phone, String address) {
         this.account = account;
         this.password = password;
         this.email = email;
+        this.type = type;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
     }
 }
