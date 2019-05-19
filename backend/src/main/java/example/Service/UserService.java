@@ -1,10 +1,7 @@
 package example.Service;
 
 import example.Repository.UserRepository;
-import example.Request.MemberLogin;
-import example.Request.MemberEdit;
-import example.Request.MemberUpgrade;
-import example.Request.MemberRegister;
+import example.Request.*;
 import example.Response.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,4 +31,17 @@ public class UserService {
     public Result editUserByID(int id, MemberEdit memberEdit) { return userRepository.editUserByID(id, memberEdit); }
 
     public Result upgradeUserByID(int id, MemberUpgrade memberUpgrade) { return userRepository.upgradeUserByID(id, memberUpgrade); }
+
+    public Result getFavoriteCars(int id) {
+        return userRepository.getFavoriteCars(id);
+    }
+
+    public Result createFavoriteCars(FavoriteCar favoriteCar) {
+        return userRepository.createFavoriteCars(favoriteCar);
+    }
+
+    public Result DeleteFavoriteCars(FavoriteCar favoriteCar) {
+        return userRepository.DeleteFavoriteCars(favoriteCar);
+    }
+
 }

@@ -3,10 +3,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import example.Config.SpringJdbcConfig;
 import example.Entity.User;
-import example.Request.MemberLogin;
-import example.Request.MemberEdit;
-import example.Request.MemberRegister;
-import example.Request.MemberUpgrade;
+import example.Request.*;
 import example.Response.Result;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
@@ -165,6 +162,61 @@ public class UserRepository {
             create.executeAndReturnKey(parameters);
             result.setReturnCode(0);
             result.setReturnMessage("You can log in now");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage("SQL Access Exception");
+            return result;
+        }
+    }
+
+    public Result getFavoriteCars(int id) {
+        Result result = new Result();
+        try {
+            SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("id", id);
+
+            String query = "SELECT * FROM favorite AS F INNER JOIN Car AS C ON F.carid = C.id WHERE memberid = :id;";
+            namedParameterJdbcTemplate.update(query, parameters);
+            result.setReturnCode(0);
+            result.setReturnMessage("OK");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage("SQL Access Exception");
+            return result;
+        }
+    }
+
+    public Result createFavoriteCars(FavoriteCar favoriteCar) {
+        Result result = new Result();
+        try {
+            SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("favorite").usingGeneratedKeyColumns("id");
+            SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("memberid", favoriteCar.getMemberid())
+                    .addValue("carid", favoriteCar.getCarid());
+            create.executeAndReturnKey(parameters);
+            result.setReturnCode(0);
+            result.setReturnMessage("OK");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage("SQL Access Exception");
+            return result;
+        }
+    }
+
+    public Result DeleteFavoriteCars(FavoriteCar favoriteCar) {
+        Result result = new Result();
+        try {
+            SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("id", favoriteCar.getMemberid())
+                    .addValue("carid", favoriteCar.getCarid());
+
+            String query = "DELETE FROM favorite WHERE memberid = :id AND carid = :carid;";
+            namedParameterJdbcTemplate.update(query, parameters);
+            result.setReturnCode(0);
+            result.setReturnMessage("OK");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
