@@ -2,21 +2,21 @@ package example.Response;
 
 public class User {
 
-    private int id;
+    private Integer ID;
     private String account;
     private String password;
     private String email;
-    private int type;
+    private Integer type;
     private String name;
     private String phone;
     private String address;
 
-    public int getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getAccount() {
@@ -43,11 +43,11 @@ public class User {
         this.email = email;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

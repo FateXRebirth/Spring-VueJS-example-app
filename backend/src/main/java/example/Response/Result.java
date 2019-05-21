@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 public class Result {
 
     private JSONObject ReturnData;
-    private int ReturnCode;
+    private Integer ReturnCode;
     private String ReturnMessage;
 
     public JSONObject getReturnData() {
@@ -16,11 +16,11 @@ public class Result {
         ReturnData = returnData;
     }
 
-    public int getReturnCode() {
+    public Integer getReturnCode() {
         return ReturnCode;
     }
 
-    public void setReturnCode(int returnCode) {
+    public void setReturnCode(Integer returnCode) {
         ReturnCode = returnCode;
     }
 
