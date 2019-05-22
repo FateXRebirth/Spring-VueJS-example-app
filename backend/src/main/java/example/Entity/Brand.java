@@ -38,6 +38,9 @@ public class Brand {
         DisplayName = displayName;
     }
 
+    public Brand() {
+    }
+
     public Brand(String name, String displayName) {
         Name = name;
         DisplayName = displayName;

@@ -65,6 +65,9 @@ public class Category {
         SeriesName = seriesName;
     }
 
+    public Category() {
+    }
+
     public Category(Integer brandID, Integer seriesID, String name, String displayName, String seriesName) {
         BrandID = brandID;
         SeriesID = seriesID;

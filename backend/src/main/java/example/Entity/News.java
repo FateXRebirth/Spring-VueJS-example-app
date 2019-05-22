@@ -56,6 +56,9 @@ public class News {
         this.content = content;
     }
 
+    public News() {
+    }
+
     public News(Integer type, String date, String title, String content) {
         this.type = type;
         this.date = date;

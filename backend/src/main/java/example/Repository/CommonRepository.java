@@ -2,6 +2,7 @@ package example.Repository;
 
 import example.Config.SpringJdbcConfig;
 import example.Entity.Category;
+import example.Response.Banners;
 import example.Response.Categories;
 import example.Response.News;
 import example.Response.Result;
@@ -30,6 +31,24 @@ public class CommonRepository {
             List<News> news = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(News.class));
             JSONObject obj = new JSONObject();
             obj.put("news", news);
+            result.setReturnData(obj);
+            result.setReturnCode(0);
+            result.setReturnMessage("OK");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage("SQL Access Exception");
+            return result;
+        }
+    }
+
+    public Result getBanner() {
+        Result result = new Result();
+        try {
+            String query = "SELECT * FROM banner";
+            List<Banners> banners = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Banners.class));
+            JSONObject obj = new JSONObject();
+            obj.put("banners", banners);
             result.setReturnData(obj);
             result.setReturnCode(0);
             result.setReturnMessage("OK");

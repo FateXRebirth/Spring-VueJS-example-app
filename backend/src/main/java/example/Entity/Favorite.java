@@ -38,6 +38,9 @@ public class Favorite {
         this.carid = carid;
     }
 
+    public Favorite() {
+    }
+
     public Favorite(Integer memberid, Integer carid) {
         this.memberid = memberid;
         this.carid = carid;

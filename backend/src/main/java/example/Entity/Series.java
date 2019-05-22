@@ -47,6 +47,9 @@ public class Series {
         DisplayName = displayName;
     }
 
+    public Series() {
+    }
+
     public Series(Integer brandID, String name, String displayName) {
         BrandID = brandID;
         Name = name;

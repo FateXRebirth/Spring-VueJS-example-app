@@ -14,4 +14,8 @@ public class CommonService {
     public Result getNews() {
         return commonRepository.getNews();
     }
+
+    public Result getBanner() {
+        return commonRepository.getBanner();
+    }
 }
