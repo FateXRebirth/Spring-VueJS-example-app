@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" @change="handleChange" :placeholder="type">
+  <el-select v-model="value" @change="HandleChange" :placeholder="GetPlaceholder(type)">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -19,8 +19,11 @@ export default {
     }
   },
   methods: {
-    handleChange(value) {
+    HandleChange(value) {
       this.$emit('callback', this.type, this.value);
+    },
+    GetPlaceholder(type) {
+      return type.charAt(0).toUpperCase() + type.slice(1);
     }
   }
 }

@@ -20,63 +20,63 @@
           <el-row :gutter="10">
             <el-col :span="5">
               <el-form-item label="Brand" prop="brand">
-                <Select :data="BrandOptions" type="Brand" @callback="Callback"/>
+                <Select :data="BrandOptions" type="brand" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="Series" prop="series">
-                <Select :data="SeriesOptions" type="Series" @callback="Callback"/>
+                <Select :data="SeriesOptions" type="series" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="Category" prop="category">
-                <Select :data="CategoryOptions" type="Category" @callback="Callback"/>
+                <Select :data="CategoryOptions" type="category" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="Year" prop="year">
-                <Select :data="YearOptions" type="Year" @callback="Callback"/>
+                <Select :data="YearOptions" type="year" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="Month" prop="month">
-                <Select :data="MonthOptions" type="Month" @callback="Callback"/>
+                <Select :data="MonthOptions" type="month" @callback="Callback"/>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="4">
               <el-form-item label="Transmission" prop="transmission">
-                <Select :data="TransmissionOptions" type="Transmission" @callback="Callback"/>
+                <Select :data="TransmissionOptions" type="transmission" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="GearType" prop="gearType">
-                <Select :data="GearTypeOptions" type="GearType" @callback="Callback"/>
+                <Select :data="GearTypeOptions" type="gearType" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="GasType" prop="gasType">
-                <Select :data="GasTypeOptions" type="GasType" @callback="Callback"/>
+                <Select :data="GasTypeOptions" type="gasType" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="EngineDisplacement" prop="engineDisplacement">
                 <Select
                   :data="EngineDisplacementOptions"
-                  type="EngineDisplacement"
+                  type="engineDisplacement"
                   @callback="Callback"
                 />
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="Passenger" prop="passenger">
-                <Select :data="PassengerOptions" type="Passenger" @callback="Callback"/>
+                <Select :data="PassengerOptions" type="passenger" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="Color" prop="color">
-                <Select :data="ColorOptions" type="Color" @callback="Callback"/>
+                <Select :data="ColorOptions" type="color" @callback="Callback"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -166,16 +166,16 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="Contact Address" prop="address">
+          <el-form-item label="Contact Address">
             <el-row :gutter="0">
               <el-col :span="5">
                 <el-form-item prop="city">
-                  <Select :data="CityOptions" type="City" @callback="Callback"/>
+                  <Select :data="CityOptions" type="city" @callback="Callback"/>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item prop="area">
-                  <Select :data="AreaOptions" type="Area" @callback="Callback"/>
+                  <Select :data="AreaOptions" type="area" @callback="Callback"/>
                 </el-form-item>
               </el-col>
               <el-col :span="14">
@@ -206,7 +206,7 @@ export default {
     Header,
     Select
   },
-  // middleware: 'auth',
+  middleware: 'auth',
   async asyncData({ app }) {
     // let BrandOptions = await app.$axios.get('http://127.0.0.1:8080/BrandOptions.json');
     // let SeriesOptions = await app.$axios.get('http://127.0.0.1:8080/SeriesOptions.json');

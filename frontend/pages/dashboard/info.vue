@@ -11,23 +11,23 @@
         <Header title="Information" />
         <hr class="hr-30">
         <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-position="labelPosition">
-          <el-form-item label="Type">
+          <el-form-item label="Type" label-width="100px">
             個人
           </el-form-item>
-          <el-form-item label="Account" prop="account">
+          <el-form-item label="Account" prop="account" label-width="100px"> 
             <el-input v-model="infoForm.account" placeholder="account here"></el-input>
           </el-form-item>
-          <el-form-item label="E-mail" prop="email">
+          <el-form-item label="E-mail" prop="email" label-width="100px">
             <el-input v-model="infoForm.email" :disabled="true" placeholder="e-mail here"></el-input>
           </el-form-item>
-          <el-form-item label="Password" v-if="!change">
+          <el-form-item label="Password" v-if="!change" label-width="100px">
             <el-input type="password" v-model="infoForm.passwordOld" :disabled="true" placeholder="password here"></el-input>
           </el-form-item>
           <div v-if="change">
-            <el-form-item label="Password" prop="password">
+            <el-form-item label="Password" prop="password" label-width="100px">
               <el-input type="password" v-model="infoForm.password" placeholder="password here"></el-input>
             </el-form-item>
-            <el-form-item label="Confirmation" prop="confirmation">
+            <el-form-item label="Confirmation" prop="confirmation" label-width="100px">
               <el-input type="password" v-model="infoForm.confirmation" placeholder="confirmation here"></el-input>
             </el-form-item>
           </div>
@@ -149,5 +149,8 @@ export default {
 <style lang="scss" scoped>
 .actions {
   margin-left: 100px;
+}
+.el-input {
+  width: 300px;
 }
 </style>
