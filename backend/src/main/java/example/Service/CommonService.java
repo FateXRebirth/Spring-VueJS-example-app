@@ -18,4 +18,8 @@ public class CommonService {
     public Result getBanner() {
         return commonRepository.getBanner();
     }
+
+    public Result getSpecification() {
+        return commonRepository.getSpecification();
+    }
 }

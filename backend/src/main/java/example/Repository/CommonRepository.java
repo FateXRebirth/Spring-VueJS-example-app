@@ -2,10 +2,7 @@ package example.Repository;
 
 import example.Config.SpringJdbcConfig;
 import example.Entity.Category;
-import example.Response.Banners;
-import example.Response.Categories;
-import example.Response.News;
-import example.Response.Result;
+import example.Response.*;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -59,4 +56,23 @@ public class CommonRepository {
             return result;
         }
     }
+
+    public Result getSpecification() {
+        Result result = new Result();
+        try {
+            String query = "SELECT * FROM specification";
+            List<Specifications> specifications = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Specifications.class));
+            JSONObject obj = new JSONObject();
+            obj.put("Specifications", specifications);
+            result.setReturnData(obj);
+            result.setReturnCode(0);
+            result.setReturnMessage("OK");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage("SQL Access Exception");
+            return result;
+        }
+    }
+
 }
