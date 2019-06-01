@@ -44,7 +44,7 @@ public class UserRepository {
         Result result = new Result();
         try {
             SqlParameterSource parameters = new MapSqlParameterSource("id", id);
-            String query = "SELECT * FROM user WHERE id = :id";
+            String query = "SELECT account, password, email, type, name, phone, address FROM user WHERE id = :id";
             User user = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(User.class));
             JSONObject obj = new JSONObject();
             obj.put("user", user);
@@ -110,7 +110,7 @@ public class UserRepository {
             // Account exist
             try {
                 SqlParameterSource parameters = new MapSqlParameterSource("email", memberLogin.getEmail());
-                String query = "SELECT * FROM user WHERE email = :email;";
+                String query = "SELECT id, account, password FROM user WHERE email = :email;";
                 User user = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(User.class));
                 if (user.getPassword().equals(memberLogin.getPassword())) {
                     // Correct
@@ -176,7 +176,7 @@ public class UserRepository {
             SqlParameterSource parameters = new MapSqlParameterSource()
                     .addValue("id", id);
 
-            String query = "SELECT * FROM favorite AS F INNER JOIN Car AS C ON F.carid = C.id WHERE memberid = :id;";
+            String query = "SELECT F.carid, F.memberid FROM favorite AS F INNER JOIN Car AS C ON F.carid = C.id WHERE memberid = :id;";
             namedParameterJdbcTemplate.update(query, parameters);
             result.setReturnCode(0);
             result.setReturnMessage("OK");

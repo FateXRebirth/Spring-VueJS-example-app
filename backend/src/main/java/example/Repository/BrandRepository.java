@@ -19,7 +19,7 @@ public class BrandRepository  {
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
     public void create(Brand brand) {
-        SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("brand").usingGeneratedKeyColumns("brandid");
+        SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("brand").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", brand.getName())
                 .addValue("display_name", brand.getDisplayName());
@@ -27,7 +27,7 @@ public class BrandRepository  {
     }
 
     public List<Brands> getBrands() {
-        String query = "SELECT b.brandid AS ID, b.name AS Name, b.display_name AS DisplayName FROM brand AS b";
+        String query = "SELECT id, name, display_name FROM brand";
         return jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Brands.class));
     }
 

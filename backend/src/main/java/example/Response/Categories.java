@@ -2,60 +2,61 @@ package example.Response;
 
 public class Categories {
 
-    private Integer ID;
-    private Integer BrandID;
-    private Integer SeriesID;
-    private String Name;
-    private String DisplayName;
-    private String SeriesName;
+    private Integer id;
+    private Integer brandID;
+    private Integer seriesID;
+    private String name;
+    private String displayName;
+    private String seriesName;
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getBrandID() {
-        return BrandID;
+        return brandID;
     }
 
     public void setBrandID(Integer brandID) {
-        BrandID = brandID;
+        this.brandID = brandID;
     }
 
     public Integer getSeriesID() {
-        return SeriesID;
+        return seriesID;
     }
 
     public void setSeriesID(Integer seriesID) {
-        SeriesID = seriesID;
+        this.seriesID = seriesID;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getDisplayName() {
-        return DisplayName;
+        return displayName;
     }
 
     public void setDisplayName(String displayName) {
-        DisplayName = displayName;
+        this.displayName = displayName;
     }
 
     public String getSeriesName() {
-        return SeriesName;
+        return seriesName;
     }
 
     public void setSeriesName(String seriesName) {
-        SeriesName = seriesName;
+        this.seriesName = seriesName;
     }
 
-    public Categories() {}
+    public Categories() {
+    }
 }

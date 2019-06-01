@@ -31,7 +31,7 @@ public class CategoryRepository {
     }
 
     public List<Categories> getCategories() {
-        String query = "SELECT c.id AS ID, c.brandid AS BrandID, c.seriesid AS SeriesID, c.name AS Name, c.display_name AS DisplayName, c.series_name AS SeriesName FROM category AS c";
+        String query = "SELECT id, brandid, name, display_name, seriesid, series_name FROM category";
         return jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Categories.class));
     }
 }

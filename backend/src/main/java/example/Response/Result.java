@@ -4,31 +4,31 @@ import org.json.simple.JSONObject;
 
 public class Result {
 
-    private JSONObject ReturnData;
-    private Integer ReturnCode;
-    private String ReturnMessage;
+    private JSONObject returnData;
+    private Integer returnCode;
+    private String returnMessage;
 
     public JSONObject getReturnData() {
-        return ReturnData;
+        return returnData;
     }
 
     public void setReturnData(JSONObject returnData) {
-        ReturnData = returnData;
+        this.returnData = returnData;
     }
 
     public Integer getReturnCode() {
-        return ReturnCode;
+        return returnCode;
     }
 
     public void setReturnCode(Integer returnCode) {
-        ReturnCode = returnCode;
+        this.returnCode = returnCode;
     }
 
     public String getReturnMessage() {
-        return ReturnMessage;
+        return returnMessage;
     }
 
     public void setReturnMessage(String returnMessage) {
-        ReturnMessage = returnMessage;
+        this.returnMessage = returnMessage;
     }
 }

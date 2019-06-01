@@ -2,33 +2,34 @@ package example.Response;
 
 public class Brands {
 
-    private Integer ID;
-    private String Name;
-    private String DisplayName;
+    private Integer id;
+    private String name;
+    private String displayName;
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getDisplayName() {
-        return DisplayName;
+        return displayName;
     }
 
     public void setDisplayName(String displayName) {
-        DisplayName = displayName;
+        this.displayName = displayName;
     }
 
-    public Brands() {}
+    public Brands() {
+    }
 }

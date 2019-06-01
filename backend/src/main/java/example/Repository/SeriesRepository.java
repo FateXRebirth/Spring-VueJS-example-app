@@ -26,7 +26,7 @@ public class SeriesRepository {
     }
 
     public List<example.Response.Series> getSeries() {
-        String query = "SELECT s.id AS ID, s.brandid AS ParentID, s.name AS Name, s.display_name AS DisplayName FROM series AS s";
+        String query = "SELECT id, brandid, name, display_name FROM series";
         return jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(example.Response.Series.class));
     }
 }

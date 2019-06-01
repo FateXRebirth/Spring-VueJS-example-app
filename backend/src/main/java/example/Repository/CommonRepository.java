@@ -24,7 +24,7 @@ public class CommonRepository {
     public Result getNews() {
         Result result = new Result();
         try {
-            String query = "SELECT * FROM news";
+            String query = "SELECT type, date, title, content FROM news";
             List<News> news = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(News.class));
             JSONObject obj = new JSONObject();
             obj.put("news", news);
@@ -42,7 +42,7 @@ public class CommonRepository {
     public Result getBanner() {
         Result result = new Result();
         try {
-            String query = "SELECT * FROM banner";
+            String query = "SELECT type, name, url, link FROM banner";
             List<Banners> banners = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Banners.class));
             JSONObject obj = new JSONObject();
             obj.put("banners", banners);
@@ -60,7 +60,7 @@ public class CommonRepository {
     public Result getSpecification() {
         Result result = new Result();
         try {
-            String query = "SELECT * FROM specification";
+            String query = "SELECT category, label, value FROM specification";
             List<Specifications> specifications = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Specifications.class));
             JSONObject obj = new JSONObject();
             obj.put("Specifications", specifications);
