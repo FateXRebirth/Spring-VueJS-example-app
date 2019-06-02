@@ -2,9 +2,9 @@ package example.Repository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import example.Config.SpringJdbcConfig;
-import example.Entity.User;
 import example.Request.*;
 import example.Response.Result;
+import example.Response.User;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -26,16 +25,16 @@ public class UserRepository {
     public Result getUsers() {
         Result result = new Result();
         try {
-            String query = "SELECT * FROM user";
+            String query = "SELECT id, account, password, email, type, name, phone, address FROM user";
             List<User> users = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(User.class));
             JSONObject obj = new JSONObject();
-            obj.put("users", users);
+            obj.put("user", users);
             result.setReturnCode(0);
             result.setReturnMessage("OK");
             result.setReturnData(obj);
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
         }
         return result;
     }
@@ -54,7 +53,7 @@ public class UserRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -77,7 +76,7 @@ public class UserRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -99,16 +98,16 @@ public class UserRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
 
     public Result login(MemberLogin memberLogin) {
         Result result = new Result();
-        if(isEmailExist(memberLogin.getEmail())) {
-            // Account exist
-            try {
+        try {
+            if(isEmailExist(memberLogin.getEmail())) {
+                // Account exist
                 SqlParameterSource parameters = new MapSqlParameterSource("email", memberLogin.getEmail());
                 String query = "SELECT id, account, password FROM user WHERE email = :email;";
                 User user = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(User.class));
@@ -131,15 +130,15 @@ public class UserRepository {
                     result.setReturnMessage("Password wrong");
                     return result;
                 }
-            } catch (DataAccessException e) {
-                result.setReturnCode(999);
-                result.setReturnMessage("SQL Access Exception");
+            } else {
+                // Account doesn't exist
+                result.setReturnCode(1);
+                result.setReturnMessage("Account doesn't exist");
                 return result;
             }
-        } else {
-            // Account doesn't exist
-            result.setReturnCode(1);
-            result.setReturnMessage("Account doesn't exist");
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -165,7 +164,7 @@ public class UserRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -183,7 +182,7 @@ public class UserRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -201,7 +200,7 @@ public class UserRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -220,7 +219,7 @@ public class UserRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }

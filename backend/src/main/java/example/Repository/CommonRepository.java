@@ -1,18 +1,12 @@
 package example.Repository;
-
 import example.Config.SpringJdbcConfig;
-import example.Entity.Category;
 import example.Response.*;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -34,7 +28,7 @@ public class CommonRepository {
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -45,14 +39,14 @@ public class CommonRepository {
             String query = "SELECT type, name, url, link FROM banner";
             List<Banners> banners = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Banners.class));
             JSONObject obj = new JSONObject();
-            obj.put("banners", banners);
+            obj.put("banner", banners);
             result.setReturnData(obj);
             result.setReturnCode(0);
             result.setReturnMessage("OK");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
@@ -63,14 +57,14 @@ public class CommonRepository {
             String query = "SELECT category, label, value FROM specification";
             List<Specifications> specifications = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Specifications.class));
             JSONObject obj = new JSONObject();
-            obj.put("Specifications", specifications);
+            obj.put("specification", specifications);
             result.setReturnData(obj);
             result.setReturnCode(0);
             result.setReturnMessage("OK");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
-            result.setReturnMessage("SQL Access Exception");
+            result.setReturnMessage(e.toString());
             return result;
         }
     }
