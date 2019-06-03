@@ -55,6 +55,23 @@ export default {
     Header
   },
   middleware: 'auth',
+  async asyncData({ app, store }) {
+    const User = store.getters.getAuthenticatedUser;
+    let Result = await app.$axios.get('/users/' + User.ID);
+    if(Result.data.returnCode == 0) {
+      return {
+        infoForm: {
+          account: Result.data.returnData.user.account,
+          email: Result.data.returnData.user.email,
+          passwordOld: Result.data.returnData.user.password,
+          password: "",
+          confirmation: ""
+        },
+      }
+    } else {
+        throw new Error(Result.data.returnMessage)
+    }
+  },
   data() {
     var validateAccount = (rule, value, callback) => {
       if (value === '') {
@@ -96,13 +113,6 @@ export default {
     return {
       change: false,
       labelPosition: 'left',
-      infoForm: {
-        account: 'admin',
-        email: 'admin@example.com',
-        passwordOld: '123456',
-        password: '',
-        confirmation: '',
-      },
       rules: {
         account: [
           { validator: validateAccount, trigger: 'blur' }
@@ -132,9 +142,38 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          const User = this.$store.getters.getAuthenticatedUser;
+          const data = {
+            account: this.infoForm.account,
+            password: this.infoForm.password,
+            // name: this.registerForm.name ? this.registerForm.name : "",
+            // phone: this.infoForm.phone ? this.infoForm.phone : "",
+            // address: this.infoForm.address ? this.infoForm.address : ""
+          }
+          this.$axios.put('/users/edit/' + User.ID, data)
+          .then((res) => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'error',
+                duration: 1500
+              });
+              throw new Error(res.data.returnMessage)
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'success',
+                duration: 1500
+              });
+              setTimeout(function() {
+                window.location.reload();
+              }, 1500)
+            }
+          })
         } else {
-          console.log('error submit!!');
+          console.log('Validation Failure');
           return false;
         }
       });

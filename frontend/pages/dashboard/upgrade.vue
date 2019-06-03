@@ -12,13 +12,13 @@
         <hr class="hr-30">
         <el-form :model="upgradeForm" status-icon :rules="rules" ref="upgradeForm" label-position="labelPosition">
           <el-form-item label="Type" prop="type" label-width="100px">
-            <Select :data="options" type="type" @callback="GetValue"/>
+            <Select :data="options" :default="upgradeForm.type" type="type" @callback="Callback" />
           </el-form-item>
           <el-form-item label="Name" prop="name" label-width="100px">
             <el-input v-model="upgradeForm.name" placeholder="name here"></el-input>
           </el-form-item>
-          <el-form-item label="Cellphone" prop="cellphone" label-width="100px">
-            <el-input v-model="upgradeForm.cellphone" placeholder="cellphone here"></el-input>
+          <el-form-item label="Phone" prop="phone" label-width="100px">
+            <el-input v-model="upgradeForm.phone" placeholder="phone here"></el-input>
           </el-form-item>
           <el-form-item label="Address" prop="address" label-width="100px">
             <el-input v-model="upgradeForm.address" placeholder="address here"></el-input>
@@ -47,6 +47,22 @@ export default {
     Select
   },
   middleware: 'auth',
+  async asyncData({ app, store }) {
+    const User = store.getters.getAuthenticatedUser;
+    let Result = await app.$axios.get('/users/' + User.ID);
+    if(Result.data.returnCode == 0) {
+      return {
+        upgradeForm: {
+          type: Result.data.returnData.user.type,
+          name: Result.data.returnData.user.name,
+          phone: Result.data.returnData.user.phone,
+          address: Result.data.returnData.user.address
+        },
+      }
+    } else {
+        throw new Error(Result.data.returnMessage)
+    }
+  },
   data() {
     var validateType = (rule, value, callback) => {
       if (value === '') {
@@ -62,7 +78,7 @@ export default {
         callback();
       }
     };
-    var validateCellphone = (rule, value, callback) => {
+    var validatePhone = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('Please input the cellphone'));
       } else {
@@ -91,12 +107,6 @@ export default {
         label: '平輸好店'
       }],
       labelPosition: 'left',
-      upgradeForm: {
-        type: '',
-        name: '',
-        cellphone: '',
-        address: ''
-      },
       rules: {
         type: [
           { validator: validateType, trigger: 'change' }
@@ -104,8 +114,8 @@ export default {
         name: [
           { validator: validateName, trigger: 'blur' }
         ],
-        cellphone: [
-          { validator: validateCellphone, trigger: 'blur' }
+        phone: [
+          { validator: validatePhone, trigger: 'blur' }
         ],
         address: [
           { validator: validateAddress, trigger: 'blur' }
@@ -117,9 +127,37 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          const User = this.$store.getters.getAuthenticatedUser;
+          const data = {
+            type: this.upgradeForm.type.value,
+            name: this.upgradeForm.name,
+            phone: this.upgradeForm.phone,
+            address: this.upgradeForm.address,
+          }
+          this.$axios.put('/users/upgrade/' + User.ID, data)
+          .then((res) => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'error',
+                duration: 1500
+              });
+              throw new Error(res.data.returnMessage)
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'success',
+                duration: 1500
+              });
+              setTimeout(function() {
+                window.location.reload();
+              }, 1500)
+            }
+          })
         } else {
-          console.log('error submit!!');
+          console.log('Validation Failure');
           return false;
         }
       });
@@ -127,7 +165,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    GetValue(type, value) {
+    Callback(type, value) {
       this.upgradeForm[type] = value;
     }
   }

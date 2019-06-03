@@ -4,32 +4,32 @@
       Dashboard
     </li>
     <li class="submenu">
-      <a href="/dashboard" :class="{ active: path == '/dashboard'}">
+      <a href="/dashboard" :class="{ active: PATH == '/dashboard'}">
         <i class="el-icon-menu"></i> Home
       </a>
     </li>
     <li class="submenu">
-      <a href="/dashboard/info" :class="{ active: path == '/dashboard/info'}">
+      <a href="/dashboard/info" :class="{ active: PATH == '/dashboard/info'}">
         <i class="el-icon-info"></i> Info
       </a>
     </li>
     <li class="submenu">
-      <a href="/dashboard/favorite" :class="{ active: path == '/dashboard/favorite'}">
+      <a href="/dashboard/favorite" :class="{ active: PATH == '/dashboard/favorite'}">
         <i class="el-icon-star-on"></i> Favorite
       </a>
     </li>
     <li class="submenu">
-      <a href="/dashboard/message" :class="{ active: path == '/dashboard/message'}">
+      <a href="/dashboard/message" :class="{ active: PATH == '/dashboard/message'}">
         <i class="el-icon-message"></i> Message
       </a>
     </li>
-    <li class="submenu">
-      <a href="/dashboard/upgrade" :class="{ active: path == '/dashboard/upgrade'}">
+    <li class="submenu" v-if="TYPE == 0">
+      <a href="/dashboard/upgrade" :class="{ active: PATH == '/dashboard/upgrade'}">
         <i class="el-icon-news"></i> Upgrade
       </a>
     </li>
     <li class="submenu">
-      <a href="/dashboard/management" :class="{ active: path == '/dashboard/management'}">
+      <a href="/dashboard/management" :class="{ active: PATH == '/dashboard/management'}">
         <i class="el-icon-setting"></i> Management
       </a>
     </li>
@@ -37,13 +37,16 @@
 </template>
 
 <script>
-  export default {
-    computed: {
-      path: function() {
-        return this.$router.history.current.path;
-      }
+export default {
+  computed: {
+    PATH: function() {
+      return this.$router.history.current.path;
+    },
+    TYPE: function() {
+      return this.$store.getters.getAuthenticatedUser.Type;
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

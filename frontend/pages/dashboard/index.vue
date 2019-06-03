@@ -19,8 +19,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="news in Data" :key="news.date">
-              <td class="type">{{ news.type}}</td>
+            <tr v-for="news in News" :key="news.date">
+              <td class="type">{{ news.type == 1 ? "新聞" : "其他" }}</td>
               <td class="date">{{ news.date }}</td>
               <td class="title">
                 <a href="#">{{ news.title}}</a>
@@ -45,33 +45,19 @@ export default {
     Header
   },
   middleware: 'auth',
+  async asyncData({ app }) {
+    let Result = await app.$axios.get('/common/news');
+    if(Result.data.returnCode == 0) {
+      return {
+        News: Result.data.returnData.news
+      }
+    } else {
+        throw new Error(Result.data.returnMessage)
+    }
+  },
   data() {
     return {
-      Data: [{
-        date: '2018/09/07',
-        type: '新聞',
-        title: '8月份★abc網路好店成交抽萬元購車金★得獎名單'
-      }, {
-        date: '2018/09/07',
-        type: '新聞',
-        title: '【全新微電影 劇情你決定 】得獎名單'
-      }, {
-        date: '	2018/08/31	',
-        type: '新聞',
-        title: '【成交贈千點】你的舊愛 一堆人搶著要！成交贈UUPON 1千點唷！'
-      }, {
-        date: '2018/08/31',
-        type: '新聞',
-        title: '慶祝abc好車網勇奪中古車網站三冠王，好店成交月月抽UUPON 1萬點！'
-      }, {
-        date: '	2018/08/28',
-        type: '新聞',
-        title: '[收費公告] abc好車網 刊登車格機制 9/3(一) 正式收費'
-      }, {
-        date: '	2018/06/22',
-        type: '新聞',
-        title: 'abc好車網 全新改版 正式上線！'
-      }]
+      News: [],
     }
   }
 }

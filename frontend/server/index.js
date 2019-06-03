@@ -69,8 +69,10 @@ start()
 router.post('/api/session', (ctx, next) => {
   const data = ctx.request.body;
   ctx.session.authUser = {
-    username: data.account,
-    token: data.token
+    ID: data.id,
+    Type: data.type,
+    Username: data.account,
+    Token: data.token
   }
   return ctx.body = {
     returnCode: 0
