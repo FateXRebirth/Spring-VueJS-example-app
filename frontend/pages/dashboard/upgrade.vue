@@ -12,7 +12,7 @@
         <hr class="hr-30">
         <el-form :model="upgradeForm" status-icon :rules="rules" ref="upgradeForm" label-position="labelPosition">
           <el-form-item label="Type" prop="type" label-width="100px">
-            <Select :data="options" :default="upgradeForm.type" type="type" @callback="Callback" />
+            <Select :options="options" :default="upgradeForm.type" type="type" @callback="Callback" />
           </el-form-item>
           <el-form-item label="Name" prop="name" label-width="100px">
             <el-input v-model="upgradeForm.name" placeholder="name here"></el-input>

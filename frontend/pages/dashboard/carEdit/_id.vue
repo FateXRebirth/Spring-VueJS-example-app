@@ -14,59 +14,59 @@
         <el-row :gutter="10">
           <el-col :span="5">
             <el-form-item label="Brand" prop="brand">
-              <Select :data="BrandOptions" type="Brand" @callback="GetValue" />
+              <Select :options="BrandOptions" type="Brand" @callback="GetValue" />
             </el-form-item>
             </el-col>
           <el-col :span="6">
             <el-form-item label="Series" prop="series">
-              <Select :data="SeriesOptions" type="Series" @callback="GetValue" />
+              <Select :options="SeriesOptions" type="Series" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="Category" prop="category">
-              <Select :data="CategoryOptions" type="Category" @callback="GetValue" />
+              <Select :options="CategoryOptions" type="Category" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Year" prop="year">
-              <Select :data="YearOptions" type="Year" @callback="GetValue" />
+              <Select :options="YearOptions" type="Year" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Month" prop="month">
-              <Select :data="MonthOptions" type="Month" @callback="GetValue" />
+              <Select :options="MonthOptions" type="Month" @callback="GetValue" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="10">
           <el-col :span="4">
             <el-form-item label="Transmission" prop="transmission">
-              <Select :data="TransmissionOptions" type="Transmission" @callback="GetValue" />
+              <Select :options="TransmissionOptions" type="Transmission" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="GearType" prop="gearType">
-              <Select :data="GearTypeOptions" type="GearType" @callback="GetValue" />
+              <Select :options="GearTypeOptions" type="GearType" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="GasType" prop="gasType">
-              <Select :data="GasTypeOptions" type="GasType" @callback="GetValue" />
+              <Select :options="GasTypeOptions" type="GasType" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Engine" prop="engine">
-              <Select :data="EngineOptions" type="Engine" @callback="GetValue" />
+              <Select :options="EngineOptions" type="Engine" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Passenger" prop="passenger">
-              <Select :data="PassengerOptions" type="Passenger" @callback="GetValue" />
+              <Select :options="PassengerOptions" type="Passenger" @callback="GetValue" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Color" prop="color">
-              <Select :data="ColorOptions" type="Color" @callback="GetValue" />
+              <Select :options="ColorOptions" type="Color" @callback="GetValue" />
             </el-form-item>
           </el-col>
         </el-row>

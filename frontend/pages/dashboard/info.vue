@@ -12,7 +12,11 @@
         <hr class="hr-30">
         <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-position="labelPosition">
           <el-form-item label="Type" label-width="100px">
-            個人
+            <span v-if="infoForm.type == 0">個人</span>
+            <span v-if="infoForm.type == 1">原廠認證</span>
+            <span v-if="infoForm.type == 2">公會認證</span>
+            <span v-if="infoForm.type == 3">網路好店</span>
+            <span v-if="infoForm.type == 4">平輸好店</span>
           </el-form-item>
           <el-form-item label="Account" prop="account" label-width="100px"> 
             <el-input v-model="infoForm.account" placeholder="account here"></el-input>
@@ -29,6 +33,17 @@
             </el-form-item>
             <el-form-item label="Confirmation" prop="confirmation" label-width="100px">
               <el-input type="password" v-model="infoForm.confirmation" placeholder="confirmation here"></el-input>
+            </el-form-item>
+          </div>
+          <div v-if="infoForm.type != 0">
+            <el-form-item label="Name" prop="name" label-width="100px"> 
+              <el-input v-model="infoForm.name" placeholder="name here"></el-input>
+            </el-form-item>
+            <el-form-item label="Phone" prop="phone" label-width="100px"> 
+              <el-input v-model="infoForm.phone" placeholder="phone here"></el-input>
+            </el-form-item>
+            <el-form-item label="address" prop="address" label-width="100px"> 
+              <el-input v-model="infoForm.address" placeholder="address here"></el-input>
             </el-form-item>
           </div>
           <div class="actions">
@@ -64,8 +79,12 @@ export default {
           account: Result.data.returnData.user.account,
           email: Result.data.returnData.user.email,
           passwordOld: Result.data.returnData.user.password,
-          password: "",
-          confirmation: ""
+          password: Result.data.returnData.user.password,
+          confirmation: "",
+          type: Result.data.returnData.user.type,
+          name: User.Type != 0 ? Result.data.returnData.user.name : "",
+          phone: User.Type != 0 ? Result.data.returnData.user.phone : "",
+          address: User.Type != 0 ? Result.data.returnData.user.address : "",
         },
       }
     } else {
@@ -110,6 +129,27 @@ export default {
         callback();
       }
     }; 
+    var validateName = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the name'));
+      } else {
+        callback();
+      }
+    };
+    var validatePhone = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the phone'));
+      } else {
+        callback();
+      }
+    };
+    var validateAddress = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the address'));
+      } else {
+        callback();
+      }
+    };
     return {
       change: false,
       labelPosition: 'left',
@@ -125,6 +165,15 @@ export default {
         ],
         confirmation: [
           { validator: validateConfirmation, trigger: 'blur' }
+        ],
+        name: [
+          { validator: validateName, trigger: 'blur' }
+        ],
+        phone: [
+          { validator: validatePhone, trigger: 'blur' }
+        ],
+        address: [
+          { validator: validateAddress, trigger: 'blur' }
         ],
       }
     };
@@ -146,9 +195,9 @@ export default {
           const data = {
             account: this.infoForm.account,
             password: this.infoForm.password,
-            // name: this.registerForm.name ? this.registerForm.name : "",
-            // phone: this.infoForm.phone ? this.infoForm.phone : "",
-            // address: this.infoForm.address ? this.infoForm.address : ""
+            name: this.infoForm.name ? this.infoForm.name : "",
+            phone: this.infoForm.phone ? this.infoForm.phone : "",
+            address: this.infoForm.address ? this.infoForm.address : ""
           }
           this.$axios.put('/users/edit/' + User.ID, data)
           .then((res) => {

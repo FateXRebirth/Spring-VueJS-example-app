@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" @change="HandleChange" value-key="label" :placeholder="GetPlaceholder(type)">
+  <el-select v-model="option" @change="HandleChange" value-key="label" :placeholder="GetPlaceholder(type)" :loading="loading">
     <el-option
       v-for="option in options"
       :key="option.value"
@@ -11,24 +11,30 @@
 
 <script>
 export default {
-  props: ['data', 'type', 'default'],
+  props: ['options', 'type', 'default'],
   data() {
     return {
-      value: null,
-      options: this.data
+      option: null,
+      loading: true
     }
   },
   mounted() {
     if(this.default) {
       const value = this.default;
-      this.value = _.find(this.options, function(option) {
+      this.option = _.find(this.options, function(option) {
         return option.value == value;
       })
     }
   },
+  watch: {
+    options: function(newValue, oldValue) {
+      this.loading = false;
+      this.option = null;
+    }
+  },
   methods: {
     HandleChange() {
-      this.$emit('callback', this.type, this.value);
+      this.$emit('callback', this.type, this.option);
     },
     GetPlaceholder(type) {
       return type.charAt(0).toUpperCase() + type.slice(1);

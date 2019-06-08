@@ -8,62 +8,56 @@
         <SideMenu/>
       </el-aside>
       <el-main class="carNew">
-        <el-form
-          :label-position="labelPosition"
-          label-width="100px"
-          :rules="rules"
-          :model="carForm"
-          ref="carForm"
-        >
+        <el-form :label-position="labelPosition" label-width="100px" :rules="rules" :model="carForm" ref="carForm">
           <Header title="Basic"/>
           <hr class="hr-30">
           <el-row :gutter="10">
             <el-col :span="5">
               <el-form-item label="Brand" prop="brand">
-                <Select :data="BrandOptions" type="brand" @callback="Callback"/>
+                <Select :options="BrandOptions" type="brand" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="Series" prop="series">
-                <Select :data="SeriesOptions" type="series" @callback="Callback"/>
+                <Select :options="FilteredSeriesOptions" type="series" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="Category" prop="category">
-                <Select :data="CategoryOptions" type="category" @callback="Callback"/>
+                <Select :options="FilteredCategoryOptions" type="category" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="Year" prop="year">
-                <Select :data="YearOptions" type="year" @callback="Callback"/>
+                <Select :options="YearOptions" type="year" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="Month" prop="month">
-                <Select :data="MonthOptions" type="month" @callback="Callback"/>
+                <Select :options="MonthOptions" type="month" @callback="Callback"/>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="4">
               <el-form-item label="Transmission" prop="transmission">
-                <Select :data="TransmissionOptions" type="transmission" @callback="Callback"/>
+                <Select :options="TransmissionOptions" type="transmission" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="GearType" prop="gearType">
-                <Select :data="GearTypeOptions" type="gearType" @callback="Callback"/>
+                <Select :options="GearTypeOptions" type="gearType" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="GasType" prop="gasType">
-                <Select :data="GasTypeOptions" type="gasType" @callback="Callback"/>
+                <Select :options="GasTypeOptions" type="gasType" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="EngineDisplacement" prop="engineDisplacement">
                 <Select
-                  :data="EngineDisplacementOptions"
+                  :options="EngineDisplacementOptions"
                   type="engineDisplacement"
                   @callback="Callback"
                 />
@@ -71,12 +65,12 @@
             </el-col>
             <el-col :span="4">
               <el-form-item label="Passenger" prop="passenger">
-                <Select :data="PassengerOptions" type="passenger" @callback="Callback"/>
+                <Select :options="PassengerOptions" type="passenger" @callback="Callback"/>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="Color" prop="color">
-                <Select :data="ColorOptions" type="color" @callback="Callback"/>
+                <Select :options="ColorOptions" type="color" @callback="Callback"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -112,6 +106,7 @@
               v-for="option in EquipmentOptions"
               :label="option"
               :key="option.value"
+              :value="option.value"
             >{{option.label}}</el-checkbox-button>
           </el-checkbox-group>
           <hr class="hr-30">
@@ -126,6 +121,7 @@
               v-for="option in SafetyOptions"
               :label="option"
               :key="option.value"
+              :value="option.value"
             >{{option.label}}</el-checkbox-button>
           </el-checkbox-group>
           <hr class="hr-30">
@@ -170,12 +166,12 @@
             <el-row :gutter="0">
               <el-col :span="5">
                 <el-form-item prop="city">
-                  <Select :data="CityOptions" type="city" @callback="Callback"/>
+                  <Select :options="CityOptions" type="city" @callback="Callback"/>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item prop="area">
-                  <Select :data="AreaOptions" type="area" @callback="Callback"/>
+                  <Select :options="AreaOptions" type="area" @callback="Callback"/>
                 </el-form-item>
               </el-col>
               <el-col :span="14">
@@ -207,60 +203,104 @@ export default {
     Select
   },
   middleware: 'auth',
-  async asyncData({ app }) {
-    // let BrandOptions = await app.$axios.get('http://127.0.0.1:8080/BrandOptions.json');
-    // let SeriesOptions = await app.$axios.get('http://127.0.0.1:8080/SeriesOptions.json');
-    // let CategoryOptions = await app.$axios.get('http://127.0.0.1:8080/CategoryOptions.json');
-    let YearOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/YearOptions.json"
-    );
-    let MonthOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/MonthOptions.json"
-    );
-    let TransmissionOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/TransmissionOptions.json"
-    );
-    let GearTypeOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/GearTypeOptions.json"
-    );
-    let GasTypeOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/GasTypeOptions.json"
-    );
-    let EngineDisplacementOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/EngineDisplacementOptions.json"
-    );
-    let PassengerOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/PassengerOptions.json"
-    );
-    let ColorOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/ColorOptions.json"
-    );
-    let EquipmentOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/EquipmentOptions.json"
-    );
-    let SafetyOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/SafetyOptions.json"
-    );
-    let RegionOptions = await app.$axios.get(
-      "http://127.0.0.1:8080/RegionOptions.json"
-    );
-    return {
-      // BrandOptions: BrandOptions.data,
-      // SeriesOptions: SeriesOptions.data,
-      // CategoryOptions: CategoryOptions.data,
-      YearOptions: YearOptions.data,
-      MonthOptions: MonthOptions.data,
-      TransmissionOptions: TransmissionOptions.data,
-      GearTypeOptions: GearTypeOptions.data,
-      GasTypeOptions: GasTypeOptions.data,
-      EngineDisplacementOptions: EngineDisplacementOptions.data,
-      PassengerOptions: PassengerOptions.data,
-      ColorOptions: ColorOptions.data,
-      EquipmentOptions: EquipmentOptions.data,
-      SafetyOptions: SafetyOptions.data,
-      CityOptions: RegionOptions.data.Countries,
-      AreaOptions: RegionOptions.data.Districts,
-    };
+  // async asyncData({ app }) {
+  //   let Result;
+
+  //   Result = await app.$axios.get('/brand');
+  //   let BrandOptions = [];
+  //   Result.data.returnData.brand.map( brand => {
+  //     let Brand = {};
+  //     Brand.label = brand.name;
+  //     Brand.value = brand.id;
+  //     BrandOptions.push(Brand);
+  //   })
+
+  //   Result = await app.$axios.get('/series');
+  //   let SeriesOptions = [];
+  //   Result.data.returnData.series.map( series => {
+  //     let Series = {};
+  //     Series.label = series.name;
+  //     Series.value = series.id;
+  //     Series.BrandID = series.brandID;
+  //     SeriesOptions.push(Series);
+  //   })
+
+  //   Result = await app.$axios.get('/category');
+  //   let CategoryOptions = [];
+  //   Result.data.returnData.category.map( category => {
+  //     let Category = {};
+  //     Category.label = category.name;
+  //     Category.value = category.id;
+  //     Category.BrandID = category.brandID;
+  //     Category.SeriesID = category.seriesID;
+  //     CategoryOptions.push(Category);
+  //   })
+
+  //   return {
+  //     BrandOptions: BrandOptions,
+  //     SeriesOptions: SeriesOptions,
+  //     CategoryOptions: CategoryOptions
+  //   }
+  // },
+  async mounted() {
+    let Result;
+
+    Result = await this.$axios.get('/common/specification');
+    Result.data.returnData.specification.map( spec => {
+      if(spec.category == "Year") {
+        this.YearOptions.push(spec);
+      } else if(spec.category == "Month") {
+        this.MonthOptions.push(spec);
+      } else if(spec.category == "Transmission") {
+        this.TransmissionOptions.push(spec);
+      } else if(spec.category == "GearType") {
+        this.GearTypeOptions.push(spec);
+      } else if(spec.category == "GasType") {
+        this.GasTypeOptions.push(spec);
+      } else if(spec.category == "EngineDisplacement") {
+        this.EngineDisplacementOptions.push(spec);
+      } else if(spec.category == "Passenger") {
+        this.PassengerOptions.push(spec);
+      } else if(spec.category == "Color") {
+        this.ColorOptions.push(spec);
+      } else if(spec.category == "Equipment") {
+        this.EquipmentOptions.push(spec);
+      } else if(spec.category == "Safety") {
+        this.SafetyOptions.push(spec);
+      } else if(spec.category == "Country") {
+        this.CityOptions.push(spec);
+      } else if(spec.category == "Districts") {
+        this.AreaOptions.push(spec);
+      }
+    })
+
+    Result = await this.$axios.get('/brand');
+    Result.data.returnData.brand.map( brand => {
+      let Brand = {};
+      Brand.label = brand.name;
+      Brand.value = brand.id;
+      this.BrandOptions.push(Brand);
+    })
+
+    Result = await this.$axios.get('/series');
+    Result.data.returnData.series.map( series => {
+      let Series = {};
+      Series.label = series.name;
+      Series.value = series.id;
+      Series.BrandID = series.brandID;
+      this.SeriesOptions.push(Series);
+    })
+
+    Result = await this.$axios.get('/category');
+    Result.data.returnData.category.map( category => {
+      let Category = {};
+      Category.label = category.name;
+      Category.value = category.id;
+      Category.BrandID = category.brandID;
+      Category.SeriesID = category.seriesID;
+      this.CategoryOptions.push(Category);
+    })
+
   },
   data() {
     var validateRequired = (rule, value, callback) => {
@@ -273,7 +313,9 @@ export default {
     return {
       BrandOptions: [],
       SeriesOptions: [],
+      FilteredSeriesOptions: [],
       CategoryOptions: [],
+      FilteredCategoryOptions: [],
       YearOptions: [],
       MonthOptions: [],
       TransmissionOptions: [],
@@ -282,14 +324,14 @@ export default {
       EngineDisplacementOptions: [],
       PassengerOptions: [],
       ColorOptions: [],
+      EquipmentOptions: [],
       EquipmentCheckAll: false,
       EquipmentCheckedOption: [],
       EquipmentIsIndeterminate: false,
-      EquipmentOptions: [],
+      SafetyOptions: [],
       SafetyCheckAll: false,
       SafetyCheckedOption: [],
       SafetyIsIndeterminate: false,
-      SafetyOptions: [],
       CityOptions: [],
       AreaOptions: [],
       labelPosition: "top",
@@ -378,9 +420,19 @@ export default {
       handler(newVal, oldVal) {
         console.log(JSON.stringify(newVal));
       },
-      deep: true
-      // immediate: true,
-    }
+      deep: true,
+      immediate: true,
+    },
+    'carForm.brand': function(newValue, oldValue) {
+      this.FilteredSeriesOptions = _.filter(this.SeriesOptions, function(series) {
+        return series.BrandID == newValue;
+      })
+    },
+    'carForm.series': function(newValue, oldValue) {
+      this.FilteredCategoryOptions = _.filter(this.CategoryOptions, function(category) {
+        return category.SeriesID == newValue;
+      })
+    },
   },
   methods: {
     submitForm(formName) {
@@ -393,18 +445,23 @@ export default {
         }
       });
     },
-    Callback(type, value) {
-      this.carForm[type] = value;
+    Callback(type, option) {
+      if(type == "city" || type == "area") {
+        this.carForm[type] = option.label;
+      } else {
+        this.carForm[type] = option.value;
+      }
     },
     EquipmentAllChange(value) {
+      this.carForm.equipment = 0;
       this.EquipmentCheckedOption = value ? this.EquipmentOptions : [];
       this.EquipmentIsIndeterminate = false;
       if (value) {
         for (var i = 0; i < this.EquipmentOptions.length; i++) {
-          this.carForm.Equipment += this.EquipmentOptions[i].value;
+          this.carForm.equipment += this.EquipmentOptions[i].value;
         }
       } else {
-        this.carForm.Equipment = 0;
+        this.carForm.equipment = 0;
       }
     },
     CheckedEquipmentChange(observer) {
@@ -413,24 +470,24 @@ export default {
       this.EquipmentIsIndeterminate =
         checkedCount > 0 && checkedCount < this.EquipmentOptions.length;
       if (checkedCount != 0) {
-        this.carForm.Equipment = 0;
+        this.carForm.equipment = 0;
         for (var i = 0; i < observer.length; i++) {
-          this.carForm.Equipment += observer[i].value;
+          this.carForm.equipment += observer[i].value;
         }
       } else {
-        this.carForm.Equipment = 0;
+        this.carForm.equipment = 0;
       }
     },
     SafetyAllChange(value) {
-      console.log(value);
+      this.carForm.safety = 0;
       this.SafetyCheckedOption = value ? this.SafetyOptions : [];
       this.SafetyIsIndeterminate = false;
       if (value) {
         for (var i = 0; i < this.SafetyOptions.length; i++) {
-          this.carForm.Safety += this.SafetyOptions[i].value;
+          this.carForm.safety += this.SafetyOptions[i].value;
         }
       } else {
-        this.carForm.Safety = 0;
+        this.carForm.safety = 0;
       }
     },
     CheckedSafetyChange(observer) {
@@ -439,12 +496,12 @@ export default {
       this.SafetyIsIndeterminate =
         checkedCount > 0 && checkedCount < this.SafetyOptions.length;
       if (checkedCount != 0) {
-        this.carForm.Safety = 0;
+        this.carForm.safety = 0;
         for (var i = 0; i < observer.length; i++) {
-          this.carForm.Safety += observer[i].value;
+          this.carForm.safety += observer[i].value;
         }
       } else {
-        this.carForm.Safety = 0;
+        this.carForm.safety = 0;
       }
     },
     handlePreview(file) {
