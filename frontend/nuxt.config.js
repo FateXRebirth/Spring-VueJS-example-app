@@ -6,7 +6,8 @@ module.exports = {
 
   env: {
     BASE_URL: process.env.BASE_URL || env.BASE_URL,
-    API_URL: process.env.API_URL || env.API_URL
+    API_URL: process.env.API_URL || env.API_URL,
+    FIREBASE_CONFIG: env.CONFIG
   },
 
   router: {

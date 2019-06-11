@@ -127,26 +127,22 @@
           <hr class="hr-30">
           <Header title="Photos"/>
           <hr class="hr-60">
-          <el-upload
-            class="upload-demo"
-            drag
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :on-success="handleSuccess"
-            :on-error="handleError"
-            :on-progress="handleProgress"
-            :on-change="handleChange"
-            :before-upload="beforeUpload"
-            :before-remove="beforeRemove"
-            multiple
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">Drop file here or
-              <em>click to upload</em>
-              <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
+          <button type="button" @click="Test">上傳至Firebase</button>
+          <div class="photos">
+            <div v-for="photo in Photos" :key="photo.src" class="photo">
+              <div class="img" :style="GenerateSource(photo.src)"></div>
+              <button type="button" class="delete" @click="HandlePhotoDelete(photo)"><i class="el-icon-close"></i></button>
             </div>
-          </el-upload>
+            <!-- <div class="photo">
+              <div class="img" style="background-image: url(https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png);" alt=""></div>
+              <button type="button" class="delete" @click="Delete(photo)"></button>
+            </div>
+            <div class="photo">
+              <div class="img" style="background-image: url(https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png);" alt=""></div>
+            </div> -->
+            <label for="file" class="upload" :style="{ display: this.Photos.length < 5 ? 'flex': 'none' }" v><i class="el-icon-plus"></i></label>
+            <input type="file" id="file" @change="HandlePhotoUpload" accept="image/*" multiple>
+          </div>
           <hr class="hr-30">
           <Header title="Contact"/>
           <hr class="hr-30">
@@ -202,46 +198,14 @@ export default {
     Header,
     Select
   },
+  head () {
+    return {
+      script: [
+        { src: 'https://www.gstatic.com/firebasejs/5.8.1/firebase.js' }
+      ]
+    }
+  },
   middleware: 'auth',
-  // async asyncData({ app }) {
-  //   let Result;
-
-  //   Result = await app.$axios.get('/brand');
-  //   let BrandOptions = [];
-  //   Result.data.returnData.brand.map( brand => {
-  //     let Brand = {};
-  //     Brand.label = brand.name;
-  //     Brand.value = brand.id;
-  //     BrandOptions.push(Brand);
-  //   })
-
-  //   Result = await app.$axios.get('/series');
-  //   let SeriesOptions = [];
-  //   Result.data.returnData.series.map( series => {
-  //     let Series = {};
-  //     Series.label = series.name;
-  //     Series.value = series.id;
-  //     Series.BrandID = series.brandID;
-  //     SeriesOptions.push(Series);
-  //   })
-
-  //   Result = await app.$axios.get('/category');
-  //   let CategoryOptions = [];
-  //   Result.data.returnData.category.map( category => {
-  //     let Category = {};
-  //     Category.label = category.name;
-  //     Category.value = category.id;
-  //     Category.BrandID = category.brandID;
-  //     Category.SeriesID = category.seriesID;
-  //     CategoryOptions.push(Category);
-  //   })
-
-  //   return {
-  //     BrandOptions: BrandOptions,
-  //     SeriesOptions: SeriesOptions,
-  //     CategoryOptions: CategoryOptions
-  //   }
-  // },
   async mounted() {
     let Result;
 
@@ -301,6 +265,13 @@ export default {
       this.CategoryOptions.push(Category);
     })
 
+    // if (!firebase.apps.length) {
+    //   firebase.initializeApp(process.env.FIREBASE_CONFIG);
+    //   this.storage = firebase.storage().ref();
+    // }
+    firebase.initializeApp(process.env.FIREBASE_CONFIG);
+    this.storage = firebase.storage().ref();
+
   },
   data() {
     var validateRequired = (rule, value, callback) => {
@@ -334,6 +305,7 @@ export default {
       SafetyIsIndeterminate: false,
       CityOptions: [],
       AreaOptions: [],
+      Photos: [],
       labelPosition: "top",
       rules: {
         brand: [
@@ -416,12 +388,12 @@ export default {
     };
   },
   watch: {
-    carForm: {
+    'carForm': {
       handler(newVal, oldVal) {
         console.log(JSON.stringify(newVal));
       },
-      deep: true,
-      immediate: true,
+      // deep: true,
+      // immediate: true,
     },
     'carForm.brand': function(newValue, oldValue) {
       this.FilteredSeriesOptions = _.filter(this.SeriesOptions, function(series) {
@@ -433,6 +405,9 @@ export default {
         return category.SeriesID == newValue;
       })
     },
+    'Photos': function(newValue, oldValue) {
+      console.log(JSON.stringify(newValue))
+    }
   },
   methods: {
     submitForm(formName) {
@@ -504,46 +479,69 @@ export default {
         this.carForm.safety = 0;
       }
     },
-    handlePreview(file) {
-      console.log("handlePreview");
-      console.log(file);
+    GenerateSource: function(src) {
+      return `background-image: url(${src});`;
     },
-    handleRemove(file, fileList) {
-      console.log("handleRemove");
-      console.log(file);
-      console.log(fileList);
+    HandlePhotoUpload(e) {
+      if(e.target.files.length > 5) {
+        alert("上傳數量超過上限！");
+        return;
+      }
+      for (var i = 0; i < e.target.files.length; i++) {
+        let Source = e.target.files[i];
+        let reader = new FileReader();
+        reader.readAsDataURL(Source);
+        reader.onload = function(event) {
+          Source.src = event.target.result;
+          this.Photos.push(Source);
+        }.bind(this);
+      }
     },
-    handleSuccess(response, file, fileList) {
-      console.log("handleSuccess");
-      console.log(response);
-      console.log(file);
-      console.log(fileList);
+    HandlePhotoDelete(photo) {      
+      return this.Photos.splice(this.Photos.indexOf(photo), 1);
     },
-    handleError(err, file, fileList) {
-      console.log("handleError");
-      console.log(err);
-      console.log(file);
-      console.log(fileList);
-    },
-    handleProgress(event, file, fileList) {
-      console.log("handleProgress");
-      console.log(event);
-      console.log(file);
-      console.log(fileList);
-    },
-    handleChange(file, fileList) {
-      console.log("handleChange");
-      console.log(file);
-      console.log(fileList);
-    },
-    beforeUpload(file) {
-      console.log("beforeUpload");
-      console.log(file);
-    },
-    beforeRemove(file, fileList) {
-      console.log("beforeRemove");
-      console.log(file);
-      console.log(fileList);
+    Test() {
+      for (var i = 0; i < this.Photos.length; i++) {
+        let file = this.Photos[i];
+        let metadata = {
+          contentType: file.type
+        };
+        let uploadTask = this.storage.child('images/' + file.name).put(file, metadata);
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          function(snapshot) {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+          }, function(error) {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                break;
+              case 'storage/canceled':
+                // User canceled the upload
+                break;
+              case 'storage/unknown':
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+        }, function() {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            console.log('File available at', downloadURL);
+          });
+        });
+      }
     }
   }
 };
@@ -553,5 +551,57 @@ export default {
 .el-button {
   margin: 0 auto;
   display: block;
+}
+.photos {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  & .photo {
+    position: relative;
+    margin-right: 9px;
+    padding: 5px;
+    width: 19%;
+    height: 150px;
+    border: 1px solid #d9d9d9;
+    & .img {
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    & .delete {
+      position: absolute;
+      top: 0;
+      margin-top: -15px;
+      right: 0;
+      margin-right: -10px;
+      border-radius: 50%;
+      height: 35px;
+      width: 35px;
+      background-color: #39AF78;
+      color: white;
+    }
+  }
+  #file {
+    display: none;
+  }
+  & .upload {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    width: 18%;
+    height: 150px;
+    border: 1px dashed #d9d9d9;
+    & .el-icon-plus {
+      &:before {
+        font-size: 30px;
+      }
+    }
+  }
 }
 </style>

@@ -24,7 +24,7 @@ const CONFIG = {
   renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
-app.use(logger())
+// app.use(logger()).
 app.use(bodyParser());
 app.use(router.routes())
 app.use(router.allowedMethods());
