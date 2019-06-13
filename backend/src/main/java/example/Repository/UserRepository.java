@@ -109,13 +109,15 @@ public class UserRepository {
             if(isEmailExist(memberLogin.getEmail())) {
                 // Account exist
                 SqlParameterSource parameters = new MapSqlParameterSource("email", memberLogin.getEmail());
-                String query = "SELECT id, account, password FROM user WHERE email = :email;";
+                String query = "SELECT id, account, password, type FROM user WHERE email = :email;";
                 User user = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(User.class));
                 if (user.getPassword().equals(memberLogin.getPassword())) {
                     // Correct
                     result.setReturnCode(0);
                     result.setReturnMessage("OK");
                     JSONObject obj = new JSONObject();
+                    obj.put("id", user.getId());
+                    obj.put("type", user.getType());
                     obj.put("account", user.getAccount());
                     Algorithm algorithm = Algorithm.HMAC256("secret");
                     String token = JWT.create()
