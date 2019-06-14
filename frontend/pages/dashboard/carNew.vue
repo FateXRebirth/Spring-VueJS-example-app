@@ -127,20 +127,12 @@
           <hr class="hr-30">
           <Header title="Photos"/>
           <hr class="hr-60">
-          <button type="button" @click="Test">上傳至Firebase</button>
           <div class="photos">
-            <div v-for="photo in Photos" :key="photo.src" class="photo">
-              <div class="img" :style="GenerateSource(photo.src)"></div>
+            <div v-for="photo in carForm.photos" :key="photo.url" class="photo">
+              <div class="img" :style="GenerateSource(photo.url)"></div>
               <button type="button" class="delete" @click="HandlePhotoDelete(photo)"><i class="el-icon-close"></i></button>
             </div>
-            <!-- <div class="photo">
-              <div class="img" style="background-image: url(https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png);" alt=""></div>
-              <button type="button" class="delete" @click="Delete(photo)"></button>
-            </div>
-            <div class="photo">
-              <div class="img" style="background-image: url(https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png);" alt=""></div>
-            </div> -->
-            <label for="file" class="upload" :style="{ display: this.Photos.length < 5 ? 'flex': 'none' }" v><i class="el-icon-plus"></i></label>
+            <label for="file" class="upload" :style="{ display: this.carForm.photos.length < 5 ? 'flex': 'none' }" v><i class="el-icon-plus"></i></label>
             <input type="file" id="file" @change="HandlePhotoUpload" accept="image/*" multiple>
           </div>
           <hr class="hr-30">
@@ -167,7 +159,7 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item prop="area">
-                  <Select :options="AreaOptions" type="area" @callback="Callback"/>
+                  <Select :options="FilteredAreaOptions" type="area" @callback="Callback"/>
                 </el-form-item>
               </el-col>
               <el-col :span="14">
@@ -231,10 +223,15 @@ export default {
         this.EquipmentOptions.push(spec);
       } else if(spec.category == "Safety") {
         this.SafetyOptions.push(spec);
-      } else if(spec.category == "Country") {
-        this.CityOptions.push(spec);
-      } else if(spec.category == "Districts") {
-        this.AreaOptions.push(spec);
+      } 
+    })
+
+    Result = await this.$axios.get('/common/region');
+    Result.data.returnData.region.map( region => {
+      if(region.country == 0) {
+        this.CityOptions.push(region);
+      } else if(region.country != 0) {
+        this.AreaOptions.push(region);
       }
     })
 
@@ -265,12 +262,10 @@ export default {
       this.CategoryOptions.push(Category);
     })
 
-    // if (!firebase.apps.length) {
-    //   firebase.initializeApp(process.env.FIREBASE_CONFIG);
-    //   this.storage = firebase.storage().ref();
-    // }
-    firebase.initializeApp(process.env.FIREBASE_CONFIG);
-    this.storage = firebase.storage().ref();
+    if (!firebase.apps.length) {
+      firebase.initializeApp(process.env.FIREBASE_CONFIG);
+      this.storage = firebase.storage().ref();
+    }
 
   },
   data() {
@@ -305,7 +300,7 @@ export default {
       SafetyIsIndeterminate: false,
       CityOptions: [],
       AreaOptions: [],
-      Photos: [],
+      FilteredAreaOptions: [],
       labelPosition: "top",
       rules: {
         brand: [
@@ -383,7 +378,8 @@ export default {
         cellphone: "",
         city: "",
         area: "",
-        address: ""
+        address: "",
+        photos: []
       }
     };
   },
@@ -392,7 +388,7 @@ export default {
       handler(newVal, oldVal) {
         console.log(JSON.stringify(newVal));
       },
-      // deep: true,
+      deep: true,
       // immediate: true,
     },
     'carForm.brand': function(newValue, oldValue) {
@@ -405,27 +401,70 @@ export default {
         return category.SeriesID == newValue;
       })
     },
-    'Photos': function(newValue, oldValue) {
-      console.log(JSON.stringify(newValue))
+    'carForm.city': function(newValue, oldValue) {
+      this.FilteredAreaOptions = _.filter(this.AreaOptions, function(area) {
+        return area.country == newValue;
+      })
     }
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          const data = {
+            brand: this.carForm.brand,
+            series: this.carForm.series,
+            category: this.carForm.category,
+            year: this.carForm.year,
+            month: this.carForm.month,
+            transmission: this.carForm.transmission,
+            geartype: this.carForm.gearType,
+            gastype: this.carForm.gasType,
+            enginedisplacement: this.carForm.engineDisplacement,
+            passenger: this.carForm.passenger,
+            color: this.carForm.color,
+            mileage: this.carForm.mileage,
+            price: this.carForm.price,
+            equipment: this.carForm.equipment,
+            safety: this.carForm.safety,
+            name: this.carForm.name,
+            phone: this.carForm.cellphone,
+            address: this.GenerateAddress(),
+            photos: this.carForm.photos
+          }
+          this.$axios.post('/cars', data)
+          .then((res) => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'error',
+                duration: 1500
+              });
+              throw new Error(res.data.returnMessage)
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.returnMessage,
+                type: 'success',
+                duration: 1500
+              });
+              setTimeout(function() {
+                // window.location.href = '/dashboard/management';
+              }, 1500)
+            }
+          })
         } else {
-          console.log("error submit!!");
+          console.log('Validation Failure');
           return false;
         }
       });
     },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     Callback(type, option) {
-      if(type == "city" || type == "area") {
-        this.carForm[type] = option.label;
-      } else {
-        this.carForm[type] = option.value;
-      }
+      this.carForm[type] = option.value;
     },
     EquipmentAllChange(value) {
       this.carForm.equipment = 0;
@@ -482,66 +521,58 @@ export default {
     GenerateSource: function(src) {
       return `background-image: url(${src});`;
     },
+    GenerateAddress: function() {
+      const Vue = this;
+      let city = _.find(this.CityOptions, function(city) {
+        return city.value == Vue.carForm.city;
+      })
+      let area = _.find(this.FilteredAreaOptions, function(area) {
+        return area.value == Vue.carForm.area;
+      })
+      return city.label + area.label + this.carForm.address;
+    },
     HandlePhotoUpload(e) {
+      const Vue = this;
       if(e.target.files.length > 5) {
         alert("上傳數量超過上限！");
         return;
       }
       for (var i = 0; i < e.target.files.length; i++) {
-        let Source = e.target.files[i];
-        let reader = new FileReader();
-        reader.readAsDataURL(Source);
-        reader.onload = function(event) {
-          Source.src = event.target.result;
-          this.Photos.push(Source);
-        }.bind(this);
-      }
-    },
-    HandlePhotoDelete(photo) {      
-      return this.Photos.splice(this.Photos.indexOf(photo), 1);
-    },
-    Test() {
-      for (var i = 0; i < this.Photos.length; i++) {
-        let file = this.Photos[i];
+        // let Source = e.target.files[i];
+        // let reader = new FileReader();
+        // reader.readAsDataURL(Source);
+        // reader.onload = function(event) {
+        //   Source.src = event.target.result;
+        //   this.Photos.push(Source);
+        // }.bind(this);
+
+        let file = e.target.files[i];      
+        file.label = (new Date().getTime()) + '_' + file.name;
         let metadata = {
           contentType: file.type
         };
-        let uploadTask = this.storage.child('images/' + file.name).put(file, metadata);
-        // Listen for state changes, errors, and completion of the upload.
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-          function(snapshot) {
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-            switch (snapshot.state) {
-              case firebase.storage.TaskState.PAUSED: // or 'paused'
-                console.log('Upload is paused');
-                break;
-              case firebase.storage.TaskState.RUNNING: // or 'running'
-                console.log('Upload is running');
-                break;
-            }
-          }, function(error) {
-            // A full list of error codes is available at
-            // https://firebase.google.com/docs/storage/web/handle-errors
-            switch (error.code) {
-              case 'storage/unauthorized':
-                // User doesn't have permission to access the object
-                break;
-              case 'storage/canceled':
-                // User canceled the upload
-                break;
-              case 'storage/unknown':
-                // Unknown error occurred, inspect error.serverResponse
-                break;
-            }
-        }, function() {
-          // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-            console.log('File available at', downloadURL);
-          });
+        let uploadTask = this.storage.child('images/' + file.label).put(file, metadata);
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, {
+          'complete': function() {
+            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+              // console.log('File available at', downloadURL);
+              file.url = downloadURL;
+              Vue.carForm.photos.push(file);
+            });
+          }
         });
       }
+    },
+    HandlePhotoDelete(photo) {    
+      // Create a reference to the file to delete
+      var desertRef = this.storage.child('images/' + photo.label);
+      // Delete the file
+      desertRef.delete().then(function() {
+        // File deleted successfully
+      }).catch(function(error) {
+        // Uh-oh, an error occurred!
+      });
+      return this.carForm.photos.splice(this.carForm.photos.indexOf(photo), 1);
     }
   }
 };
