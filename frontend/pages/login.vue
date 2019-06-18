@@ -73,7 +73,7 @@ export default {
             password: this.loginForm.password
           }
           // Login API
-          this.$axios.post('/users/login', data)
+          this.$axios.post('/api/login', data)
           .then((res) => {
             if (res.data.returnCode != 0) {
               this.$message({

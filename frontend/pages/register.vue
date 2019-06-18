@@ -110,7 +110,7 @@ export default {
             email: this.registerForm.email,
             password: this.registerForm.password
           }
-          this.$axios.post('/users/register', data)
+          this.$axios.post('/api/register', data)
           .then((res) => {
             if (res.data.returnCode != 0) {
               this.$message({

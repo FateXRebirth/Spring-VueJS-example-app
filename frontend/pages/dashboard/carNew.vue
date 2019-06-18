@@ -201,7 +201,7 @@ export default {
   async mounted() {
     let Result;
 
-    Result = await this.$axios.get('/common/specification');
+    Result = await this.$axios.get('/api/specification');
     Result.data.returnData.specification.map( spec => {
       if(spec.category == "Year") {
         this.YearOptions.push(spec);
@@ -226,7 +226,7 @@ export default {
       } 
     })
 
-    Result = await this.$axios.get('/common/region');
+    Result = await this.$axios.get('/api/region');
     Result.data.returnData.region.map( region => {
       if(region.country == 0) {
         this.CityOptions.push(region);
@@ -235,7 +235,7 @@ export default {
       }
     })
 
-    Result = await this.$axios.get('/brand');
+    Result = await this.$axios.get('/api/brand');
     Result.data.returnData.brand.map( brand => {
       let Brand = {};
       Brand.label = brand.name;
@@ -243,7 +243,7 @@ export default {
       this.BrandOptions.push(Brand);
     })
 
-    Result = await this.$axios.get('/series');
+    Result = await this.$axios.get('/api/series');
     Result.data.returnData.series.map( series => {
       let Series = {};
       Series.label = series.name;
@@ -252,7 +252,7 @@ export default {
       this.SeriesOptions.push(Series);
     })
 
-    Result = await this.$axios.get('/category');
+    Result = await this.$axios.get('/api/category');
     Result.data.returnData.category.map( category => {
       let Category = {};
       Category.label = category.name;
@@ -450,7 +450,7 @@ export default {
                 duration: 1500
               });
               setTimeout(function() {
-                // window.location.href = '/dashboard/management';
+                window.location.href = '/dashboard/management';
               }, 1500)
             }
           })

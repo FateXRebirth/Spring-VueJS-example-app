@@ -46,7 +46,7 @@ export default {
   },
   middleware: 'auth',
   async asyncData({ app }) {
-    let Result = await app.$axios.get('/common/news');
+    let Result = await app.$axios.get('/api/news');
     if(Result.data.returnCode == 0) {
       return {
         News: Result.data.returnData.news

@@ -49,7 +49,14 @@ export default {
   middleware: 'auth',
   async asyncData({ app, store }) {
     const User = store.getters.getAuthenticatedUser;
-    let Result = await app.$axios.get('/users/' + User.ID);
+    let Result = await app.$axios({
+      method: 'get',
+      url: '/users/' + User.ID,
+      headers: {
+        'User': User.Username,
+        'Authorization': User.Token
+      },
+    })
     if(Result.data.returnCode == 0) {
       return {
         upgradeForm: {

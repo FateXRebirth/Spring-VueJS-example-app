@@ -31,16 +31,17 @@ export default {
         if(res.data.returnCode != 0) {
           throw new Error("Server Error");
         } else {
-          // Clear Client
-          this.$store.dispatch('logout'); 
           this.$message({
-              showClose: true,
-              message: 'Logout Successfully',
-              type: 'success',
-              duration: 1500
-            });
-           setTimeout(function() {
+            showClose: true,
+            message: 'Logout Successfully',
+            type: 'success',
+            duration: 1500
+          });
+          const Vue = this;
+          setTimeout(function() {
             window.location.href = '/';
+            // Clear Client
+            this.$store.dispatch('logout'); 
           }, 1500)
         }
       })

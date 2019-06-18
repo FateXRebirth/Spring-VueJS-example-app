@@ -70,6 +70,35 @@ export default {
     Header
   },
   middleware: 'auth',
+  async asyncData({ app, store }) {
+    const User = store.getters.getAuthenticatedUser;
+    let Result = await app.$axios({
+      method: 'get',
+      url: '/users/' + User.ID,
+      headers: {
+        'User': User.Username,
+        'Authorization': User.Token
+      },
+    })
+    // let Result = await app.$axios.get('/users/' + User.ID);
+    // if(Result.data.returnCode == 0) {
+    //   return {
+    //     infoForm: {
+    //       account: Result.data.returnData.user.account,
+    //       email: Result.data.returnData.user.email,
+    //       passwordOld: Result.data.returnData.user.password,
+    //       password: Result.data.returnData.user.password,
+    //       confirmation: "",
+    //       type: Result.data.returnData.user.type,
+    //       name: User.Type != 0 ? Result.data.returnData.user.name : "",
+    //       phone: User.Type != 0 ? Result.data.returnData.user.phone : "",
+    //       address: User.Type != 0 ? Result.data.returnData.user.address : "",
+    //     },
+    //   }
+    // } else {
+    //     throw new Error(Result.data.returnMessage)
+    // }
+  },
   data() {
     return {
       tableData: [{
