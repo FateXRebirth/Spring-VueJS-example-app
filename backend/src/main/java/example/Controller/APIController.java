@@ -1,69 +1,145 @@
 package example.Controller;
-
-import example.Entity.Person;
-
-import example.Request.RegisterRequest;
-
-import example.Response.Cars;
+import example.Request.*;
+import example.Response.*;
 import example.Service.CarService;
-import example.Service.PersonService;
+import example.Service.CommonService;
+import example.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * Created by FateXRebirth on 20/10/2017.
  */
 
 @RestController
-@RequestMapping("/api")
 public class APIController {
-
-    @Autowired
-    HttpSession session;
-
-    @Autowired
-    PersonService personService;
-
-    @GetMapping("/get/person/{id}")
-    public Person getPersonByID(@PathVariable int id) {
-        return personService.getPersonById(id);
-    }
-
-    @GetMapping("/get/person")
-    public Person getPersonByUsername(@RequestParam String username) {
-        return personService.getPersonByUsername(username);
-    }
-
-    @GetMapping("/person/GetAllPerson")
-    public List<Person> getPersons() {
-        return personService.getPersons();
-    }
-
-    @GetMapping("/person/GetAllPersonEmail")
-    public List<String> getEmail() {
-        return personService.getAllEmail();
-    }
-
-    @PostMapping("/person/Create")
-    public void register(@RequestBody RegisterRequest registerRequest) {
-        Person newUser = new Person(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getEmail(), registerRequest.getType());
-        personService.create(newUser);
-    }
 
     @Autowired
     CarService carService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    CommonService commonService;
+
+    // Public
+
+    @GetMapping("/api/brand")
+    public Result getBrands() {
+        return carService.getBrands();
+    }
+
+    @GetMapping("/api/series")
+    public Result getSeries() {
+        return carService.getSeries();
+    }
+
+    @GetMapping("/api/category")
+    public Result getCategories() {
+        return carService.getCategories();
+    }
+
+    @PostMapping("/api/login")
+    public Result userLogin(@RequestBody MemberLogin memberLogin) {
+        return userService.login(memberLogin);
+    }
+
+    @PostMapping("/api/register")
+    public Result userRegister(@RequestBody MemberRegister memberRegister) {
+        return userService.register(memberRegister);
+    }
+
+    @GetMapping("/api/news")
+    public Result getNews() {
+        return commonService.getNews();
+    }
+
+    @GetMapping("/api/banner")
+    public Result getBanner() {
+        return commonService.getBanner();
+    }
+
+    @GetMapping("/api/region")
+    public Result getRegion() {
+        return commonService.getRegion();
+    }
+
+    @GetMapping("/api/specification")
+    public Result getSpecification() {
+        return commonService.getSpecification();
+    }
+
+    // Private
+
     @GetMapping("/cars")
-    public List<Cars> getCars() {
+    public Result getCars() {
         return carService.getCars();
     }
 
     @GetMapping("/cars/{id}")
-    public Cars getCarByID(@PathVariable int id) {
+    public Result getCarByID(@PathVariable int id) {
         return carService.getCarByID(id);
+    }
+
+    @PostMapping("/cars")
+    public Result create(@RequestBody Car car) {
+        return carService.create(car);
+    }
+
+    @PutMapping("/cars/{id}")
+    public Result editCarByID(@PathVariable int id, @RequestBody Car car) {
+        return carService.editCarByID(id, car);
+    }
+
+    @GetMapping("/cars/add/{id}")
+    public Result addCar(@PathVariable int id) {
+        return carService.addCar(id);
+    }
+
+    @GetMapping("/cars/remove/{id}")
+    public Result removeCar(@PathVariable int id) {
+        return carService.removeCar(id);
+    }
+
+    @DeleteMapping("/cars/delete/{id}")
+    public Result deleteCar(@PathVariable int id) {
+        return carService.deleteCar(id);
+    }
+
+    @GetMapping("/users")
+    public Result getUsers() {
+        return userService.getUsers();
+    }
+
+    @GetMapping("/users/{id}")
+    public Result getUserByID(@PathVariable("id") int id) {
+        return userService.getUserByID(id);
+    }
+
+    @PutMapping("/users/edit/{id}")
+    public Result editUserByID(@PathVariable("id") int id, @RequestBody MemberEdit memberEdit) {
+        return userService.editUserByID(id, memberEdit);
+    }
+
+    @PutMapping("/users/upgrade/{id}")
+    public Result editUserByID(@PathVariable("id") int id, @RequestBody MemberUpgrade memberUpgrade) {
+        return userService.upgradeUserByID(id, memberUpgrade);
+    }
+
+    @GetMapping("/users/favorite/{id}")
+    public Result getFavoriteCars(@PathVariable int id) {
+        return userService.getFavoriteCars(id);
+    }
+
+    @PostMapping("/users/favorite")
+    public Result createFavoriteCars(@RequestBody FavoriteCar favoriteCar) {
+        return userService.createFavoriteCars(favoriteCar);
+    }
+
+    @DeleteMapping("/users/favorite")
+    public Result DeleteFavoriteCars(@RequestBody FavoriteCar favoriteCar) {
+        return userService.DeleteFavoriteCars(favoriteCar);
     }
 
 }
