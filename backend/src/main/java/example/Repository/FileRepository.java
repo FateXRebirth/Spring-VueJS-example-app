@@ -1,14 +1,19 @@
 package example.Repository;
 
 import example.Config.SpringJdbcConfig;
+import example.Response.File;
 import example.Response.Result;
+import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class FileRepository {
@@ -25,6 +30,26 @@ public class FileRepository {
                     .addValue("name", name)
                     .addValue("url", url);
             create.execute(parameters);
+            result.setReturnCode(0);
+            result.setReturnMessage("Success");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage(e.toString());
+            return result;
+        }
+    }
+
+    public Result getPhotos(int CarID) {
+        Result result = new Result();
+        try {
+            SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("CarID", CarID);
+            String query = "SELECT name, url FROM file where carid = :CarID";
+            List<File> photos = namedParameterJdbcTemplate.query(query, parameters, BeanPropertyRowMapper.newInstance(File.class));
+            JSONObject obj = new JSONObject();
+            obj.put("photos", photos);
+            result.setReturnData(obj);
             result.setReturnCode(0);
             result.setReturnMessage("Success");
             return result;

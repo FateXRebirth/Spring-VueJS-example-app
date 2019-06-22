@@ -23,7 +23,10 @@ public class Car {
     private Integer safety;
     private String name;
     private String phone;
+    private Integer city;
+    private Integer area;
     private String address;
+    private String modifyDate;
     private ArrayList<JSONObject> photos;
 
     public Integer getBrand() {
@@ -163,12 +166,36 @@ public class Car {
 
     }
 
+    public Integer getCity() {
+        return city;
+    }
+
+    public void setCity(Integer city) {
+        this.city = city;
+    }
+
+    public Integer getArea() {
+        return area;
+    }
+
+    public void setArea(Integer area) {
+        this.area = area;
+    }
+
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(String modifyDate) {
+        this.modifyDate = modifyDate;
     }
 
     public ArrayList<JSONObject> getPhotos() {
@@ -199,7 +226,10 @@ public class Car {
                 ", safety=" + safety +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
+                ", city=" + city +
+                ", area=" + area +
                 ", address='" + address + '\'' +
+                ", modifyDate='" + modifyDate + '\'' +
                 ", photos=" + photos +
                 '}';
     }

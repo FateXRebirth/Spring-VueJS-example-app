@@ -1,7 +1,6 @@
 package example.Repository;
 import example.Config.SpringJdbcConfig;
-import example.Entity.Category;
-import example.Response.Categories;
+import example.Response.Category;
 import example.Response.Result;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
@@ -20,7 +19,7 @@ public class CategoryRepository {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
-    public Result create(Category category) {
+    public Result create(example.Entity.Category category) {
         Result result = new Result();
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("category").usingGeneratedKeyColumns("id");
@@ -45,7 +44,7 @@ public class CategoryRepository {
         Result result = new Result();
         try {
             String query = "SELECT id, brandid, name, display_name, seriesid, series_name FROM category";
-            List<Categories> category =  jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Categories.class));
+            List<Category> category =  jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Category.class));
             JSONObject obj = new JSONObject();
             obj.put("category", category);
             result.setReturnCode(0);

@@ -1,5 +1,6 @@
 package example.Controller;
 import example.Request.*;
+import example.Request.Car;
 import example.Response.*;
 import example.Service.CarService;
 import example.Service.CommonService;
@@ -70,21 +71,26 @@ public class APIController {
         return commonService.getSpecification();
     }
 
+    @GetMapping("/api/cars/{id}")
+    public Result getCar(@PathVariable int id) {
+        return carService.getCarByID(id);
+    }
+
     // Private
 
     @GetMapping("/cars")
-    public Result getCars() {
-        return carService.getCars();
+    public Result getCars(@PathVariable int id) {
+        return carService.getCarByOwner(id);
+    }
+
+    @PostMapping("/cars")
+    public Result create(@PathVariable int id, @RequestBody Car car) {
+        return carService.create(id, car);
     }
 
     @GetMapping("/cars/{id}")
     public Result getCarByID(@PathVariable int id) {
         return carService.getCarByID(id);
-    }
-
-    @PostMapping("/cars")
-    public Result create(@RequestBody Car car) {
-        return carService.create(car);
     }
 
     @PutMapping("/cars/{id}")
@@ -123,7 +129,7 @@ public class APIController {
     }
 
     @PutMapping("/users/upgrade/{id}")
-    public Result editUserByID(@PathVariable("id") int id, @RequestBody MemberUpgrade memberUpgrade) {
+    public Result upgradeUserByID(@PathVariable("id") int id, @RequestBody MemberUpgrade memberUpgrade) {
         return userService.upgradeUserByID(id, memberUpgrade);
     }
 

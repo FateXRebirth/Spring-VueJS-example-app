@@ -1,7 +1,6 @@
 package example.Repository;
 import example.Config.SpringJdbcConfig;
-import example.Entity.Brand;
-import example.Response.Brands;
+import example.Response.Brand;
 import example.Response.Result;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
@@ -20,7 +19,7 @@ public class BrandRepository  {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
-    public Result create(Brand brand) {
+    public Result create(example.Entity.Brand brand) {
         Result result = new Result();
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("brand").usingGeneratedKeyColumns("id");
@@ -42,7 +41,7 @@ public class BrandRepository  {
         Result result = new Result();
         try {
             String query = "SELECT id, name, display_name FROM brand";
-            List<Brands> brand = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Brands.class));
+            List<Brand> brand = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Brand.class));
             JSONObject obj = new JSONObject();
             obj.put("brand", brand);
             result.setReturnCode(0);
