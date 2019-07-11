@@ -31,64 +31,6 @@ public class CarRepository {
         return result;
     }
 
-    public Result getCarByOwner(int OwnerID) {
-        Result result = new Result();
-        try {
-            /*
-            SimpleJdbcCall GetCars = new SimpleJdbcCall(SpringJdbcConfig.mysqlDataSource())
-                    .withProcedureName("GetCars")
-                    .returningResultSet("cars", BeanPropertyRowMapper.newInstance(Car.class));
-            Map out = GetCars.execute(new HashMap<String, Object>(0));
-            return (List) out.get("cars");
-            */
-            SqlParameterSource parameters = new MapSqlParameterSource("OwnerID", OwnerID);
-            String query =
-                    "SELECT \n" +
-                    "Car.id AS CarID,\n" +
-                    "Car.owner AS OwnerID,\n" +
-                    "Brand.name AS BrandName,\n" +
-                    "Series.name AS SeriesName,\n" +
-                    "Category.name AS CategoryName,\n" +
-                    "Car.year AS Year,\n" +
-                    "Car.month AS Month,\n" +
-                    "Car.transmission AS Transmission,\n" +
-                    "Car.gearType AS GearType,\n" +
-                    "Car.gasType AS GasTyp,\n" +
-                    "Car.engineDisplacement AS EngineDisplacement,\n" +
-                    "Car.passenger AS Passenger,\n" +
-                    "Car.color AS Color,\n" +
-                    "Car.mileage AS Mileage,\n" +
-                    "Car.price AS Price,\n" +
-                    "Car.equipment AS Equipment,\n" +
-                    "Car.safety AS Safety,\n" +
-                    "Car.name AS Name,\n" +
-                    "Car.phone AS Phone,\n" +
-                    "Car.city AS City,\n" +
-                    "Car.area AS Area,\n" +
-                    "Car.address AS Address\n" +
-                    "Car.modifyDate AS ModifyDate\n" +
-                    "FROM car AS Car\n" +
-                    "LEFT JOIN brand AS Brand\n" +
-                    "ON Car.brand = Brand.id\n" +
-                    "LEFT JOIN series AS Series\n" +
-                    "ON Car.series = Series.id\n" +
-                    "LEFT JOIN category AS Category\n" +
-                    "ON Car.category = Category.id\n" +
-                    "WHERE Car.owner = :OwnerID";
-            example.Response.Car car = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(example.Response.Car.class));
-            JSONObject obj = new JSONObject();
-            obj.put("car", car);
-            result.setReturnCode(0);
-            result.setReturnMessage("OK");
-            result.setReturnData(obj);
-            return result;
-        } catch (DataAccessException e) {
-            result.setReturnCode(999);
-            result.setReturnMessage(e.toString());
-            return result;
-        }
-    }
-
     public Result getCarDetailByID(int CarID) {
         Result result = new Result();
         try {
@@ -181,7 +123,7 @@ public class CarRepository {
                     "Car.month AS Month,\n" +
                     "Car.transmission AS Transmission,\n" +
                     "Car.gearType AS GearType,\n" +
-                    "Car.gasType AS GasTyp,\n" +
+                    "Car.gasType AS GasType,\n" +
                     "Car.engineDisplacement AS EngineDisplacement,\n" +
                     "Car.passenger AS Passenger,\n" +
                     "Car.color AS Color,\n" +
@@ -219,11 +161,11 @@ public class CarRepository {
         }
     }
 
-    public Result editCarByID(int id, Car car) {
+    public Result editCarByID(int CarID, Car car) {
         Result result = new Result();
         try {
             SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("id", id)
+                    .addValue("CarID", CarID)
                     .addValue("transmission", car.getTransmission())
                     .addValue("geartype", car.getGeartype())
                     .addValue("gastype", car.getGastype())
@@ -241,25 +183,27 @@ public class CarRepository {
                     .addValue("address", car.getAddress())
                     .addValue("modifyDate", car.getModifyDate());
 
-            String query = "UPDATE car\n" +
-                    "SET transmission = :transmission',\n" +
-                    "geartype = :geartype',\n" +
-                    "gastype = :gastype',\n" +
-                    "enginedisplacement = :enginedisplacement',\n" +
-                    "passenger = :passenger',\n" +
-                    "color = :color',\n" +
-                    "mileage = :mileage',\n" +
-                    "price = :price',\n" +
-                    "equipment = :equipment',\n" +
-                    "safety = :safety',\n" +
-                    "name = :name',\n" +
-                    "phone = :phone',\n" +
-                    "city = :city',\n" +
-                    "area = :area',\n" +
-                    "address = :address',\n" +
-                    "modifyDate = :modifyDate',\n" +
-                    "WHERE id = :id;";
+            String query =
+                    "UPDATE car\n" +
+                    "SET transmission = :transmission,\n" +
+                    "geartype = :geartype,\n" +
+                    "gastype = :gastype,\n" +
+                    "enginedisplacement = :enginedisplacement,\n" +
+                    "passenger = :passenger,\n" +
+                    "color = :color,\n" +
+                    "mileage = :mileage,\n" +
+                    "price = :price,\n" +
+                    "equipment = :equipment,\n" +
+                    "safety = :safety,\n" +
+                    "name = :name,\n" +
+                    "phone = :phone,\n" +
+                    "city = :city,\n" +
+                    "area = :area,\n" +
+                    "address = :address,\n" +
+                    "modifyDate = :modifyDate\n" +
+                    "WHERE id = :CarID;";
             namedParameterJdbcTemplate.update(query, parameters);
+            fileRepository.updatePhotos(CarID, car.getPhotos());
             result.setReturnCode(0);
             result.setReturnMessage("OK");
             return result;
@@ -270,12 +214,70 @@ public class CarRepository {
         }
     }
 
-    public Result create(int ID, Car car) {
+    public Result getCarByOwner(int OwnerID) {
+        Result result = new Result();
+        try {
+            /*
+            SimpleJdbcCall GetCars = new SimpleJdbcCall(SpringJdbcConfig.mysqlDataSource())
+                    .withProcedureName("GetCars")
+                    .returningResultSet("cars", BeanPropertyRowMapper.newInstance(Car.class));
+            Map out = GetCars.execute(new HashMap<String, Object>(0));
+            return (List) out.get("cars");
+            */
+            SqlParameterSource parameters = new MapSqlParameterSource("OwnerID", OwnerID);
+            String query =
+                    "SELECT \n" +
+                            "Car.id AS CarID,\n" +
+                            "Car.owner AS OwnerID,\n" +
+                            "Brand.name AS BrandName,\n" +
+                            "Series.name AS SeriesName,\n" +
+                            "Category.name AS CategoryName,\n" +
+                            "Car.year AS Year,\n" +
+                            "Car.month AS Month,\n" +
+                            "Car.transmission AS Transmission,\n" +
+                            "Car.gearType AS GearType,\n" +
+                            "Car.gasType AS GasTyp,\n" +
+                            "Car.engineDisplacement AS EngineDisplacement,\n" +
+                            "Car.passenger AS Passenger,\n" +
+                            "Car.color AS Color,\n" +
+                            "Car.mileage AS Mileage,\n" +
+                            "Car.price AS Price,\n" +
+                            "Car.equipment AS Equipment,\n" +
+                            "Car.safety AS Safety,\n" +
+                            "Car.name AS Name,\n" +
+                            "Car.phone AS Phone,\n" +
+                            "Car.city AS City,\n" +
+                            "Car.area AS Area,\n" +
+                            "Car.address AS Address\n" +
+                            "Car.modifyDate AS ModifyDate\n" +
+                            "FROM car AS Car\n" +
+                            "LEFT JOIN brand AS Brand\n" +
+                            "ON Car.brand = Brand.id\n" +
+                            "LEFT JOIN series AS Series\n" +
+                            "ON Car.series = Series.id\n" +
+                            "LEFT JOIN category AS Category\n" +
+                            "ON Car.category = Category.id\n" +
+                            "WHERE Car.owner = :OwnerID";
+            example.Response.Car car = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(example.Response.Car.class));
+            JSONObject obj = new JSONObject();
+            obj.put("car", car);
+            result.setReturnCode(0);
+            result.setReturnMessage("OK");
+            result.setReturnData(obj);
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage(e.toString());
+            return result;
+        }
+    }
+
+    public Result create(int OwnerID, Car car) {
         Result result = new Result();
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("car").usingGeneratedKeyColumns("id");
             SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("owner", ID)
+                    .addValue("owner", OwnerID)
                     .addValue("brand", car.getBrand())
                     .addValue("series", car.getSeries())
                     .addValue("category", car.getCategory())
@@ -299,7 +301,7 @@ public class CarRepository {
                     .addValue("modifyDate", car.getModifyDate())
                     .addValue("status", 1);
             int CarID = create.executeAndReturnKey(parameters).intValue();
-            car.getPhotos().forEach(photos -> fileRepository.create(CarID, photos.get("label").toString(), photos.get("url").toString()));
+            fileRepository.create(CarID, car.getPhotos());
             result.setReturnCode(0);
             result.setReturnMessage("OK");
             return result;

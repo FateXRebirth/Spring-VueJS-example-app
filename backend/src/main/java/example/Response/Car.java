@@ -13,7 +13,7 @@ public class Car {
     private Integer Month;
     private Integer Transmission;
     private Integer GearType;
-    private Integer GasTyp;
+    private Integer GasType;
     private Integer EngineDisplacement;
     private Integer Passenger;
     private Integer Color;
@@ -101,12 +101,12 @@ public class Car {
         GearType = gearType;
     }
 
-    public Integer getGasTyp() {
-        return GasTyp;
+    public Integer getGasType() {
+        return GasType;
     }
 
-    public void setGasTyp(Integer gasTyp) {
-        GasTyp = gasTyp;
+    public void setGasType(Integer gasType) {
+        GasType = gasType;
     }
 
     public Integer getEngineDisplacement() {

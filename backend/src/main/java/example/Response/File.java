@@ -2,15 +2,15 @@ package example.Response;
 
 public class File {
 
-    private String name;
+    private String label;
     private String url;
 
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getUrl() {

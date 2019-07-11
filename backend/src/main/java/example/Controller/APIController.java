@@ -79,13 +79,13 @@ public class APIController {
     // Private
 
     @GetMapping("/cars")
-    public Result getCars(@PathVariable int id) {
-        return carService.getCarByOwner(id);
+    public Result getCars(@RequestHeader("ID") int ID) {
+        return carService.getCarByOwner(ID);
     }
 
     @PostMapping("/cars")
-    public Result create(@PathVariable int id, @RequestBody Car car) {
-        return carService.create(id, car);
+    public Result create(@RequestHeader("ID") int ID, @RequestBody Car car) {
+        return carService.create(ID, car);
     }
 
     @GetMapping("/cars/{id}")

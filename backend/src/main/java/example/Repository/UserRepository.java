@@ -122,6 +122,7 @@ public class UserRepository {
                     Algorithm algorithm = Algorithm.HMAC256("secret");
                     String token = JWT.create()
                             .withIssuer(user.getAccount())
+                            .withJWTId(user.getId().toString())
                             .sign(algorithm);
                     obj.put("token", token);
                     result.setReturnData(obj);

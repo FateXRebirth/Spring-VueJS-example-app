@@ -21,7 +21,9 @@ public class JwtFilter extends GenericFilterBean {
 
         final HttpServletRequest request = (HttpServletRequest) req;
         final HttpServletResponse response = (HttpServletResponse) res;
-        final String authHeader = request.getHeader("authorization");
+        final String USER = request.getHeader("User");
+        final String ID = request.getHeader("ID");
+        final String AUTHORIZATION = request.getHeader("Authorization");
 
         if ("OPTIONS".equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -29,18 +31,17 @@ public class JwtFilter extends GenericFilterBean {
             chain.doFilter(req, res);
         } else {
 
-            if (authHeader == null) {
+            if (AUTHORIZATION == null) {
                 throw new ServletException("Missing or invalid Authorization header");
             }
-
-            final String token = authHeader;
 
             try {
                 Algorithm algorithm = Algorithm.HMAC256("secret");
                 JWTVerifier verifier = JWT.require(algorithm)
-                        .withIssuer(request.getHeader("User"))
-                        .build(); //Reusable verifier instance
-                DecodedJWT jwt = verifier.verify(token);
+                        .withIssuer(USER)
+                        .withJWTId(ID)
+                        .build();
+                DecodedJWT jwt = verifier.verify(AUTHORIZATION);
             } catch (JWTVerificationException exception) {
                 throw new ServletException("Invalid token");
             }
