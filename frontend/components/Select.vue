@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="option" @change="HandleChange" value-key="label" :placeholder="GetPlaceholder(type)" :loading="loading">
+  <el-select v-model="option" @change="HandleChange" value-key="label" :placeholder="GetPlaceholder(type)" :loading="loading" :disabled="isDisable">
     <el-option
       v-for="option in options"
       :key="option.value"
@@ -11,25 +11,26 @@
 
 <script>
 export default {
-  props: ['options', 'type', 'default'],
+  props: ['options', 'type', 'isDisable', 'value'],
   data() {
     return {
       option: null,
-      loading: true
-    }
-  },
-  mounted() {
-    if(this.default) {
-      const value = this.default;
-      this.option = _.find(this.options, function(option) {
-        return option.value == value;
-      })
+      loading: true,
+      done: false
     }
   },
   watch: {
     options: function(newValue, oldValue) {
       this.loading = false;
       this.option = null;
+      if(this.value && !this.done) {
+        this.done = true;
+        const value = this.value;
+        this.option = _.find(this.options, function(option) {
+          return option.value == value;
+        })
+        this.HandleChange()
+      }
     }
   },
   methods: {

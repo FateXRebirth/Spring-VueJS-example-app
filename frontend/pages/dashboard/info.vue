@@ -77,6 +77,7 @@ export default {
       url: '/users/' + User.ID,
       headers: {
         'User': User.Username,
+        'ID': User.ID,
         'Authorization': User.Token
       },
     })
@@ -206,8 +207,16 @@ export default {
             phone: this.infoForm.phone ? this.infoForm.phone : "",
             address: this.infoForm.address ? this.infoForm.address : ""
           }
-          this.$axios.put('/users/edit/' + User.ID, data)
-          .then((res) => {
+          this.$axios({
+            method: 'put',
+            url: '/users/edit/' + User.ID,
+            headers: {
+              'User': User.Username,
+              'ID': User.ID,
+              'Authorization': User.Token
+            },
+            data: data
+          }).then((res) => {
             if (res.data.returnCode != 0) {
               this.$message({
                 showClose: true,
@@ -223,6 +232,7 @@ export default {
                 type: 'success',
                 duration: 1500
               });
+              if(this.infoForm.confirmation == this.infoForm.password) alert("下次登入，請使用新密碼");
               setTimeout(function() {
                 window.location.reload();
               }, 1500)

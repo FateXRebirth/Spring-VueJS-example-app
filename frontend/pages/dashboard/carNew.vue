@@ -145,8 +145,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Contact Phone" prop="cellphone">
-                <el-input v-model="carForm.cellphone" placeholder="Cellphone"></el-input>
+              <el-form-item label="Contact Phone" prop="phone">
+                <el-input v-model="carForm.phone" placeholder="Phone"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -198,7 +198,7 @@ export default {
     }
   },
   middleware: 'auth',
-  async mounted() {
+  async created() {
     let Result;
 
     Result = await this.$axios.get('/api/specification');
@@ -345,7 +345,7 @@ export default {
         name: [
           { required: true, validator: validateRequired, trigger: "blur" }
         ],
-        cellphone: [
+        phone: [
           { required: true, validator: validateRequired, trigger: "blur" }
         ],
         city: [
@@ -375,7 +375,7 @@ export default {
         equipment: "",
         safety: "",
         name: "",
-        cellphone: "",
+        phone: "",
         city: "",
         area: "",
         address: "",
@@ -395,6 +395,7 @@ export default {
       this.FilteredSeriesOptions = _.filter(this.SeriesOptions, function(series) {
         return series.BrandID == newValue;
       })
+      this.FilteredCategoryOptions = [];
     },
     'carForm.series': function(newValue, oldValue) {
       this.FilteredCategoryOptions = _.filter(this.CategoryOptions, function(category) {
@@ -411,6 +412,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          const User = this.$store.getters.getAuthenticatedUser;
           const data = {
             brand: this.carForm.brand,
             series: this.carForm.series,
@@ -428,12 +430,23 @@ export default {
             equipment: this.carForm.equipment,
             safety: this.carForm.safety,
             name: this.carForm.name,
-            phone: this.carForm.cellphone,
-            address: this.GenerateAddress(),
+            phone: this.carForm.phone,
+            city: this.carForm.city,
+            area: this.carForm.area,
+            address: this.carForm.address,
+            modifyDate: new Date().toISOString(),
             photos: this.carForm.photos
           }
-          this.$axios.post('/cars', data)
-          .then((res) => {
+          this.$axios({
+            method: 'post',
+            url: '/cars',
+            headers: {
+              'User': User.Username,
+              'ID': User.ID,
+              'Authorization': User.Token
+            },
+            data: data
+          }).then((res) => {
             if (res.data.returnCode != 0) {
               this.$message({
                 showClose: true,
@@ -520,16 +533,6 @@ export default {
     },
     GenerateSource: function(src) {
       return `background-image: url(${src});`;
-    },
-    GenerateAddress: function() {
-      const Vue = this;
-      let city = _.find(this.CityOptions, function(city) {
-        return city.value == Vue.carForm.city;
-      })
-      let area = _.find(this.FilteredAreaOptions, function(area) {
-        return area.value == Vue.carForm.area;
-      })
-      return city.label + area.label + this.carForm.address;
     },
     HandlePhotoUpload(e) {
       const Vue = this;

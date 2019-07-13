@@ -12,16 +12,23 @@
         <hr class="hr-30">
         <el-form :model="upgradeForm" status-icon :rules="rules" ref="upgradeForm" label-position="labelPosition">
           <el-form-item label="Type" prop="type" label-width="100px">
-            <Select :options="options" :default="upgradeForm.type" type="type" @callback="Callback" />
+            <el-select v-model="upgradeForm.type" :placeholder="'Type'">
+              <el-option
+                v-for="option in options"
+                :key="option.value"
+                :label="option.label"
+                :value="option.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="Name" prop="name" label-width="100px">
-            <el-input v-model="upgradeForm.name" placeholder="name here"></el-input>
+            <el-input v-model="upgradeForm.name" placeholder=" Name"></el-input>
           </el-form-item>
           <el-form-item label="Phone" prop="phone" label-width="100px">
-            <el-input v-model="upgradeForm.phone" placeholder="phone here"></el-input>
+            <el-input v-model="upgradeForm.phone" placeholder="Phone"></el-input>
           </el-form-item>
           <el-form-item label="Address" prop="address" label-width="100px">
-            <el-input v-model="upgradeForm.address" placeholder="address here"></el-input>
+            <el-input v-model="upgradeForm.address" placeholder="Address"></el-input>
           </el-form-item>
           <div class="actions">
             <el-button type="primary" @click="submitForm('upgradeForm')">Submit</el-button>
@@ -54,13 +61,14 @@ export default {
       url: '/users/' + User.ID,
       headers: {
         'User': User.Username,
+        'ID': User.ID,
         'Authorization': User.Token
       },
     })
     if(Result.data.returnCode == 0) {
       return {
         upgradeForm: {
-          type: Result.data.returnData.user.type,
+          // type: Result.data.returnData.user.type,
           name: Result.data.returnData.user.name,
           phone: Result.data.returnData.user.phone,
           address: Result.data.returnData.user.address
@@ -72,8 +80,8 @@ export default {
   },
   data() {
     var validateType = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please select the type'));
+      if (!value) {
+        callback(new Error("Please select the type"));
       } else {
         callback();
       }
@@ -116,16 +124,16 @@ export default {
       labelPosition: 'left',
       rules: {
         type: [
-          { validator: validateType, trigger: 'change' }
+          { required: true, validator: validateType, trigger: "change" }
         ],
         name: [
-          { validator: validateName, trigger: 'blur' }
+          { required: true, validator: validateName, trigger: 'blur' }
         ],
         phone: [
-          { validator: validatePhone, trigger: 'blur' }
+          { required: true, validator: validatePhone, trigger: 'blur' }
         ],
         address: [
-          { validator: validateAddress, trigger: 'blur' }
+          { required: true, validator: validateAddress, trigger: 'blur' }
         ]
       }
     };
@@ -136,13 +144,21 @@ export default {
         if (valid) {
           const User = this.$store.getters.getAuthenticatedUser;
           const data = {
-            type: this.upgradeForm.type.value,
+            type: this.upgradeForm.type,
             name: this.upgradeForm.name,
             phone: this.upgradeForm.phone,
             address: this.upgradeForm.address,
           }
-          this.$axios.put('/users/upgrade/' + User.ID, data)
-          .then((res) => {
+          this.$axios({
+            method: 'put',
+            url: '/users/upgrade/' + User.ID,
+            headers: {
+              'User': User.Username,
+              'ID': User.ID,
+              'Authorization': User.Token
+            },
+            data: data
+          }).then((res) => {
             if (res.data.returnCode != 0) {
               this.$message({
                 showClose: true,
