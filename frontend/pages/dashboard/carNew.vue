@@ -7,7 +7,7 @@
       <el-aside width="200px">
         <SideMenu/>
       </el-aside>
-      <el-main class="carNew">
+      <el-main>
         <el-form :label-position="labelPosition" label-width="100px" :rules="rules" :model="carForm" ref="carForm">
           <Header title="Basic"/>
           <hr class="hr-30">
@@ -582,9 +582,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-button {
-  margin: 0 auto;
-  display: block;
+.el-main {
+    /deep/ .el-checkbox-button {
+    width: 20%;
+    padding: 5px;
+    /deep/ & span {
+      width: 100% !important;
+    }
+    /deep/ &:first-child, &:last-child {
+      & .el-checkbox-button__inner {
+        border-radius: 5px;
+      }
+    }
+    /deep/ & .el-checkbox-button__inner {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px #dcdfe6 solid;
+    }
+    /deep/ &.is-checked {
+      & .el-checkbox-button__inner {
+        background-color: #39AF78;
+        border-color: #39AF78;
+      }
+      &:hover {
+        & .el-checkbox-button__inner {
+          color: white;
+        }
+      }
+    }
+    &:focus, &.is-focus  {
+      & .el-checkbox-button__inner {
+        border-color: #dcdfe6;
+      }
+    }
+    &:hover {
+      & .el-checkbox-button__inner {
+        color: #39AF78;
+        border-color: #39AF78;
+      }
+    }
+  }
+  /deep/ .el-button {
+    margin: 0 auto;
+    display: block;
+  }
 }
 .photos {
   width: 100%;

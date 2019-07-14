@@ -7,7 +7,7 @@
       <el-aside width="200px">
         <SideMenu/>
       </el-aside>
-      <el-main class="carNew">
+      <el-main>
         <el-form :label-position="labelPosition" label-width="100px" :rules="rules" :model="carForm" ref="carForm">
           <Header title="Basic"/>
           <hr class="hr-30">
@@ -99,15 +99,16 @@
           <el-checkbox
             :indeterminate="EquipmentIsIndeterminate"
             v-model="EquipmentCheckAll"
-            @change="EquipmentAllChange"
+            @change="EquipmentAllChange"  
           >內外裝配備</el-checkbox>
           <div style="margin: 15px 0;"></div>
-          <el-checkbox-group v-model="EquipmentCheckedOption" @change="CheckedEquipmentChange">
+          <el-checkbox-group v-model="EquipmentCheckedOption" @change="CheckedEquipmentChange" class="Equipment">
             <el-checkbox-button
               v-for="option in EquipmentOptions"
               :label="option"
               :key="option.value"
               :value="option.value"
+              :checked="(option.value & carForm.equipment) != 0"
             >{{option.label}}</el-checkbox-button>
           </el-checkbox-group>
           <hr class="hr-30">
@@ -117,12 +118,13 @@
             @change="SafetyAllChange"
           >安全配備</el-checkbox>
           <div style="margin: 15px 0;"></div>
-          <el-checkbox-group v-model="SafetyCheckedOption" @change="CheckedSafetyChange">
+          <el-checkbox-group v-model="SafetyCheckedOption" @change="CheckedSafetyChange" class="Safety">
             <el-checkbox-button
               v-for="option in SafetyOptions"
               :label="option"
               :key="option.value"
               :value="option.value"
+              :checked="(option.value & carForm.safety) != 0"
             >{{option.label}}</el-checkbox-button>
           </el-checkbox-group>
           <hr class="hr-30">
@@ -219,6 +221,7 @@ export default {
     }
   },
   async created () {
+    const Vue = this;
     let Result;
 
     Result = await this.$axios.get('/api/specification');
@@ -281,8 +284,21 @@ export default {
       Category.SeriesID = category.seriesID;
       this.CategoryOptions.push(Category);
     })
+    
+    // 預先勾選
+    this.EquipmentOptionsMax = this.EquipmentOptions.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.value;
+    }, 0);
+    this.SafetyOptionsMax = this.SafetyOptions.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.value;
+    }, 0);
 
-    const Vue = this;
+    this.EquipmentCheckAll = this.carForm.equipment == this.EquipmentOptionsMax;
+    this.EquipmentIsIndeterminate = this.carForm.equipment > 0 && this.carForm.equipment < this.EquipmentOptionsMax;
+    this.SafetyCheckAll = this.carForm.safety == this.SafetyOptionsMax;
+    this.SafetyIsIndeterminate = this.carForm.safety > 0 && this.carForm.safety < this.SafetyOptionsMax;
+
+    // 預先選擇
     this.FilteredSeriesOptions = _.filter(this.SeriesOptions, function(series) {
       return series.BrandID == Vue.carForm.brand;
     })
@@ -328,10 +344,12 @@ export default {
       EquipmentCheckAll: false,
       EquipmentCheckedOption: [],
       EquipmentIsIndeterminate: false,
+      EquipmentOptionsMax: 0,
       SafetyOptions: [],
       SafetyCheckAll: false,
       SafetyCheckedOption: [],
       SafetyIsIndeterminate: false,
+      SafetyOptionsMax: 0,
       CityOptions: [],
       AreaOptions: [],
       FilteredAreaOptions: [],
@@ -423,7 +441,7 @@ export default {
         console.log(JSON.stringify(newVal));
       },
       deep: true,
-      immediate: true,
+      // immediate: true,
     },
     'carForm.brand': function(newValue, oldValue) {
       this.FilteredSeriesOptions = _.filter(this.SeriesOptions, function(series) {
@@ -616,9 +634,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-button {
-  margin: 0 auto;
-  display: block;
+.el-main {
+    /deep/ .el-checkbox-button {
+    width: 20%;
+    padding: 5px;
+    /deep/ & span {
+      width: 100% !important;
+    }
+    /deep/ &:first-child, &:last-child {
+      & .el-checkbox-button__inner {
+        border-radius: 5px;
+      }
+    }
+    /deep/ & .el-checkbox-button__inner {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px #dcdfe6 solid;
+    }
+    /deep/ &.is-checked {
+      & .el-checkbox-button__inner {
+        background-color: #39AF78;
+        border-color: #39AF78;
+      }
+      &:hover {
+        & .el-checkbox-button__inner {
+          color: white;
+        }
+      }
+    }
+    &:focus, &.is-focus  {
+      & .el-checkbox-button__inner {
+        border-color: #dcdfe6;
+      }
+    }
+    &:hover {
+      & .el-checkbox-button__inner {
+        color: #39AF78;
+        border-color: #39AF78;
+      }
+    }
+  }
+  /deep/ .el-button {
+    margin: 0 auto;
+    display: block;
+  }
 }
 .photos {
   width: 100%;
