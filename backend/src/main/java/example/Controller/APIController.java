@@ -71,9 +71,9 @@ public class APIController {
         return commonService.getSpecification();
     }
 
-    @GetMapping("/api/cars/{id}")
-    public Result getCar(@PathVariable int id) {
-        return carService.getCarByID(id);
+    @GetMapping("/api/cars/{ID}")
+    public Result getCar(@PathVariable("ID") int ID) {
+        return carService.getCarByID(ID);
     }
 
     // Private
@@ -88,29 +88,24 @@ public class APIController {
         return carService.create(ID, car);
     }
 
-    @GetMapping("/cars/{id}")
-    public Result getCarByID(@PathVariable int id) {
-        return carService.getCarByID(id);
+    @GetMapping("/cars/{ID}")
+    public Result getCarByID(@PathVariable("ID") int ID) {
+        return carService.getCarByID(ID);
     }
 
-    @PutMapping("/cars/{id}")
-    public Result editCarByID(@PathVariable int id, @RequestBody Car car) {
-        return carService.editCarByID(id, car);
+    @PutMapping("/cars/{ID}")
+    public Result editCarByID(@PathVariable("ID") int ID, @RequestBody Car car) {
+        return carService.editCarByID(ID, car);
     }
 
-    @GetMapping("/cars/add/{id}")
-    public Result addCar(@PathVariable int id) {
-        return carService.addCar(id);
+    @PostMapping("/cars/{ID}")
+    public Result updateStatusByID(@PathVariable("ID") int ID, @RequestParam("Status") int status) {
+        return carService.updateStatusByID(ID, status);
     }
 
-    @GetMapping("/cars/remove/{id}")
-    public Result removeCar(@PathVariable int id) {
-        return carService.removeCar(id);
-    }
-
-    @DeleteMapping("/cars/delete/{id}")
-    public Result deleteCar(@PathVariable int id) {
-        return carService.deleteCar(id);
+    @DeleteMapping("/cars/{ID}")
+    public Result deleteCarByID(@PathVariable("ID") int ID) {
+        return carService.deleteCaByID(ID);
     }
 
     @GetMapping("/users")
@@ -118,19 +113,19 @@ public class APIController {
         return userService.getUsers();
     }
 
-    @GetMapping("/users/{id}")
-    public Result getUserByID(@PathVariable("id") int id) {
-        return userService.getUserByID(id);
+    @GetMapping("/users/{ID}")
+    public Result getUserByID(@PathVariable("ID") int ID) {
+        return userService.getUserByID(ID);
     }
 
     @PutMapping("/users/edit/{id}")
-    public Result editUserByID(@PathVariable("id") int id, @RequestBody MemberEdit memberEdit) {
-        return userService.editUserByID(id, memberEdit);
+    public Result editUserByID(@PathVariable("ID") int ID, @RequestBody MemberEdit memberEdit) {
+        return userService.editUserByID(ID, memberEdit);
     }
 
-    @PutMapping("/users/upgrade/{id}")
-    public Result upgradeUserByID(@PathVariable("id") int id, @RequestBody MemberUpgrade memberUpgrade) {
-        return userService.upgradeUserByID(id, memberUpgrade);
+    @PutMapping("/users/upgrade/{ID}")
+    public Result upgradeUserByID(@PathVariable("ID") int ID, @RequestBody MemberUpgrade memberUpgrade) {
+        return userService.upgradeUserByID(ID, memberUpgrade);
     }
 
     @GetMapping("/users/favorite/{id}")

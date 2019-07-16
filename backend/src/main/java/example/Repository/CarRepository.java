@@ -2,6 +2,7 @@ package example.Repository;
 
 import example.Config.SpringJdbcConfig;
 import example.Request.Car;
+import example.Response.Cars;
 import example.Response.File;
 import example.Response.Result;
 import org.json.simple.JSONObject;
@@ -14,8 +15,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class CarRepository {
@@ -91,7 +91,7 @@ public class CarRepository {
             JSONObject obj = new JSONObject();
             obj.put("car", car);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Fetched Successfully");
             result.setReturnData(obj);
             return result;
         } catch (DataAccessException e) {
@@ -146,12 +146,12 @@ public class CarRepository {
                     "ON Car.category = Category.id\n" +
                     "WHERE Car.id = :CarID";
             example.Response.Car car = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(example.Response.Car.class));
-            ArrayList<File> photos = (ArrayList<File>)fileRepository.getPhotos(CarID).getReturnData().get("photos");
+            List<File> photos = (List<File>)fileRepository.getPhotos(CarID).getReturnData().get("photos");
             car.setPhotos(photos);
             JSONObject obj = new JSONObject();
             obj.put("car", car);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Fetched Successfully");
             result.setReturnData(obj);
             return result;
         } catch (DataAccessException e) {
@@ -205,7 +205,25 @@ public class CarRepository {
             namedParameterJdbcTemplate.update(query, parameters);
             fileRepository.updatePhotos(CarID, car.getPhotos());
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Updated Successfully");
+            return result;
+        } catch (DataAccessException e) {
+            result.setReturnCode(999);
+            result.setReturnMessage(e.toString());
+            return result;
+        }
+    }
+
+    public Result deleteCarByID(int CarID) {
+        Result result = new Result();
+        try {
+            SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("CarID", CarID);
+
+            String query = "DELETE FROM car WHERE id =:CarID;";
+            namedParameterJdbcTemplate.update(query, parameters);
+            result.setReturnCode(0);
+            result.setReturnMessage("Deleted Successfully");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
@@ -226,43 +244,29 @@ public class CarRepository {
             */
             SqlParameterSource parameters = new MapSqlParameterSource("OwnerID", OwnerID);
             String query =
-                    "SELECT \n" +
-                            "Car.id AS CarID,\n" +
-                            "Car.owner AS OwnerID,\n" +
-                            "Brand.name AS BrandName,\n" +
-                            "Series.name AS SeriesName,\n" +
-                            "Category.name AS CategoryName,\n" +
-                            "Car.year AS Year,\n" +
-                            "Car.month AS Month,\n" +
-                            "Car.transmission AS Transmission,\n" +
-                            "Car.gearType AS GearType,\n" +
-                            "Car.gasType AS GasTyp,\n" +
-                            "Car.engineDisplacement AS EngineDisplacement,\n" +
-                            "Car.passenger AS Passenger,\n" +
-                            "Car.color AS Color,\n" +
-                            "Car.mileage AS Mileage,\n" +
-                            "Car.price AS Price,\n" +
-                            "Car.equipment AS Equipment,\n" +
-                            "Car.safety AS Safety,\n" +
-                            "Car.name AS Name,\n" +
-                            "Car.phone AS Phone,\n" +
-                            "Car.city AS City,\n" +
-                            "Car.area AS Area,\n" +
-                            "Car.address AS Address\n" +
-                            "Car.modifyDate AS ModifyDate\n" +
-                            "FROM car AS Car\n" +
-                            "LEFT JOIN brand AS Brand\n" +
-                            "ON Car.brand = Brand.id\n" +
-                            "LEFT JOIN series AS Series\n" +
-                            "ON Car.series = Series.id\n" +
-                            "LEFT JOIN category AS Category\n" +
-                            "ON Car.category = Category.id\n" +
-                            "WHERE Car.owner = :OwnerID";
-            example.Response.Car car = namedParameterJdbcTemplate.queryForObject(query, parameters, BeanPropertyRowMapper.newInstance(example.Response.Car.class));
+                    "SELECT\n" +
+                    "Car.id AS CarID,\n" +
+                    "Brand.name AS BrandName,\n" +
+                    "Series.display_name AS SeriesName,\n" +
+                    "Category.display_name AS CategoryName,\n" +
+                    "Car.year AS Year,\n" +
+                    "Car.price AS Price,\n" +
+                    "Car.modifyDate AS ModifyDate,\n" +
+                    "Car.status AS Status,\n" +
+                    "(SELECT File.url FROM file AS File WHERE File.carid = Car.id LIMIT 1) AS Image\n" +
+                    "FROM car AS Car\n" +
+                    "LEFT JOIN brand AS Brand\n" +
+                    "ON Car.brand = Brand.id\n" +
+                    "LEFT JOIN series AS Series\n" +
+                    "ON Car.series = Series.id\n" +
+                    "LEFT JOIN category AS Category\n" +
+                    "ON Car.category = Category.id\n" +
+                    "WHERE Car.owner = :OwnerID;";
+            List<Cars> cars = namedParameterJdbcTemplate.query(query, parameters, BeanPropertyRowMapper.newInstance(Cars.class));
             JSONObject obj = new JSONObject();
-            obj.put("car", car);
+            obj.put("cars", cars);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Fetched Successfully");
             result.setReturnData(obj);
             return result;
         } catch (DataAccessException e) {
@@ -303,7 +307,7 @@ public class CarRepository {
             int CarID = create.executeAndReturnKey(parameters).intValue();
             fileRepository.create(CarID, car.getPhotos());
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Created Successfully");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
@@ -312,52 +316,17 @@ public class CarRepository {
         }
     }
 
-    public Result addCar(int id) {
+    public Result updateStatusByID(int CarID, int Status) {
         Result result = new Result();
         try {
             SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("id", id);
+                    .addValue("CarID", CarID)
+                    .addValue("Status", Status);
 
-            String query = "UPDATE car SET status = 1 WHERE id = :id;";
+            String query = "UPDATE car SET status = :Status WHERE id = :CarID;";
             namedParameterJdbcTemplate.update(query, parameters);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
-            return result;
-        } catch (DataAccessException e) {
-            result.setReturnCode(999);
-            result.setReturnMessage(e.toString());
-            return result;
-        }
-    }
-
-    public Result removeCar(int id) {
-        Result result = new Result();
-        try {
-            SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("id", id);
-
-            String query = "UPDATE car SET status = -1 WHERE id = :id;";
-            namedParameterJdbcTemplate.update(query, parameters);
-            result.setReturnCode(0);
-            result.setReturnMessage("OK");
-            return result;
-        } catch (DataAccessException e) {
-            result.setReturnCode(999);
-            result.setReturnMessage(e.toString());
-            return result;
-        }
-    }
-
-    public Result deleteCar(int id) {
-        Result result = new Result();
-        try {
-            SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("id", id);
-
-            String query = "UPDATE car SET status = 0 WHERE id = :id;";
-            namedParameterJdbcTemplate.update(query, parameters);
-            result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Updated Successfully");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);

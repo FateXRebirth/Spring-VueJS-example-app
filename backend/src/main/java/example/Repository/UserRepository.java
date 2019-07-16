@@ -30,7 +30,7 @@ public class UserRepository {
             JSONObject obj = new JSONObject();
             obj.put("user", users);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Fetched Successfully");
             result.setReturnData(obj);
         } catch (DataAccessException e) {
             result.setReturnCode(999);
@@ -48,7 +48,7 @@ public class UserRepository {
             JSONObject obj = new JSONObject();
             obj.put("user", user);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Fetched Successfully");
             result.setReturnData(obj);
             return result;
         } catch (DataAccessException e) {
@@ -72,7 +72,7 @@ public class UserRepository {
             String query = "UPDATE user SET account = :account, password = :password, name = :name, phone = :phone, address = :address WHERE id = :id;";
             namedParameterJdbcTemplate.update(query, parameters);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Updated Successfully");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);
@@ -94,7 +94,7 @@ public class UserRepository {
             String query = "UPDATE user SET type = :type, name = :name, phone = :phone, address = :address WHERE id = :id;";
             namedParameterJdbcTemplate.update(query, parameters);
             result.setReturnCode(0);
-            result.setReturnMessage("OK");
+            result.setReturnMessage("Updated Successfully");
             return result;
         } catch (DataAccessException e) {
             result.setReturnCode(999);

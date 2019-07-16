@@ -26,18 +26,6 @@ public class CarService {
 
     public Result getCategories() { return categoryRepository.getCategories(); }
 
-    public Result addCar(int id) {
-        return carRepository.addCar(id);
-    }
-
-    public Result removeCar(int id) {
-        return carRepository.removeCar(id);
-    }
-
-    public Result deleteCar(int id) {
-        return carRepository.deleteCar(id);
-    }
-
     public Result create(int id, Car car) {
         return carRepository.create(id, car);
     }
@@ -49,5 +37,9 @@ public class CarService {
     public Result editCarByID(int id, Car car) {
         return carRepository.editCarByID(id, car);
     }
+
+    public Result deleteCaByID(int id) { return carRepository.deleteCarByID(id); }
+
+    public Result updateStatusByID(int id, int status) { return  carRepository.updateStatusByID(id, status); }
 
 }

@@ -3,43 +3,21 @@ package example.Response;
 public class Cars {
 
     private Integer CarID;
-    private Integer BrandID;
-    private Integer SeriesID;
-    private Integer CategoryID;
     private String BrandName;
     private String SeriesName;
     private String CategoryName;
+    private Integer Year;
+    private Integer Price;
+    private String ModifyDate;
+    private Integer Status;
+    private String Image;
 
     public Integer getCarID() {
         return CarID;
     }
 
     public void setCarID(Integer carID) {
-        this.CarID = carID;
-    }
-
-    public Integer getBrandID() {
-        return BrandID;
-    }
-
-    public void setBrandID(Integer brandID) {
-        BrandID = brandID;
-    }
-
-    public Integer getSeriesID() {
-        return SeriesID;
-    }
-
-    public void setSeriesID(Integer seriesID) {
-        SeriesID = seriesID;
-    }
-
-    public Integer getCategoryID() {
-        return CategoryID;
-    }
-
-    public void setCategoryID(Integer categoryID) {
-        CategoryID = categoryID;
+        CarID = carID;
     }
 
     public String getBrandName() {
@@ -66,15 +44,46 @@ public class Cars {
         CategoryName = categoryName;
     }
 
-    public Cars() {}
+    public Integer getYear() {
+        return Year;
+    }
 
-    public Cars(Integer CarID, Integer brandID, Integer seriesID, Integer categoryID, String brandName, String seriesName, String categoryName) {
-        this.CarID = CarID;
-        BrandID = brandID;
-        SeriesID = seriesID;
-        CategoryID = categoryID;
-        BrandName = brandName;
-        SeriesName = seriesName;
-        CategoryName = categoryName;
+    public void setYear(Integer year) {
+        Year = year;
+    }
+
+    public Integer getPrice() {
+        return Price;
+    }
+
+    public void setPrice(Integer price) {
+        Price = price;
+    }
+
+    public String getModifyDate() {
+        return ModifyDate;
+    }
+
+    public void setModifyDate(String modifyDate) {
+        ModifyDate = modifyDate;
+    }
+
+    public Integer getStatus() {
+        return Status;
+    }
+
+    public void setStatus(Integer status) {
+        Status = status;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
+
+    public Cars() {
     }
 }

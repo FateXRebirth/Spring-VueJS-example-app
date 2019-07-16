@@ -1,8 +1,7 @@
 package example.Request;
 
 import org.json.simple.JSONObject;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Car {
 
@@ -27,7 +26,7 @@ public class Car {
     private Integer area;
     private String address;
     private String modifyDate;
-    private ArrayList<JSONObject> photos;
+    private List<JSONObject> photos;
 
     public Integer getBrand() {
         return brand;
@@ -198,11 +197,11 @@ public class Car {
         this.modifyDate = modifyDate;
     }
 
-    public ArrayList<JSONObject> getPhotos() {
+    public List<JSONObject> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(ArrayList<JSONObject> photos) {
+    public void setPhotos(List<JSONObject> photos) {
         this.photos = photos;
     }
 

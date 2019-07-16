@@ -22,7 +22,7 @@ public class FileRepository {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
-    public Result create(int CarID, ArrayList<JSONObject> photos) {
+    public Result create(int CarID, List<JSONObject> photos) {
         Result result = new Result();
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("file").usingGeneratedKeyColumns("id");
@@ -63,7 +63,7 @@ public class FileRepository {
         }
     }
 
-    public Result updatePhotos(int CarID, ArrayList<JSONObject> photos) {
+    public Result updatePhotos(int CarID, List<JSONObject> photos) {
         Result result = new Result();
         try {
             SqlParameterSource parameter = new MapSqlParameterSource()

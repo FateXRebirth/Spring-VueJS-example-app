@@ -1,6 +1,6 @@
 package example.Response;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Car {
 
@@ -27,7 +27,7 @@ public class Car {
     private Integer Area;
     private String Address;
     private String ModifyDate;
-    private ArrayList<File> photos;
+    private List<File> photos;
 
     public Integer getCarID() {
         return CarID;
@@ -213,11 +213,11 @@ public class Car {
         ModifyDate = modifyDate;
     }
 
-    public ArrayList<File> getPhotos() {
+    public List<File> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(ArrayList<File> photos) {
+    public void setPhotos(List<File> photos) {
         this.photos = photos;
     }
 
