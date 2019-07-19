@@ -6,10 +6,10 @@
     <el-container>
       <el-aside width="600px">
         <hr class="hr-20">
-        <Carousel :images="Images" width="600"/>
+        <Carousel :images="Car.photos" width="600"/>
       </el-aside>
       <el-main class="spec">
-        <h1 class="title">Volkswagen Golf 1.6 2012</h1>
+        <h1 class="title">{{ Car.brandName + ' ' + Car.seriesName + ' ' + Car.categoryName + ' ' + Car.year }}</h1>
         <hr class="hr-20">
         <div class="tag">
           <el-tag>售後保固</el-tag>
@@ -28,15 +28,15 @@
           配合銀行低頭款低利率低月付 讓你輕鬆買車
           此車已通過第三方公正單位YES認證 讓你不懂中古車也能買好車
         </p>
-        <h3 class="price"><strong>49.8 </strong> 萬</h3>
+        <h3 class="price"><strong> {{ Car.price }} </strong> 萬</h3>
         <hr class="hr-10">
         <div class="contact">
-          <span class="name"><i class="el-icon-info"></i> 姓名：<strong>宋亮修</strong></span>
-          <span class="phone"><i class="el-icon-phone"></i> 電話：<strong>0929617710</strong></span>
+          <span class="name"><i class="el-icon-info"></i> 姓名：<strong> {{ Car.name }} </strong></span>
+          <span class="phone"><i class="el-icon-phone"></i> 電話：<strong> {{ Car.phone }} </strong></span>
           <span class="line"><i class="el-icon-mobile-phone"></i> Line：<strong>Abc123</strong></span>
-          <span class="address"><i class="el-icon-location"></i> 地址：<strong>賞車地址：高雄市左營區曾子路467-1號</strong></span>
+          <span class="address"><i class="el-icon-location"></i> 地址：<strong> {{ Car.city + Car.area + Car.address }} </strong></span>
+          <hr class="hr-10">
           <span class="call"><i class="el-icon-phone-outline"></i> 立即聯絡 </span>
-          <span class="warning">註:撥打此電話所產生之費用將依據您電信公司的網外費率計費。</span>
         </div>        
       </el-main>
     </el-container>
@@ -45,42 +45,25 @@
     <section class="info">
       <h6>基本資訊</h6>
       <div class="info-block">
-        <span>出廠年份<strong>2012年09月</strong></span>
-        <span>里程數<strong>58,405公里</strong></span>
-        <span>車輛所在地<strong>高雄市</strong></span>
-        <span>排氣量<strong>1.6L</strong></span>
-        <span>變速系統<strong>自手排</strong></span>
-        <span>傳動系統<strong>前輪驅動</strong></span>
-        <span>外觀顏色<strong>銀色</strong></span>
-        <span>燃料<strong>柴油</strong></span>
-        <span>乘坐人數<strong>5人</strong></span>
+        <span>出廠年份<strong>{{ Car.year + '年' + Car.month + '月'}} </strong></span>
+        <span>里程數<strong>{{ Car.mileage }} 公里</strong></span>
+        <span>車輛所在地<strong>{{ Car.city }}</strong></span>
+        <span>排氣量<strong>{{ Car.engineDisplacement }}</strong></span>
+        <span>變速系統<strong>{{ Car.gearType }}</strong></span>
+        <span>傳動系統<strong>{{ Car.transmission }}</strong></span>
+        <span>外觀顏色<strong>{{ Car.color }}</strong></span>
+        <span>燃料<strong>{{ Car.gasType }}</strong></span>
+        <span>乘坐人數<strong>{{ Car.passenger }}</strong></span>
         <hr class="clear-fix">
       </div>
       <h6>內外裝配備</h6>
       <div class="info-block">
-        <span><i class="el-icon-circle-check"></i>天窗</span>
-        <span><i class="el-icon-circle-check"></i>電動側滑門</span>
-        <span><i class="el-icon-circle-check"></i>HID</span>
-        <span><i class="el-icon-circle-check"></i>皮椅</span>
-        <span><i class="el-icon-circle-check"></i>電動座椅</span>
-        <span><i class="el-icon-circle-check"></i>免鑰匙啓閉系統</span>
-        <span><i class="el-icon-circle-check"></i>影音系統</span>
-        <span><i class="el-icon-circle-check"></i>恆溫空調</span>
-        <span><i class="el-icon-circle-check"></i>衛星導航</span>
-        <span><i class="el-icon-circle-check"></i>方向盤控制鈕</span>
+        <span v-for="option in EquipmentOptions" :key="option.value" :class="{ 'active': (option.value & Car.equipment) != 0 }"><i :class="[  (option.value & Car.equipment) != 0 ? 'el-icon-circle-check' : 'el-icon-circle-check-outline' ]"></i> {{ option.label }}</span>
         <hr class="clear-fix">
       </div>
       <h6>安全配備</h6>
       <div class="info-block">
-        <span><i class="el-icon-circle-check-outline"></i>日行燈</span>
-        <span><i class="el-icon-circle-check-outline"></i>ABS</span>
-        <span><i class="el-icon-circle-check-outline"></i>安全氣囊</span>
-        <span><i class="el-icon-circle-check-outline"></i>巡跡防滑系統</span>
-        <span><i class="el-icon-circle-check-outline"></i>胎壓偵測</span>
-        <span><i class="el-icon-circle-check-outline"></i>倒車影像</span>
-        <span><i class="el-icon-circle-check-outline"></i>定速</span>
-        <span><i class="el-icon-circle-check-outline"></i>車側盲點偵測系統</span>
-        <span class="active"><i class="el-icon-circle-check-outline"></i>車道偏移系統</span>
+        <span v-for="option in SafetyOptions" :key="option.value" :class="{ 'active': (option.value & Car.safety) != 0 }"><i :class="[  (option.value & Car.safety) != 0 ? 'el-icon-circle-check' : 'el-icon-circle-check-outline' ]"></i> {{ option.label }}</span>
         <hr class="clear-fix">
       </div>
     </section>
@@ -99,14 +82,61 @@ export default {
     Carousel,
     Header
   },
+  async asyncData({ app, store, route }) {
+    const User = store.getters.getAuthenticatedUser;
+    let Result;
+    let Car = {};
+    let EquipmentOptions = [];
+    let SafetyOptions = [];
+
+    Result = await app.$axios({
+      method: 'get',
+      url: '/api/cars/' + route.params.id,
+      headers: {
+        'User': User.Username,
+        'ID': User.ID,
+        'Authorization': User.Token
+      },
+    })
+    if(Result.data.returnCode == 0) {
+      Car = Result.data.returnData.car;
+    } else {
+        throw new Error(Result.data.returnMessage)
+    }
+
+    Result = await app.$axios.get('/api/specification');
+    Result.data.returnData.specification.map( spec => {
+      if(spec.category == "Equipment") {
+        EquipmentOptions.push(spec);
+      } else if(spec.category == "Safety") {
+        SafetyOptions.push(spec);
+      } 
+    })
+
+    return {
+      Car: Car,
+      EquipmentOptions: EquipmentOptions,
+      SafetyOptions: SafetyOptions
+    }
+
+  },
+  computed: {
+    classList: function(a) {
+      console.log(a)
+      return {
+        'el-icon-circle-check': this.type == "left",
+        'el-icon-circle-check-outline': this.type == "right"
+      }
+    },
+    Img: function() {
+      return require('~/static/images/banner/banner' + this.img + '.jpeg');
+    }
+  },
   data() {
     return {
-      Images: [
-        "/images/sample/car-sample1.jpg",
-        "/images/sample/car-sample2.jpg",
-        "/images/sample/car-sample3.jpg",
-        "/images/sample/car-sample4.jpg"
-      ],
+      Car: {},
+      EquipmentOptions: [],
+      SafetyOptions: []
     }
   }
 }
@@ -175,11 +205,14 @@ export default {
   }
   & .info-block {
     width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
     & span {
       display: block;
       padding: 10px;
       margin: 10px;
-      float: left;
       height: 40px;
       width: 18%;
       color: #999999;

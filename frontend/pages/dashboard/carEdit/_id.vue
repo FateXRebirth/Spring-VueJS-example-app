@@ -174,7 +174,7 @@
           </el-form-item>
         </el-form>
         <hr class="hr-50">
-        <el-button type="primary" icon="el-icon-edit-outline" @click="submitForm('carForm')">Create</el-button>
+        <el-button type="primary" icon="el-icon-edit-outline" @click="submitForm('carForm')">Modify</el-button>
       </el-main>
     </el-container>
   </section>

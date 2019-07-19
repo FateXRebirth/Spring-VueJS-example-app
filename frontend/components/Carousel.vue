@@ -1,8 +1,9 @@
 <template>
   <div class="block">
     <el-carousel height="360px" :style="{ height: height + 'px'}">
-      <el-carousel-item v-for="image in images" :key="image">
-        <img :src="image" :style="{ width: width + 'px'}">
+      <el-carousel-item v-for="image in images" :key="image.name">
+        <!-- <img :src="image.url" :style="{ width: width == undefined ? '100%' : width + 'px'}"> -->
+        <div class="Image" :style="{ 'background-image': 'url(' + image.url + ')' }"></div>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -24,7 +25,13 @@ export default {
     height: auto;
   }
 }
-
+.Image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
@@ -32,7 +39,6 @@ export default {
   line-height: 150px;
   margin: 0;
 }
-
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
 }
