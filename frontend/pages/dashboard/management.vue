@@ -91,24 +91,7 @@ export default {
   },
   data() {
     return {
-      Cars: [],
-      tableData: [{
-        CarID: 1,
-        Status: 1,
-        ModifyDate: "10/10",
-        Img: "https://www.google.com.tw/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-        Name: "AUDI A4 Avant 1.8 TFSI (2012)",
-        Price: 99,
-        View: 32
-      }, {
-        CarID: 2,
-        Status: 0,
-        ModifyDate: "10/10",
-        Img: "https://www.google.com.tw/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-        Name: "BMW 2 SERIES GRAND TOURER 218i (2016)",
-        Price: 200,
-        View: 99
-      }]
+      Cars: []
     }
   },
   methods: {

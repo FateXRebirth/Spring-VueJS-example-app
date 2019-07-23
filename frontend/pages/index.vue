@@ -21,8 +21,8 @@
       <Header title="最新網路好店中古車" subTitle="看更多網路好店中古車" url="" />
       <hr class="hr-30">
       <el-row :gutter="10">
-        <el-col :span="8" v-for="car in Cars" :key="car.cover">
-          <Car :img="car.cover"/>
+        <el-col :span="8" v-for="car in Cars" :key="car.carID">
+          <Car :Car="car" />
         </el-col>
       </el-row>
     </section>
@@ -33,8 +33,8 @@
       <Header title="最新平行輸入中古車" subTitle="看更多平行輸入中古車" url="" />
       <hr class="hr-30">
       <el-row :gutter="10">
-        <el-col :span="8" v-for="car in Cars" :key="car.cover">
-          <Car :img="car.cover"/>
+        <el-col :span="8" v-for="car in Cars" :key="car.carID">
+          <Car :Car="car" />
         </el-col>
       </el-row>
     </section>
@@ -57,63 +57,43 @@ export default {
     Car,
     Header
   },
-  mounted(redirect) {
-    setTimeout(function() {
-      // window.location.href = 'dashboard';
-    }, 3000)
+  async asyncData({ app, store, route }) {
+    let Result;
+    Result = await app.$axios.get('/api/cars');
+    if(Result.data.returnCode == 0) {
+      return {
+        Cars: Result.data.returnData.cars
+      }
+    } else {
+        throw new Error(Result.data.returnMessage);
+    }
   },
   data() {
     return {
+      Cars: [],
       Images: [
-        "/images/kv/kv1.jpeg",
-        "/images/kv/kv2.jpeg",
-        "/images/kv/kv3.jpeg",
-        "/images/kv/kv4.jpeg"
+        {
+          name: "kv1.jpeg",
+          url: "/images/kv/kv1.jpeg",
+        },
+        {
+          name: "kv2.jpeg",
+          url: "/images/kv/kv2.jpeg",
+        },
+        {
+          name: "kv3.jpeg",
+          url: "/images/kv/kv3.jpeg",
+        },
+        {
+          name: "kv4.jpeg",
+          url: "/images/kv/kv4.jpeg",
+        },
       ],
-      Cars: [
-        {
-          cover: 'images/sample/car-sample1.jpg'
-        },
-        {
-          cover: 'images/sample/car-sample2.jpg'
-        },
-        {
-          cover: 'images/sample/car-sample3.jpg'
-        }
-      ]
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-// .container
-// {
-//   min-height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   text-align: center;
-// }
-// .title
-// {
-//   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-//   display: block;
-//   font-weight: 300;
-//   font-size: 100px;
-//   color: #35495e;
-//   letter-spacing: 1px;
-// }
-// .subtitle
-// {
-//   font-weight: 300;
-//   font-size: 42px;
-//   color: #526488;
-//   word-spacing: 5px;
-//   padding-bottom: 15px;
-// }
-// .links
-// {
-//   padding-top: 15px;
-// }
+
 </style>

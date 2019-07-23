@@ -33,6 +33,7 @@ export default {
       url: '/users/' + User.ID,
       headers: {
         'User': User.Username,
+        'ID': User.ID,
         'Authorization': User.Token
       },
     })

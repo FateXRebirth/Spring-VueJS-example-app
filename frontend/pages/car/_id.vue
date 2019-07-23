@@ -92,11 +92,6 @@ export default {
     Result = await app.$axios({
       method: 'get',
       url: '/api/cars/' + route.params.id,
-      headers: {
-        'User': User.Username,
-        'ID': User.ID,
-        'Authorization': User.Token
-      },
     })
     if(Result.data.returnCode == 0) {
       Car = Result.data.returnData.car;

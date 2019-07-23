@@ -1,57 +1,46 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }">
-    <img :src="img" class="image">
-    <div style="padding: 14px;">
-      <span>Yummy hamburger</span>
-      <div class="bottom clearfix">
-        <time class="time">{{ currentDate }}</time>
-        <el-button type="text" class="button">Operating button</el-button>
-      </div>
-    </div>
-  </el-card>
+  <a :href=" 'car/' + Car.carID" style="text-decoration: none">
+    <el-card shadow="hover" class="Car">
+      <img :src="Car.image" class="Image">
+      <hr class="hr-20">
+      <p class="Name">{{ Car.brandName + ' ' + Car.seriesName + ' ' + Car.categoryName + ' ( ' + Car.year + ' ) ' }}</p>
+      <hr class="hr-10">
+      <p class="Detail">{{ Car.year + '年 | ' + Car.mileage + '公里 | ' + Car.city }}</p>
+      <hr class="hr-20">
+      <span class="Price">{{ Car.price }}萬</span>
+    </el-card>
+  </a>
 </template>
 
 <script>
 export default {
-  props: {
-    img: String
-  },
-  data() {
-    return {
-      currentDate: new Date()
-    };
-  }
+  props: ['Car'],
 }
 </script>
 
 <style lang="scss" scoped>
-.time {
-  font-size: 13px;
-  color: #999;
-}
+.Car {
+  position: relative;
+  .Image {
+    max-width: 100%;
+    display: block;
+  }
+  .Name {
 
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
-}
-
-.image {
-  width: 100%;
-  display: block;
-}
-
-.clearfix:before,
-.clearfix:after {
-    display: table;
-    content: "";
-}
-
-.clearfix:after {
-    clear: both
+  }
+  .Detail {
+    color: #999999;
+    font-size: 13px;
+  }
+  .Price {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    color: red;
+    font-size: 20px;
+    font-weight: 500;
+  }
 }
 </style>

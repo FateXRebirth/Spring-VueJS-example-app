@@ -396,11 +396,14 @@ export default {
         return series.BrandID == newValue;
       })
       this.FilteredCategoryOptions = [];
+      this.carForm.series = "";
+      this.carForm.category = "";
     },
     'carForm.series': function(newValue, oldValue) {
       this.FilteredCategoryOptions = _.filter(this.CategoryOptions, function(category) {
         return category.SeriesID == newValue;
       })
+      this.carForm.category = "";
     },
     'carForm.city': function(newValue, oldValue) {
       this.FilteredAreaOptions = _.filter(this.AreaOptions, function(area) {
@@ -536,7 +539,7 @@ export default {
     },
     HandlePhotoUpload(e) {
       const Vue = this;
-      if(e.target.files.length > 5) {
+      if(e.target.files.length > 5 || e.target.files.length + Vue.carForm.photos.length > 5) {
         alert("上傳數量超過上限！");
         return;
       }
