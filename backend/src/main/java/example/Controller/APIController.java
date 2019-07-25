@@ -71,9 +71,14 @@ public class APIController {
         return commonService.getSpecification();
     }
 
+    @GetMapping("/api/cars")
+    public Result getCars() {
+        return carService.getCars();
+    }
+
     @GetMapping("/api/cars/{ID}")
-    public Result getCar(@PathVariable("ID") int ID) {
-        return carService.getCarByID(ID);
+    public Result getCarDetailByID(@PathVariable("ID") int ID) {
+        return carService.getCarDetailByID(ID);
     }
 
     // Private

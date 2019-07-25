@@ -26,6 +26,10 @@ public class CarService {
 
     public Result getCategories() { return categoryRepository.getCategories(); }
 
+    public Result getCars() { return  carRepository.getCars(); }
+
+    public Result getCarDetailByID(int id) { return carRepository.getCarDetailByID(id); }
+
     public Result create(int id, Car car) {
         return carRepository.create(id, car);
     }
