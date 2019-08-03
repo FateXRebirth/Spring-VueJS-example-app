@@ -10,10 +10,9 @@
       <el-main>   
         <Header title="Favorite" />
         <hr class="hr-30">
-        <el-row :gutter="10">
-          <el-col :span="8" v-for="car in Cars" :key="car.cover">
-            <Car :img="car.cover"/>
-            <hr class="hr-10">
+        <el-row :gutter="20">
+          <el-col :span="6" v-for="car in Cars" :key="car.CarID">
+            <Car :Car="car" />
           </el-col>
         </el-row>
       </el-main>
@@ -35,11 +34,11 @@ export default {
     Car
   },
   middleware: 'auth',
-  async asyncData({ app, store }) {
+  async asyncData({ app, store, route }) {
     const User = store.getters.getAuthenticatedUser;
     let Result = await app.$axios({
       method: 'get',
-      url: '/users/' + User.ID,
+      url: '/api/cars',
       headers: {
         'User': User.Username,
         'ID': User.ID,
@@ -48,17 +47,7 @@ export default {
     })
     if(Result.data.returnCode == 0) {
       return {
-        infoForm: {
-          account: Result.data.returnData.user.account,
-          email: Result.data.returnData.user.email,
-          passwordOld: Result.data.returnData.user.password,
-          password: Result.data.returnData.user.password,
-          confirmation: "",
-          type: Result.data.returnData.user.type,
-          name: User.Type != 0 ? Result.data.returnData.user.name : "",
-          phone: User.Type != 0 ? Result.data.returnData.user.phone : "",
-          address: User.Type != 0 ? Result.data.returnData.user.address : "",
-        },
+        Cars: Result.data.returnData.cars
       }
     } else {
         throw new Error(Result.data.returnMessage)
@@ -66,26 +55,7 @@ export default {
   },
   data() {
     return {
-      Cars: [
-        {
-          cover: '/images/sample/car-sample1.jpg'
-        },
-        {
-          cover: '/images/sample/car-sample2.jpg'
-        },
-        {
-          cover: '/images/sample/car-sample3.jpg'
-        },
-        {
-          cover: '/images/sample/car-sample1.jpg'
-        },
-        {
-          cover: '/images/sample/car-sample2.jpg'
-        },
-        {
-          cover: '/images/sample/car-sample3.jpg'
-        }
-      ]
+      Cars: [],
     }
   }
 }

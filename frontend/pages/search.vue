@@ -6,29 +6,124 @@
     <Header title="搜尋" />
     <hr class="hr-10">
     <div class="grid-container">
-      <template>
-        <div class="grid-item title">廠牌</div>
+
+      <div class="grid-item title">熱門</div>
+      <div class="grid-item option">
+        <button class="el-button is-round" :class="{ active: Condition.Brand == Brand.value }" @click="Condition.Brand = Brand.value;" v-for="Brand in HotBrandOptions" :key="Brand.value">{{ Brand.label }}</button>
+      </div>
+
+      <div class="grid-item title">廠牌</div>
+      <div class="grid-item option">
+        <button class="el-button is-round" :class="{ active: Condition.FirstWord == key }" @click="Condition.FirstWord = key;" v-for="(value, key) in OrderedBrandOptions" :key="key">{{ key }}</button>
+      </div>
+
+      <template v-if="Condition.FirstWord != ''">
+        <div class="grid-item title"></div>
         <div class="grid-item option">
-          <button @click="Condition.Brand = Brand.value"  v-for="Brand in BrandOptions" :key="Brand.value">{{ Brand.label }}</button>
-          <button @click="Condition.Brand = ''">不拘</button>
+          <button class="el-button is-round" :class="{ active: Condition.Brand == Brand.value }" @click="Condition.Brand = Brand.value;" v-for="Brand in FilteredBrandOptions" :key="Brand.value">{{ Brand.label }}</button>
         </div>
       </template>
 
       <template v-if="Condition.Brand != ''">
         <div class="grid-item title">車型</div>
         <div class="grid-item option">
-          <button @click="Condition.Series = Series.value"  v-for="Series in FilteredSeriesOptions" :key="Series.value">{{ Series.label }}</button>
-          <button @click="Condition.Series = ''">不拘</button>
+          <button class="el-button is-round" :class="{ active: Condition.Series == Series.value }" @click="Condition.Series = Series.value"  v-for="Series in FilteredSeriesOptions" :key="Series.value">{{ Series.label }}</button>
+          <button class="el-button is-round" :class="{ active: Condition.Series == '' }" @click="Condition.Series = ''">不拘</button>
         </div>
       </template>
 
       <template v-if="Condition.Series != ''">
         <div class="grid-item title">車款</div>
         <div class="grid-item option">
-          <button @click="Condition.Category = Category.value"  v-for="Category in FilteredCategoryOptions" :key="Category.value">{{ Category.label }}</button>
-          <button @click="Condition.Category = ''">不拘</button>
+          <button class="el-button is-round" :class="{ active: Condition.Category == Category.value }" @click="Condition.Category = Category.value"  v-for="Category in FilteredCategoryOptions" :key="Category.value">{{ Category.label }}</button>
+          <button class="el-button is-round" :class="{ active: Condition.Category == '' }" @click="Condition.Category = ''">不拘</button>
         </div>
       </template>
+
+      <div class="grid-item title">價格</div>
+      <div class="grid-item option">
+        <button class="el-button is-round" @click="Condition.Pirce = Price.minValue"  v-for="Price in PriceOptions" :key="Price.minValue">{{ Price.label }}</button>
+        <button class="el-button is-round" @click="Condition.Pirce = ''">不拘</button>
+      </div>
+
+      <div class="grid-item title">年份</div>
+      <div class="grid-item option">
+        <button class="el-button is-round" @click="Condition.Year = Year.minValue"  v-for="Year in YearOptions" :key="Year.minValue">{{ Year.label }}</button>
+        <button class="el-button is-round" @click="Condition.Year = ''">不拘</button>
+      </div>
+
+      <div class="grid-item title">里程數</div>
+      <div class="grid-item option">
+        <button class="el-button is-round" @click="Condition.Mileage = Mileage.minValue"  v-for="Mileage in MileageOptions" :key="Mileage.minValue">{{ Mileage.label }}</button>
+        <button class="el-button is-round" @click="Condition.Mileage = ''">不拘</button>
+      </div>
+
+      <div class="grid-item title">更多</div>
+      <div class="grid-item option">
+        <el-select v-model="Condition.City" placeholder="地區">
+          <el-option value="" label="不限"></el-option>
+          <el-option
+            v-for="city in CityOptions"
+            :key="city.value"
+            :label="city.label"
+            :value="city.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="Condition.Transmission" placeholder="傳動系統">
+          <el-option value="" label="不限"></el-option>
+          <el-option
+            v-for="transmission in TransmissionOptions"
+            :key="transmission.value"
+            :label="transmission.label"
+            :value="transmission.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="Condition.GearType" placeholder="變速系統">
+          <el-option value="" label="不限"></el-option>
+          <el-option
+            v-for="gearType in GearTypeOptions"
+            :key="gearType.value"
+            :label="gearType.label"
+            :value="gearType.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="Condition.GasType" placeholder="燃料">
+          <el-option value="" label="不限"></el-option>
+          <el-option
+            v-for="gasType in GasTypeOptions"
+            :key="gasType.value"
+            :label="gasType.label"
+            :value="gasType.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="Condition.EngineDisplacement" placeholder="排氣量">
+          <el-option value="" label="不限"></el-option>
+          <el-option
+            v-for="engineDisplacement in EngineDisplacementOptions"
+            :key="engineDisplacement.value"
+            :label="engineDisplacement.label"
+            :value="engineDisplacement.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="Condition.Passenger" placeholder="乘坐人數">
+          <el-option value="" label="不限"></el-option>
+          <el-option
+            v-for="passenger in PassengerOptions"
+            :key="passenger.value"
+            :label="passenger.label"
+            :value="passenger.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="Condition.Color" placeholder="顏色">
+          <el-option value="" label="不限"></el-option>
+          <el-option
+            v-for="color in ColorOptions"
+            :key="color.value"
+            :label="color.label"
+            :value="color.value">
+          </el-option>
+        </el-select>
+      </div>
 
     </div>
 
@@ -48,6 +143,8 @@ import Breadcrumb from '~/components/Breadcrumb.vue';
 import Header from '~/components/Header.vue';
 import Car from '~/components/Car.vue';
 
+import * as CONSTANTS from '~/static/constants';
+
 export default {
   components: {
     Breadcrumb,
@@ -63,11 +160,10 @@ export default {
   },
   async asyncData({ app, store, route }) {
     let Result;
-    let Cars = [], BrandOptions = [], SeriesOptions = [], CategoryOptions = [];
+    let BrandOptions = [], SeriesOptions = [], CategoryOptions = [];
 
     Result = await app.$axios.get('/api/cars');
-    console.log(Result)
-    Cars = Result.data.returnData.cars;
+    let Cars = Result.data.returnData.cars;
 
     Result = await app.$axios.get('/api/brand');
     Result.data.returnData.brand.map( brand => {
@@ -109,11 +205,7 @@ export default {
 
     Result = await this.$axios.get('/api/specification');
     Result.data.returnData.specification.map( spec => {
-      if(spec.category == "Year") {
-        this.YearOptions.push(spec);
-      } else if(spec.category == "Month") {
-        this.MonthOptions.push(spec);
-      } else if(spec.category == "Transmission") {
+      if(spec.category == "Transmission") {
         this.TransmissionOptions.push(spec);
       } else if(spec.category == "GearType") {
         this.GearTypeOptions.push(spec);
@@ -132,10 +224,13 @@ export default {
     Result.data.returnData.region.map( region => {
       if(region.country == 0) {
         this.CityOptions.push(region);
-      } else if(region.country != 0) {
-        this.AreaOptions.push(region);
       }
     })
+
+    this.PriceOptions = CONSTANTS.PriceRange;
+    this.YearOptions = CONSTANTS.YearRange;
+    this.MileageOptions = CONSTANTS.MileageRange;
+
   },
   watch: {
     'Condition': {
@@ -150,6 +245,24 @@ export default {
     }
   },
   computed: {
+    HotBrandOptions: function() {
+      return this.BrandOptions.filter(function(brand) {
+        return CONSTANTS.HOT_BRANDS.includes(brand.value);
+      })
+    },
+    OrderedBrandOptions: function() {
+      let firstWordObject = {};
+      this.BrandOptions.map(function(brand) {
+        if(!firstWordObject.hasOwnProperty(brand.label[0])) {
+          firstWordObject[brand.label[0]] = [];
+        }
+        firstWordObject[brand.label[0]].push(brand);
+      })
+      return firstWordObject;
+    },
+    FilteredBrandOptions: function() {
+      return this.OrderedBrandOptions[this.Condition.FirstWord];
+    },
     FilteredSeriesOptions: function() {
       const vm = this;
       return this.SeriesOptions.filter(function(series) {
@@ -179,24 +292,34 @@ export default {
     return {
       Cars: [],
       Condition: {
+        FirstWord: "",
         Brand: "",
         Series: "",
         Category: "",
+        Price: "",
+        Year: "",
+        Mileage: "",
+        City: "",
+        Transmission: "",
+        GearType: "",
+        GasType: "",
+        EngineDisplacement: "",
+        Passenger: "",
+        Color: ""
       },
       BrandOptions: [],
       SeriesOptions: [],
       CategoryOptions: [],
+      PriceOptions: [],
+      MileageOptions: [],
       YearOptions: [],
-      MonthOptions: [],
       TransmissionOptions: [],
       GearTypeOptions: [],
       GasTypeOptions: [],
       EngineDisplacementOptions: [],
       PassengerOptions: [],
       ColorOptions: [],
-      CityOptions: [],
-      AreaOptions: [],
-      FilteredAreaOptions: [],
+      CityOptions: []
     }
   },
 }
@@ -206,24 +329,38 @@ export default {
 .grid-container {
   grid-row-gap: 10px;
   display: grid;
-  grid-template-columns: 80px auto;
+  grid-template-columns: 60px auto;
   align-items: center;
   & .title {
     // display: flex;
     // align-items: center;
   }
   & .option {
-    & button {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #999999;
+    & .el-select {
+      width: 150px;
+      margin: 0px 5px;
+    }
+    & .el-button {
       padding: 5px 10px;
       margin: 0 5px;
       background-color: transparent;
       border-color: transparent;
       border-radius: 20px;
       height: 30px;
-      &:hover {
+      &:hover, &.active {
         color: white;
+        border-color: #39AF78;
         background-color: #39AF78;
       }
+    }
+    &:last-child {
+      border: none;
     }
   }
 }
