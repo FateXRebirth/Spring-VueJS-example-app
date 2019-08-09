@@ -59,7 +59,29 @@ export default {
   },
   async asyncData({ app, store, route }) {
     let Result;
-    Result = await app.$axios.get('/api/cars');
+    Result = await app.$axios({
+      method: 'post',
+      url: '/api/cars',
+      data: {
+        brand: 0,
+        series: 0,
+        category: 0,
+        priceMin: 0,
+        priceMax: 0,
+        yearMin: 0,
+        yearMax: 0,
+        mileageMin: 0,
+        mileageMax: 0,
+        city: 0,
+        transmission: 0,
+        gearType: 0,
+        gasType: 0,
+        engineDisplacement: 0,
+        passenger: 0,
+        color: 0,
+        keyword: ""
+      }
+    })
     if(Result.data.returnCode == 0) {
       return {
         Cars: Result.data.returnData.cars

@@ -115,7 +115,7 @@ export default {
     background-color: #39AF78;
     position: fixed;
     top: 0;
-    z-index: 10;
+    z-index: 3000;
     border: none;
     & .links {
       display: block;

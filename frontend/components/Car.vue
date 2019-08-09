@@ -3,9 +3,9 @@
     <el-card shadow="hover" class="Car">
       <img :src="Car.image" class="Image">
       <hr class="hr-20">
-      <p class="Name">{{ Car.brandName + ' ' + Car.seriesName + ' ' + Car.categoryName + ' ( ' + Car.year + ' ) ' }}</p>
+      <p class="Name">{{ GetName }}</p>
       <hr class="hr-10">
-      <p class="Detail">{{ Car.year + '年 | ' + Car.mileage + '公里 | ' + Car.city }}</p>
+      <p class="Detail">{{ GetDetail }}</p>
       <hr class="hr-20">
       <span class="Price">{{ Car.price }}萬</span>
     </el-card>
@@ -15,6 +15,14 @@
 <script>
 export default {
   props: ['Car'],
+  computed: {
+    GetName: function() {
+      return this.Car.brandName + ' ' + this.Car.seriesName + ' ' + this.Car.categoryName + ' ( ' + this.Car.year + ' ) ';
+    },
+    GetDetail: function() {
+      return this.Car.year + '年 | ' + this.Car.mileage + '公里 | ' + this.Car.city + '| ' + (Math.abs(new Date().getTime() - new Date(this.Car.modifyDate).getTime()) / 86400000).toFixed(0) + '天前更新';
+    }
+  }
 }
 </script>
 

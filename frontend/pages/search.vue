@@ -9,59 +9,59 @@
 
       <div class="grid-item title">熱門</div>
       <div class="grid-item option">
-        <button class="el-button is-round" :class="{ active: Condition.Brand == Brand.value }" @click="Condition.Brand = Brand.value;" v-for="Brand in HotBrandOptions" :key="Brand.value">{{ Brand.label }}</button>
+        <button class="el-button is-round" :class="{ active: Condition.brand == Brand.value }" @click="Condition.brand = Brand.value; Condition.series = ''; Condition.category = ''; FirstWord = '';" v-for="Brand in HotBrandOptions" :key="Brand.value">{{ Brand.label }}</button>
       </div>
 
       <div class="grid-item title">廠牌</div>
       <div class="grid-item option">
-        <button class="el-button is-round" :class="{ active: Condition.FirstWord == key }" @click="Condition.FirstWord = key;" v-for="(value, key) in OrderedBrandOptions" :key="key">{{ key }}</button>
+        <button class="el-button is-round" :class="{ active: FirstWord == key }" @click="FirstWord = key; Condition.brand = ''; Condition.series = ''; Condition.category = '';" v-for="(value, key) in OrderedBrandOptions" :key="key">{{ key }}</button>
       </div>
 
-      <template v-if="Condition.FirstWord != ''">
+      <template v-if="FirstWord != ''">
         <div class="grid-item title"></div>
         <div class="grid-item option">
-          <button class="el-button is-round" :class="{ active: Condition.Brand == Brand.value }" @click="Condition.Brand = Brand.value;" v-for="Brand in FilteredBrandOptions" :key="Brand.value">{{ Brand.label }}</button>
+          <button class="el-button is-round" :class="{ active: Condition.brand == Brand.value }" @click="Condition.brand = Brand.value; Condition.series = ''; Condition.category = '';" v-for="Brand in FilteredBrandOptions" :key="Brand.value">{{ Brand.label }}</button>
         </div>
       </template>
 
-      <template v-if="Condition.Brand != ''">
+      <template v-if="Condition.brand != ''">
         <div class="grid-item title">車型</div>
         <div class="grid-item option">
-          <button class="el-button is-round" :class="{ active: Condition.Series == Series.value }" @click="Condition.Series = Series.value"  v-for="Series in FilteredSeriesOptions" :key="Series.value">{{ Series.label }}</button>
-          <button class="el-button is-round" :class="{ active: Condition.Series == '' }" @click="Condition.Series = ''">不拘</button>
+          <button class="el-button is-round" :class="{ active: Condition.series == Series.value }" @click="Condition.series = Series.value; Condition.category = '';"  v-for="Series in FilteredSeriesOptions" :key="Series.value">{{ Series.label }}</button>
+          <button class="el-button is-round" :class="{ active: Condition.series == '' }" @click="Condition.series = ''">不拘</button>
         </div>
       </template>
 
-      <template v-if="Condition.Series != ''">
+      <template v-if="Condition.series != ''">
         <div class="grid-item title">車款</div>
         <div class="grid-item option">
-          <button class="el-button is-round" :class="{ active: Condition.Category == Category.value }" @click="Condition.Category = Category.value"  v-for="Category in FilteredCategoryOptions" :key="Category.value">{{ Category.label }}</button>
-          <button class="el-button is-round" :class="{ active: Condition.Category == '' }" @click="Condition.Category = ''">不拘</button>
+          <button class="el-button is-round" :class="{ active: Condition.category == Category.value }" @click="Condition.category = Category.value"  v-for="Category in FilteredCategoryOptions" :key="Category.value">{{ Category.label }}</button>
+          <button class="el-button is-round" :class="{ active: Condition.category == '' }" @click="Condition.category = ''">不拘</button>
         </div>
       </template>
 
       <div class="grid-item title">價格</div>
       <div class="grid-item option">
-        <button class="el-button is-round" @click="Condition.Pirce = Price.minValue"  v-for="Price in PriceOptions" :key="Price.minValue">{{ Price.label }}</button>
-        <button class="el-button is-round" @click="Condition.Pirce = ''">不拘</button>
+        <button class="el-button is-round" :class="{ active: Condition.priceMin == Price.minValue && Condition.priceMax == Price.maxValue }" @click="Condition.priceMin = Price.minValue; Condition.priceMax = Price.maxValue"  v-for="Price in PriceOptions" :key="Price.minValue">{{ Price.label }}</button>
+        <button class="el-button is-round" :class="{ active: Condition.priceMin == '' && Condition.priceMax == '' }" @click="Condition.priceMin = ''; Condition.priceMax = ''">不拘</button>
       </div>
 
       <div class="grid-item title">年份</div>
       <div class="grid-item option">
-        <button class="el-button is-round" @click="Condition.Year = Year.minValue"  v-for="Year in YearOptions" :key="Year.minValue">{{ Year.label }}</button>
-        <button class="el-button is-round" @click="Condition.Year = ''">不拘</button>
+        <button class="el-button is-round" :class="{ active: Condition.yearMin == Year.minValue && Condition.yearMax == Year.maxValue }" @click="Condition.yearMin = Year.minValue; Condition.yearMax = Year.maxValue"  v-for="Year in YearOptions" :key="Year.minValue">{{ Year.label }}</button>
+        <button class="el-button is-round" :class="{ active: Condition.yearMin == '' && Condition.yearMax == '' }" @click="Condition.yearMin = ''; Condition.yearMax = ''">不拘</button>
       </div>
 
       <div class="grid-item title">里程數</div>
       <div class="grid-item option">
-        <button class="el-button is-round" @click="Condition.Mileage = Mileage.minValue"  v-for="Mileage in MileageOptions" :key="Mileage.minValue">{{ Mileage.label }}</button>
-        <button class="el-button is-round" @click="Condition.Mileage = ''">不拘</button>
+        <button class="el-button is-round" :class="{ active: Condition.mileageMin == Mileage.minValue && Condition.mileageMax == Mileage.maxValue }" @click="Condition.mileageMin = Mileage.minValue; Condition.mileageMax = Mileage.maxValue"  v-for="Mileage in MileageOptions" :key="Mileage.minValue">{{ Mileage.label }}</button>
+        <button class="el-button is-round" :class="{ active: Condition.mileageMin == '' && Condition.mileageMax == '' }" @click="Condition.mileageMin = ''; Condition.mileageMax = ''">不拘</button>
       </div>
 
       <div class="grid-item title">更多</div>
       <div class="grid-item option">
-        <el-select v-model="Condition.City" placeholder="地區">
-          <el-option value="" label="不限"></el-option>
+        <el-select v-model="Condition.city">
+          <el-option value="" label="地區"></el-option>
           <el-option
             v-for="city in CityOptions"
             :key="city.value"
@@ -69,8 +69,8 @@
             :value="city.value">
           </el-option>
         </el-select>
-        <el-select v-model="Condition.Transmission" placeholder="傳動系統">
-          <el-option value="" label="不限"></el-option>
+        <el-select v-model="Condition.transmission">
+          <el-option value="" label="傳動系統"></el-option>
           <el-option
             v-for="transmission in TransmissionOptions"
             :key="transmission.value"
@@ -78,8 +78,8 @@
             :value="transmission.value">
           </el-option>
         </el-select>
-        <el-select v-model="Condition.GearType" placeholder="變速系統">
-          <el-option value="" label="不限"></el-option>
+        <el-select v-model="Condition.gearType">
+          <el-option value="" label="變速系統"></el-option>
           <el-option
             v-for="gearType in GearTypeOptions"
             :key="gearType.value"
@@ -87,8 +87,8 @@
             :value="gearType.value">
           </el-option>
         </el-select>
-        <el-select v-model="Condition.GasType" placeholder="燃料">
-          <el-option value="" label="不限"></el-option>
+        <el-select v-model="Condition.gasType">
+          <el-option value="" label="燃料"></el-option>
           <el-option
             v-for="gasType in GasTypeOptions"
             :key="gasType.value"
@@ -96,8 +96,8 @@
             :value="gasType.value">
           </el-option>
         </el-select>
-        <el-select v-model="Condition.EngineDisplacement" placeholder="排氣量">
-          <el-option value="" label="不限"></el-option>
+        <el-select v-model="Condition.engineDisplacement">
+          <el-option value="" label="排氣量"></el-option>
           <el-option
             v-for="engineDisplacement in EngineDisplacementOptions"
             :key="engineDisplacement.value"
@@ -105,8 +105,8 @@
             :value="engineDisplacement.value">
           </el-option>
         </el-select>
-        <el-select v-model="Condition.Passenger" placeholder="乘坐人數">
-          <el-option value="" label="不限"></el-option>
+        <el-select v-model="Condition.passenger">
+          <el-option value="" label="乘坐人數"></el-option>
           <el-option
             v-for="passenger in PassengerOptions"
             :key="passenger.value"
@@ -114,8 +114,8 @@
             :value="passenger.value">
           </el-option>
         </el-select>
-        <el-select v-model="Condition.Color" placeholder="顏色">
-          <el-option value="" label="不限"></el-option>
+        <el-select v-model="Condition.color">
+          <el-option value="" label="顏色"></el-option>
           <el-option
             v-for="color in ColorOptions"
             :key="color.value"
@@ -124,15 +124,40 @@
           </el-option>
         </el-select>
       </div>
-
     </div>
 
     <hr class="hr-30">
-    <el-row :gutter="20">
-      <el-col :span="6" v-for="car in Cars" :key="car.CarID">
-        <Car :Car="car" />
-      </el-col>
-    </el-row>
+    <section class="Bar">
+      <div class="Sort">
+        排序方式：
+        <el-select v-model="Sorting">
+          <el-option value="" label="預設排序"></el-option>
+          <el-option value="1" label="價格由 低 到 高"></el-option>
+          <el-option value="2" label="價格由 高 到 低"></el-option>
+          <el-option value="3" label="年份由 新 到 舊"></el-option>
+          <el-option value="4" label="年份由 舊 到 新"></el-option>
+          <el-option value="5" label="更新日由 最近 到 遙遠"></el-option>
+          <el-option value="6" label="更新日由 遙遠 到 最近"></el-option>
+        </el-select>
+      </div>
+      <input v-model="Condition.keyword"><i class="el-icon-search"></i><span>總共 {{ AllCars.length }} 筆車</span>
+    </section>
+
+    <hr class="hr-30">
+    <template v-if="AllCars.length > 0">
+       <el-row :gutter="20" v-loading="Loading" >
+        <el-col :span="6" v-for="car in Cars" :key="car.CarID">
+          <Car :Car="car" />
+        </el-col>
+      </el-row>
+    </template>
+    <template v-else>
+      <hr class="hr-100">
+      <img src="~/static/images/sample/nocars.png" class="NoCars">
+      <hr class="hr-50">
+      <p class="Message">找不到相關結果，請變更搜尋條件</p>
+      <hr class="hr-100">
+    </template> 
     <hr class="hr-30">
 
   </section>
@@ -159,11 +184,36 @@ export default {
     }
   },
   async asyncData({ app, store, route }) {
-    let Result;
-    let BrandOptions = [], SeriesOptions = [], CategoryOptions = [];
+    let BrandOptions = [], SeriesOptions = [], CategoryOptions = [], AllCars = [], Result;
 
-    Result = await app.$axios.get('/api/cars');
-    let Cars = Result.data.returnData.cars;
+    Result = await app.$axios({
+      method: 'post',
+      url: '/api/cars',
+      data: {
+        brand: 0,
+        series: 0,
+        category: 0,
+        priceMin: 0,
+        priceMax: 0,
+        yearMin: 0,
+        yearMax: 0,
+        mileageMin: 0,
+        mileageMax: 0,
+        city: 0,
+        transmission: 0,
+        gearType: 0,
+        gasType: 0,
+        engineDisplacement: 0,
+        passenger: 0,
+        color: 0,
+        keyword: ""
+      }
+    })
+    if(Result.data.returnCode == 0) {
+      AllCars = Result.data.returnData.cars;
+    } else {
+      throw new Error(Result.data.returnMessage)
+    }
 
     Result = await app.$axios.get('/api/brand');
     Result.data.returnData.brand.map( brand => {
@@ -193,7 +243,7 @@ export default {
     })
 
     return {
-      Cars: Cars,
+      AllCars: AllCars,
       BrandOptions: BrandOptions,
       SeriesOptions: SeriesOptions,
       CategoryOptions: CategoryOptions
@@ -234,14 +284,40 @@ export default {
   },
   watch: {
     'Condition': {
-      handler(newVal, oldVal) {
-        console.log(JSON.stringify(newVal));
+      async handler(newVal, oldVal) {
+        this.Loading = true;
+        const Request = {
+          brand: this.Condition.brand ? this.Condition.brand : 0,
+          series: this.Condition.series ? this.Condition.series : 0,
+          category: this.Condition.category ? this.Condition.category : 0,
+          priceMin: this.Condition.priceMin ? this.Condition.priceMin : 0,
+          priceMax: this.Condition.priceMax ? this.Condition.priceMax : 0,
+          yearMin: this.Condition.yearMin ? this.Condition.yearMin : 0,
+          yearMax: this.Condition.yearMax ? this.Condition.yearMax : 0,
+          mileageMin: this.Condition.mileageMin ? this.Condition.mileageMin : 0,
+          mileageMax: this.Condition.mileageMax ? this.Condition.mileageMax : 0,
+          city: this.Condition.city ? this.Condition.city : 0,
+          transmission: this.Condition.transmission ? this.Condition.transmission : 0,
+          gearType: this.Condition.gearType ? this.Condition.gearType : 0,
+          gasType: this.Condition.gasType ? this.Condition.gasType : 0,
+          engineDisplacement: this.Condition.engineDisplacement ? this.Condition.engineDisplacement : 0,
+          passenger: this.Condition.passenger ? this.Condition.passenger : 0,
+          color: this.Condition.color ? this.Condition.color : 0,
+          keyword: this.Condition.keyword ? this.Condition.keyword :  "",
+        }
+        let Result = await this.$axios({
+          method: 'post',
+          url: '/api/cars',
+          data: Request
+        })
+        if(Result.data.returnCode == 0) {
+          this.AllCars = Result.data.returnData.cars;
+          this.Loading = false;
+        } else {
+          throw new Error(Result.data.returnMessage)
+        }
       },
       deep: true,
-      // immediate: true,
-    },
-    Cars: function(newValue, oldValue) {
-      console.log(newValue);
     }
   },
   computed: {
@@ -261,52 +337,90 @@ export default {
       return firstWordObject;
     },
     FilteredBrandOptions: function() {
-      return this.OrderedBrandOptions[this.Condition.FirstWord];
+      return this.OrderedBrandOptions[this.FirstWord];
     },
     FilteredSeriesOptions: function() {
       const vm = this;
       return this.SeriesOptions.filter(function(series) {
-        return series.BrandID == vm.Condition.Brand;
+        return series.BrandID == vm.Condition.brand;
       })
     },
     FilteredCategoryOptions: function() {
       const vm = this;
       return this.CategoryOptions.filter(function(category) {
-        return category.SeriesID == vm.Condition.Series;
+        return category.SeriesID == vm.Condition.series;
       })
     },
-  },
-  methods: {
-    Sort: function(type) {
-      if(type == 'Random') {
-        this.Cars = _.sampleSize(this.Cars, this.Cars.length);
-      } else {
-        this.Cars = _.sortBy(this.Cars, [type]);
-      }
-    },
-    Search() {
-
-    },
+    Cars: function() {
+      this.Loading = true;
+      let Cars = Array.from(this.AllCars);
+      // let Cars =  [...this.AllCars];
+      // let Cars = this.AllCars.slice();
+      if(this.Sorting == 1) {
+        Cars.sort(function(a, b) {
+          if ( a.price < b.price ) { return -1; }
+          if ( a.price > b.price ) { return 1;  }
+          return 0;
+        })
+      } else if(this.Sorting == 2) {
+        Cars.sort(function(a, b) {
+          if ( a.price > b.price ) { return -1; }
+          if ( a.price < b.price ) { return 1;  }
+          return 0;
+        })
+      } else if(this.Sorting == 3) {
+        Cars.sort(function(a, b) {
+          if ( a.year > b.year ) { return -1; }
+          if ( a.year < b.year ) { return 1;  }
+          return 0;
+        })
+      } else if(this.Sorting == 4) {
+        Cars.sort(function(a, b) {
+          if ( a.year < b.year ) { return -1; }
+          if ( a.year > b.year ) { return 1;  }
+          return 0;
+        })
+      } else if(this.Sorting == 5) {
+        Cars.sort(function(a, b) {
+          if ( new Date(a.modifyDate).getTime() > new Date(b.modifyDate).getTime() ) { return -1; }
+          if ( new Date(a.modifyDate).getTime() < new Date(b.modifyDate).getTime() ) { return 1;  }
+          return 0;
+        })
+      } else if(this.Sorting == 6) {
+        Cars.sort(function(a, b) {
+          if ( new Date(a.modifyDate).getTime() < new Date(b.modifyDate).getTime() ) { return -1; }
+          if ( new Date(a.modifyDate).getTime() > new Date(b.modifyDate).getTime() ) { return 1;  }
+          return 0;
+        })
+      } 
+      setTimeout(() => {
+        this.Loading = false;
+      }, 300)
+      return Cars;
+    }
   },
   data() {
     return {
-      Cars: [],
       Condition: {
-        FirstWord: "",
-        Brand: "",
-        Series: "",
-        Category: "",
-        Price: "",
-        Year: "",
-        Mileage: "",
-        City: "",
-        Transmission: "",
-        GearType: "",
-        GasType: "",
-        EngineDisplacement: "",
-        Passenger: "",
-        Color: ""
+        brand: "",
+        series: "",
+        category: "",
+        priceMin: "",
+        priceMax: "",
+        yearMin: "",
+        yearMax: "",
+        mileageMin: "",
+        mileageMax: "",
+        city: "",
+        transmission: "",
+        gearType: "",
+        gasType: "",
+        engineDisplacement: "",
+        passenger: "",
+        color: "",
+        keyword: ""
       },
+      AllCars: [],
       BrandOptions: [],
       SeriesOptions: [],
       CategoryOptions: [],
@@ -319,7 +433,10 @@ export default {
       EngineDisplacementOptions: [],
       PassengerOptions: [],
       ColorOptions: [],
-      CityOptions: []
+      CityOptions: [],
+      FirstWord: "",
+      Sorting: "",
+      Loading: false
     }
   },
 }
@@ -363,6 +480,45 @@ export default {
       border: none;
     }
   }
+}
+.Bar {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  & input {
+    border: none;
+    border-bottom: 1px solid #999999;
+    width: 300px;
+    height: 30px;
+    outline-color: #39AF78;
+    &:focus {
+      & + i {
+        color: #39AF78;
+      }
+    }
+  }
+  & i {
+    margin: 0px 20px;
+    font-size: 30px;
+  }
+  & span {
+    margin: 0px 20px;
+    font-size: 20px;
+  }
+  & .Sort {
+    position: absolute;
+    left: 0;
+  }
+}
+.NoCars {
+  display: block;
+  margin: 0 auto;
+  width: 10vw;
+}
+.Message {
+  text-align: center;
+  font-size: 25px;
 }
 
 </style>
