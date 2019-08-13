@@ -2,6 +2,7 @@ package example.Repository;
 
 import example.Config.SpringJdbcConfig;
 import example.Request.Car;
+import example.Request.CarSearch;
 import example.Response.*;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,28 @@ public class CarRepository {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
-    public Result getCars() {
+    public Result getCars(CarSearch carSearch) {
         Result result = new Result();
         try {
+            SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("brand", carSearch.getBrand())
+                    .addValue("series", carSearch.getSeries())
+                    .addValue("category", carSearch.getCategory())
+                    .addValue("priceMin", carSearch.getPriceMin())
+                    .addValue("priceMax", carSearch.getPriceMax())
+                    .addValue("yearMin", carSearch.getYearMin())
+                    .addValue("yearMax", carSearch.getYearMax())
+                    .addValue("mileageMin", carSearch.getMileageMin())
+                    .addValue("mileageMax", carSearch.getMileageMax())
+                    .addValue("city", carSearch.getCity())
+                    .addValue("transmission", carSearch.getTransmission())
+                    .addValue("gearType", carSearch.getGearType())
+                    .addValue("gasType", carSearch.getGasType())
+                    .addValue("engineDisplacement", carSearch.getEngineDisplacement())
+                    .addValue("passenger", carSearch.getPassenger())
+                    .addValue("color", carSearch.getColor())
+                    .addValue("keyword", "%" + carSearch.getKeyword() + "%");
+
             String query =
                     "SELECT \n" +
                     "Car.id AS CarID,\n" +
@@ -37,19 +57,39 @@ public class CarRepository {
                     "Car.mileage AS Mileage,\n" +
                     "Car.price AS Price,\n" +
                     "City.label AS City,\n" +
+                    "Car.modifyDate AS ModifyDate,\n" +
                     "(SELECT File.url FROM file AS File WHERE File.carid = Car.id LIMIT 1) AS Image\n" +
                     "FROM car AS Car\n" +
-                    "LEFT JOIN brand AS Brand\n" +
+                    "INNER JOIN brand AS Brand\n" +
                     "ON Car.brand = Brand.id\n" +
-                    "LEFT JOIN series AS Series\n" +
+                    "INNER JOIN series AS Series\n" +
                     "ON Car.series = Series.id\n" +
-                    "LEFT JOIN category AS Category\n" +
+                    "INNER JOIN category AS Category\n" +
                     "ON Car.category = Category.id\n" +
-                    "LEFT JOIN (SELECT label, value FROM specification WHERE category = 'Year') as Year\n" +
+                    "INNER JOIN (SELECT label, value FROM specification WHERE category = 'Year') as Year\n" +
                     "ON Car.year = Year.value\n" +
-                    "LEFT JOIN (SELECT label, value FROM region WHERE country = 0) AS City\n" +
-                    "ON Car.city = City.value";
-            List<CarList> cars = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(CarList.class));
+                    "INNER JOIN (SELECT label, value FROM region WHERE country = 0) AS City\n" +
+                    "ON Car.city = City.value\n" +
+                    "WHERE\n" +
+                    "Car.status = 1 AND\n" +
+                    "(:keyword IS NULL OR  :keyword = '' OR Brand.name LIKE :keyword OR Series.name LIKE :keyword OR Category.name LIKE :keyword ) AND\n" +
+                    "(:brand = 0 OR Brand.id = :brand) AND\n" +
+                    "(:series = 0 OR Series.id = :series) AND\n" +
+                    "(:category = 0 OR Category.id = :category) AND\n" +
+                    "(:city = 0 OR Car.city = :city) AND\n" +
+                    "(:transmission = 0 OR Car.transmission = :transmission) AND\n" +
+                    "(:gearType = 0 OR Car.gearType = :gearType) AND\n" +
+                    "(:gasType = 0 OR Car.gasType = :gasType) AND\n" +
+                    "(:engineDisplacement = 0 OR Car.engineDisplacement = :engineDisplacement) AND\n" +
+                    "(:passenger = 0 OR Car.passenger = :passenger) AND\n" +
+                    "(:color = 0 OR Car.color = :color) AND\n" +
+                    "(:priceMin = 0 OR Car.price >= :priceMin) AND\n" +
+                    "(:priceMax = 0 OR Car.price <= :priceMax) AND\n" +
+                    "(:yearMin = 0 OR Car.year >= :yearMin) AND\n" +
+                    "(:yearMax = 0 OR Car.year <= :yearMax) AND\n" +
+                    "(:mileageMin = 0 OR Car.mileage >= :mileageMin) AND\n" +
+                    "(:mileageMax = 0 OR Car.mileage <= :mileageMax);";
+            List<CarList> cars = namedParameterJdbcTemplate.query(query, parameters, BeanPropertyRowMapper.newInstance(CarList.class));
             JSONObject obj = new JSONObject();
             obj.put("cars", cars);
             result.setReturnCode(0);
@@ -201,9 +241,9 @@ public class CarRepository {
             SqlParameterSource parameters = new MapSqlParameterSource()
                     .addValue("CarID", CarID)
                     .addValue("transmission", car.getTransmission())
-                    .addValue("geartype", car.getGeartype())
-                    .addValue("gastype", car.getGastype())
-                    .addValue("enginedisplacement", car.getEnginedisplacement())
+                    .addValue("gearType", car.getGeartype())
+                    .addValue("gasType", car.getGastype())
+                    .addValue("engineDisplacement", car.getEnginedisplacement())
                     .addValue("passenger", car.getPassenger())
                     .addValue("color", car.getColor())
                     .addValue("mileage", car.getMileage())
@@ -220,9 +260,9 @@ public class CarRepository {
             String query =
                     "UPDATE car\n" +
                     "SET transmission = :transmission,\n" +
-                    "geartype = :geartype,\n" +
-                    "gastype = :gastype,\n" +
-                    "enginedisplacement = :enginedisplacement,\n" +
+                    "geartype = :gearType,\n" +
+                    "gastype = :gasType,\n" +
+                    "enginedisplacement = :engineDisplacement,\n" +
                     "passenger = :passenger,\n" +
                     "color = :color,\n" +
                     "mileage = :mileage,\n" +

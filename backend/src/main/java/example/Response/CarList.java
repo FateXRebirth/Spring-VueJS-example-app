@@ -10,6 +10,7 @@ public class CarList {
     private Integer Mileage;
     private Integer Price;
     private String City;
+    private String ModifyDate;
     private String Image;
 
     public Integer getCarID() {
@@ -74,6 +75,14 @@ public class CarList {
 
     public void setCity(String city) {
         City = city;
+    }
+
+    public String getModifyDate() {
+        return ModifyDate;
+    }
+
+    public void setModifyDate(String modifyDate) {
+        ModifyDate = modifyDate;
     }
 
     public String getImage() {

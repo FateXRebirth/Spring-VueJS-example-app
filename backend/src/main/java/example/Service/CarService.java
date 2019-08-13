@@ -2,6 +2,7 @@ package example.Service;
 
 import example.Repository.*;
 import example.Request.Car;
+import example.Request.CarSearch;
 import example.Response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CarService {
 
     public Result getCategories() { return categoryRepository.getCategories(); }
 
-    public Result getCars() { return  carRepository.getCars(); }
+    public Result getCars(CarSearch carSearch) { return  carRepository.getCars(carSearch); }
 
     public Result getCarDetailByID(int id) { return carRepository.getCarDetailByID(id); }
 
