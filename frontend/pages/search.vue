@@ -146,8 +146,8 @@
     <hr class="hr-30">
     <template v-if="AllCars.length > 0">
        <el-row :gutter="20" v-loading="Loading" >
-        <el-col :span="6" v-for="car in Cars" :key="car.CarID">
-          <Car :Car="car" />
+        <el-col :span="6" v-for="car in Cars" :key="car.carID">
+          <Car :Car="car" :Favorite="FavoriteCars.includes(car.carID)" />
         </el-col>
       </el-row>
     </template>
@@ -184,7 +184,7 @@ export default {
     }
   },
   async asyncData({ app, store, route }) {
-    let BrandOptions = [], SeriesOptions = [], CategoryOptions = [], AllCars = [], Result;
+    let BrandOptions = [], SeriesOptions = [], CategoryOptions = [], AllCars = [], FavoriteCars = [], Result;
 
     Result = await app.$axios({
       method: 'post',
@@ -241,9 +241,12 @@ export default {
       Category.SeriesID = category.seriesID;
       CategoryOptions.push(Category);
     })
+    
+    FavoriteCars = store.getters.isAuthenticated ? store.getters.getAuthenticatedUser.FavoriteCars : [];
 
     return {
       AllCars: AllCars,
+      FavoriteCars: FavoriteCars,
       BrandOptions: BrandOptions,
       SeriesOptions: SeriesOptions,
       CategoryOptions: CategoryOptions
@@ -421,6 +424,7 @@ export default {
         keyword: ""
       },
       AllCars: [],
+      FavoriteCars: [],
       BrandOptions: [],
       SeriesOptions: [],
       CategoryOptions: [],

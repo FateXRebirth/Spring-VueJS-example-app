@@ -18,6 +18,9 @@ const store = () => new Vuex.Store({
   getters: {
     getAuthenticatedUser: state => {
       return state.authUser;
+    },
+    isAuthenticated: state => {
+      return state.authUser === null ? false : true;
     }
   },
 

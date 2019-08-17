@@ -11,8 +11,8 @@
         <Header title="Favorite" />
         <hr class="hr-30">
         <el-row :gutter="20">
-          <el-col :span="6" v-for="car in Cars" :key="car.CarID">
-            <Car :Car="car" />
+          <el-col :span="8" v-for="car in Cars" :key="car.carID">
+            <Car :Car="car" :Favorite="FavoriteCars.includes(car.carID)" />
           </el-col>
         </el-row>
       </el-main>
@@ -35,10 +35,11 @@ export default {
   },
   middleware: 'auth',
   async asyncData({ app, store, route }) {
+    let Cars = [], FavoriteCars = [], Result;
     const User = store.getters.getAuthenticatedUser;
-    let Result = await app.$axios({
+    Result = await app.$axios({
       method: 'get',
-      url: '/api/cars',
+      url: '/users/favorite/' + User.ID,
       headers: {
         'User': User.Username,
         'ID': User.ID,
@@ -46,16 +47,22 @@ export default {
       },
     })
     if(Result.data.returnCode == 0) {
-      return {
-        Cars: Result.data.returnData.cars
-      }
+      Cars = Result.data.returnData.cars
     } else {
         throw new Error(Result.data.returnMessage)
+    }
+
+    FavoriteCars = store.getters.isAuthenticated ? store.getters.getAuthenticatedUser.FavoriteCars : [];
+
+    return {
+      Cars: Cars,
+      FavoriteCars: FavoriteCars
     }
   },
   data() {
     return {
       Cars: [],
+      FavoriteCars: []
     }
   }
 }

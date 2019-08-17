@@ -65,21 +65,22 @@ async function start() {
 
 start()
 
-// 寫入Session
+// 寫入 Session
 router.post('/api/session', (ctx, next) => {
   const data = ctx.request.body;
   ctx.session.authUser = {
     ID: data.id,
     Type: data.type,
     Username: data.account,
-    Token: data.token
+    Token: data.token,
+    FavoriteCars: data.favoriteCars
   }
   return ctx.body = {
     returnCode: 0
   }
 });
 
-// 刪除Session
+// 刪除 Session
 router.get('/api/session', (ctx, next) => {
   delete ctx.session;
   ctx.session = null;
