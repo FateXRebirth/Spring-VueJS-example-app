@@ -60,15 +60,15 @@ public class CarRepository {
                     "Car.modifyDate AS ModifyDate,\n" +
                     "(SELECT File.url FROM file AS File WHERE File.carid = Car.id LIMIT 1) AS Image\n" +
                     "FROM car AS Car\n" +
-                    "INNER JOIN brand AS Brand\n" +
+                    "LEFT JOIN brand AS Brand\n" +
                     "ON Car.brand = Brand.id\n" +
-                    "INNER JOIN series AS Series\n" +
+                    "LEFT JOIN series AS Series\n" +
                     "ON Car.series = Series.id\n" +
-                    "INNER JOIN category AS Category\n" +
+                    "LEFT JOIN category AS Category\n" +
                     "ON Car.category = Category.id\n" +
-                    "INNER JOIN (SELECT label, value FROM specification WHERE category = 'Year') as Year\n" +
+                    "LEFT JOIN (SELECT label, value FROM specification WHERE category = 'Year') as Year\n" +
                     "ON Car.year = Year.value\n" +
-                    "INNER JOIN (SELECT label, value FROM region WHERE country = 0) AS City\n" +
+                    "LEFT JOIN (SELECT label, value FROM region WHERE country = 0) AS City\n" +
                     "ON Car.city = City.value\n" +
                     "WHERE\n" +
                     "Car.status = 1 AND\n" +
@@ -306,7 +306,7 @@ public class CarRepository {
         }
     }
 
-    public Result getCarByOwner(int OwnerID) {
+    public Result getCarByOwner(int MemberID) {
         Result result = new Result();
         try {
             /*
@@ -316,7 +316,7 @@ public class CarRepository {
             Map out = GetCars.execute(new HashMap<String, Object>(0));
             return (List) out.get("cars");
             */
-            SqlParameterSource parameters = new MapSqlParameterSource("OwnerID", OwnerID);
+            SqlParameterSource parameters = new MapSqlParameterSource("MemberID", MemberID);
             String query =
                     "SELECT\n" +
                     "Car.id AS CarID,\n" +
@@ -335,7 +335,7 @@ public class CarRepository {
                     "ON Car.series = Series.id\n" +
                     "LEFT JOIN category AS Category\n" +
                     "ON Car.category = Category.id\n" +
-                    "WHERE Car.owner = :OwnerID;";
+                    "WHERE Car.owner = :MemberID;";
             List<Cars> cars = namedParameterJdbcTemplate.query(query, parameters, BeanPropertyRowMapper.newInstance(Cars.class));
             JSONObject obj = new JSONObject();
             obj.put("cars", cars);
@@ -350,12 +350,12 @@ public class CarRepository {
         }
     }
 
-    public Result create(int OwnerID, Car car) {
+    public Result create(int MemberID, Car car) {
         Result result = new Result();
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("car").usingGeneratedKeyColumns("id");
             SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("owner", OwnerID)
+                    .addValue("owner", MemberID)
                     .addValue("brand", car.getBrand())
                     .addValue("series", car.getSeries())
                     .addValue("category", car.getCategory())

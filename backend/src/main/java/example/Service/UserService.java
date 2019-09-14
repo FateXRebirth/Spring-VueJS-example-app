@@ -24,24 +24,22 @@ public class UserService {
         return userRepository.getUsers();
     }
 
-    public Result getUserByID(int id) {
-        return userRepository.getUserByID(id);
+    public Result getUserByID(int MemberID) {
+        return userRepository.getUserByID(MemberID);
     }
 
-    public Result editUserByID(int id, MemberEdit memberEdit) { return userRepository.editUserByID(id, memberEdit); }
+    public Result editUserByID(int MemberID, MemberEdit memberEdit) { return userRepository.editUserByID(MemberID, memberEdit); }
 
-    public Result upgradeUserByID(int id, MemberUpgrade memberUpgrade) { return userRepository.upgradeUserByID(id, memberUpgrade); }
+    public Result upgradeUserByID(int MemberID, MemberUpgrade memberUpgrade) { return userRepository.upgradeUserByID(MemberID, memberUpgrade); }
 
-    public Result getFavoriteCars(int id) {
-        return userRepository.getFavoriteCars(id);
+    public Result getFavoriteCars(int MemberID) {
+        return userRepository.getFavoriteCars(MemberID);
     }
 
-    public Result createFavoriteCars(FavoriteCar favoriteCar) {
-        return userRepository.createFavoriteCars(favoriteCar);
+    public Result addFavoriteCars(int MemberID, int CarID) {
+        return userRepository.addFavoriteCars(MemberID, CarID);
     }
 
-    public Result DeleteFavoriteCars(FavoriteCar favoriteCar) {
-        return userRepository.DeleteFavoriteCars(favoriteCar);
-    }
+    public Result removeFavoriteCars(int MemberID, int CarID) { return userRepository.removeFavoriteCars(MemberID, CarID); }
 
 }

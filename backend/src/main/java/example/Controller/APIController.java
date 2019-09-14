@@ -77,40 +77,40 @@ public class APIController {
     }
 
     @GetMapping("/api/cars/{ID}")
-    public Result getCarDetailByID(@PathVariable("ID") int ID) {
-        return carService.getCarDetailByID(ID);
+    public Result getCarDetailByID(@PathVariable("ID") int CarID) {
+        return carService.getCarDetailByID(CarID);
     }
     
     // Private
 
     @GetMapping("/cars")
-    public Result getCars(@RequestHeader("ID") int ID) {
-        return carService.getCarByOwner(ID);
+    public Result getCars(@RequestHeader("ID") int MemberID) {
+        return carService.getCarByOwner(MemberID);
     }
 
     @PostMapping("/cars")
-    public Result create(@RequestHeader("ID") int ID, @RequestBody Car car) {
-        return carService.create(ID, car);
+    public Result create(@RequestHeader("ID") int MemberID, @RequestBody Car car) {
+        return carService.create(MemberID, car);
     }
 
     @GetMapping("/cars/{ID}")
-    public Result getCarByID(@PathVariable("ID") int ID) {
-        return carService.getCarByID(ID);
+    public Result getCarByID(@PathVariable("ID") int CarID) {
+        return carService.getCarByID(CarID);
     }
 
     @PutMapping("/cars/{ID}")
-    public Result editCarByID(@PathVariable("ID") int ID, @RequestBody Car car) {
-        return carService.editCarByID(ID, car);
+    public Result editCarByID(@PathVariable("ID") int CarID, @RequestBody Car car) {
+        return carService.editCarByID(CarID, car);
     }
 
     @PostMapping("/cars/{ID}")
-    public Result updateStatusByID(@PathVariable("ID") int ID, @RequestParam("Status") int status) {
-        return carService.updateStatusByID(ID, status);
+    public Result updateStatusByID(@PathVariable("ID") int CarID, @RequestParam("Status") int status) {
+        return carService.updateStatusByID(CarID, status);
     }
 
     @DeleteMapping("/cars/{ID}")
-    public Result deleteCarByID(@PathVariable("ID") int ID) {
-        return carService.deleteCaByID(ID);
+    public Result deleteCarByID(@PathVariable("ID") int CarID) {
+        return carService.deleteCaByID(CarID);
     }
 
     @GetMapping("/users")
@@ -119,33 +119,33 @@ public class APIController {
     }
 
     @GetMapping("/users/{ID}")
-    public Result getUserByID(@PathVariable("ID") int ID) {
-        return userService.getUserByID(ID);
+    public Result getUserByID(@PathVariable("ID") int MemberID) {
+        return userService.getUserByID(MemberID);
     }
 
-    @PutMapping("/users/edit/{id}")
-    public Result editUserByID(@PathVariable("ID") int ID, @RequestBody MemberEdit memberEdit) {
-        return userService.editUserByID(ID, memberEdit);
+    @PutMapping("/users/edit/{ID}")
+    public Result editUserByID(@PathVariable("ID") int MemberID, @RequestBody MemberEdit memberEdit) {
+        return userService.editUserByID(MemberID, memberEdit);
     }
 
     @PutMapping("/users/upgrade/{ID}")
-    public Result upgradeUserByID(@PathVariable("ID") int ID, @RequestBody MemberUpgrade memberUpgrade) {
-        return userService.upgradeUserByID(ID, memberUpgrade);
+    public Result upgradeUserByID(@PathVariable("ID") int MemberID, @RequestBody MemberUpgrade memberUpgrade) {
+        return userService.upgradeUserByID(MemberID, memberUpgrade);
     }
 
-    @GetMapping("/users/favorite/{id}")
-    public Result getFavoriteCars(@PathVariable int id) {
-        return userService.getFavoriteCars(id);
+    @GetMapping("/users/favorite/{ID}")
+    public Result getFavoriteCars(@PathVariable("ID") int MemberID) {
+        return userService.getFavoriteCars(MemberID);
     }
 
-    @PostMapping("/users/favorite")
-    public Result createFavoriteCars(@RequestBody FavoriteCar favoriteCar) {
-        return userService.createFavoriteCars(favoriteCar);
+    @PostMapping("/users/favorite/{ID}")
+    public Result addFavoriteCars(@RequestHeader("ID") int MemberID, @PathVariable("ID") int CarID) {
+        return userService.addFavoriteCars(MemberID, CarID);
     }
 
-    @DeleteMapping("/users/favorite")
-    public Result DeleteFavoriteCars(@RequestBody FavoriteCar favoriteCar) {
-        return userService.DeleteFavoriteCars(favoriteCar);
+    @DeleteMapping("/users/favorite/{ID}")
+    public Result removeFavoriteCars(@RequestHeader("ID") int MemberID, @PathVariable("ID") int CarID) {
+        return userService.removeFavoriteCars(MemberID, CarID);
     }
 
 }

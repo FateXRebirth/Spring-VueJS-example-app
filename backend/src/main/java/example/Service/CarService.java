@@ -29,22 +29,18 @@ public class CarService {
 
     public Result getCars(CarSearch carSearch) { return  carRepository.getCars(carSearch); }
 
-    public Result getCarDetailByID(int id) { return carRepository.getCarDetailByID(id); }
+    public Result getCarDetailByID(int CarID) { return carRepository.getCarDetailByID(CarID); }
 
-    public Result create(int id, Car car) {
-        return carRepository.create(id, car);
-    }
+    public Result create(int MemberID, Car car) { return carRepository.create(MemberID, car); }
 
-    public Result getCarByOwner(int id) { return carRepository.getCarByOwner(id); }
+    public Result getCarByOwner(int MemberID) { return carRepository.getCarByOwner(MemberID); }
 
-    public Result getCarByID(int id) { return carRepository.getCarByID(id); }
+    public Result getCarByID(int CarID) { return carRepository.getCarByID(CarID); }
 
-    public Result editCarByID(int id, Car car) {
-        return carRepository.editCarByID(id, car);
-    }
+    public Result editCarByID(int CarID, Car car) { return carRepository.editCarByID(CarID, car); }
 
-    public Result deleteCaByID(int id) { return carRepository.deleteCarByID(id); }
+    public Result deleteCaByID(int CarID) { return carRepository.deleteCarByID(CarID); }
 
-    public Result updateStatusByID(int id, int status) { return  carRepository.updateStatusByID(id, status); }
+    public Result updateStatusByID(int CarID, int status) { return  carRepository.updateStatusByID(CarID, status); }
 
 }
