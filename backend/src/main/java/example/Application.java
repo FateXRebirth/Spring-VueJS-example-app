@@ -1,9 +1,9 @@
 package example;
 
+import com.corundumstudio.socketio.*;
 import example.Config.JwtFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,6 +31,21 @@ public class Application {
     public static void main(String[] args) {
 
         SpringApplication.run(Application.class, args);
+
+        Configuration config = new Configuration();
+        config.setHostname("localhost");
+        config.setPort(9092);
+
+        final SocketIOServer server = new SocketIOServer(config);
+        server.addEventListener("server", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient client, String data, AckRequest ackRequest) {
+                System.out.println(data);
+                client.sendEvent("client", data);
+                server.getBroadcastOperations().sendEvent("clients", data);
+            }
+        });
+        server.start();
 
     }
 

@@ -1,9 +1,11 @@
 package example.Controller;
 import example.Request.*;
 import example.Request.Car;
+import example.Request.Message;
 import example.Response.*;
 import example.Service.CarService;
 import example.Service.CommonService;
+import example.Service.MessageService;
 import example.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ public class APIController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MessageService messageService;
 
     @Autowired
     CommonService commonService;
@@ -80,7 +85,16 @@ public class APIController {
     public Result getCarDetailByID(@PathVariable("ID") int CarID) {
         return carService.getCarDetailByID(CarID);
     }
-    
+
+    @PostMapping("/api/messages")
+    public Result create(@RequestBody Message message) { return messageService.create(message); }
+
+    @GetMapping("/api/messages/{ID}")
+    public Result getMessagesByID(@PathVariable("ID") int MemberID) { return messageService.getMessagesByID(MemberID); }
+
+    @GetMapping("/api/messages/check/{ID}")
+    public Result hasUnReadMessagesByID(@PathVariable("ID") int MemberID) { return messageService.hasUnReadMessagesByID(MemberID); }
+
     // Private
 
     @GetMapping("/cars")

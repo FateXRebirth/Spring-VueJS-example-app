@@ -277,9 +277,9 @@ public class UserRepository {
 
     private boolean isEmailExist(String email) {
         SqlParameterSource parameters = new MapSqlParameterSource("email", email);
-        String query = "SELECT COUNT(email) FROM user WHERE email = :email;";
+        String query = "SELECT EXISTS(SELECT email FROM user WHERE email = :email);";
         int count = namedParameterJdbcTemplate.queryForObject(query, parameters, Integer.class);
-        if(count >= 1) {
+        if(count == 1) {
             // Exist
             return true;
         } else {
