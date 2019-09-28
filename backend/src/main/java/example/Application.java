@@ -1,6 +1,7 @@
 package example;
 
 import com.corundumstudio.socketio.*;
+import com.corundumstudio.socketio.listener.DataListener;
 import example.Config.JwtFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

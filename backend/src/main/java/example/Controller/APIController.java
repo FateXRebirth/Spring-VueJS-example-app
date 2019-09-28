@@ -48,12 +48,12 @@ public class APIController {
 
     @PostMapping("/api/login")
     public Result userLogin(@RequestBody MemberLogin memberLogin) {
-        return userService.login(memberLogin);
+        return userService.sign_in(memberLogin);
     }
 
     @PostMapping("/api/register")
     public Result userRegister(@RequestBody MemberRegister memberRegister) {
-        return userService.register(memberRegister);
+        return userService.sign_up(memberRegister);
     }
 
     @GetMapping("/api/news")
@@ -87,13 +87,19 @@ public class APIController {
     }
 
     @PostMapping("/api/messages")
-    public Result create(@RequestBody Message message) { return messageService.create(message); }
+    public Result create(@RequestBody Message message) {
+        return messageService.create(message);
+    }
 
     @GetMapping("/api/messages/{ID}")
-    public Result getMessagesByID(@PathVariable("ID") int MemberID) { return messageService.getMessagesByID(MemberID); }
+    public Result getMessagesByID(@PathVariable("ID") int MemberID) {
+        return messageService.getMessagesByID(MemberID);
+    }
 
     @GetMapping("/api/messages/check/{ID}")
-    public Result hasUnReadMessagesByID(@PathVariable("ID") int MemberID) { return messageService.hasUnReadMessagesByID(MemberID); }
+    public Result hasUnReadMessagesByID(@PathVariable("ID") int MemberID) {
+        return messageService.hasUnReadMessagesByID(MemberID);
+    }
 
     // Private
 
@@ -160,6 +166,16 @@ public class APIController {
     @DeleteMapping("/users/favorite/{ID}")
     public Result removeFavoriteCars(@RequestHeader("ID") int MemberID, @PathVariable("ID") int CarID) {
         return userService.removeFavoriteCars(MemberID, CarID);
+    }
+
+    @PostMapping("/users/login/{ID}")
+    public Result login(@RequestHeader("ID") int MemberID, String time) {
+        return userService.login(MemberID, time);
+    }
+
+    @PostMapping("/users/logout/{ID}")
+    public Result logout(@RequestHeader("ID") int MemberID, String time) {
+        return userService.logout(MemberID, time);
     }
 
 }
