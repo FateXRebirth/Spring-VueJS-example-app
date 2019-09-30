@@ -28,7 +28,7 @@ export default {
       return this.Car.brandName + ' ' + this.Car.seriesName + ' ' + this.Car.categoryName + ' ( ' + this.Car.year + ' ) ';
     },
     GetDetail: function() {
-      return this.Car.year + '年 | ' + this.Car.mileage + '公里 | ' + this.Car.city + '| ' + (Math.abs(new Date().getTime() - new Date(this.Car.modifyDate).getTime()) / 86400000).toFixed(0) + '天前更新';
+      return this.Car.year + '年 | ' + this.Car.mileage + '公里 | ' + this.Car.city + ' | ' + (Math.abs(new Date().getTime() - new Date(this.Car.modifyDate).getTime()) / 86400000).toFixed(0) + '天前更新';
     }
   },
   methods: {
@@ -128,7 +128,7 @@ export default {
   }
   .Detail {
     color: #999999;
-    font-size: 13px;
+    font-size: 12px;
   }
   .Price {
     float: right;

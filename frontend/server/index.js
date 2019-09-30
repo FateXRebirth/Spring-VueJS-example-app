@@ -4,6 +4,7 @@ const session = require('koa-session');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const logger = require('koa-logger');
+const cors = require('@koa/cors');
 const app = new Koa()
 const router = new Router();
 const host = process.env.HOST || '127.0.0.1'
@@ -26,6 +27,7 @@ const CONFIG = {
 
 // app.use(logger()).
 app.use(bodyParser());
+app.use(cors());
 app.use(router.routes())
 app.use(router.allowedMethods());
 // app.use(session(CONFIG, app));

@@ -1,0 +1,16 @@
+{
+  "short_name": "NUXT",
+  "name": "NUXT",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#39AF78",
+  "display": "fullscreen",
+  "theme_color": "#39AF78",
+  "gcm_sender_id": "103953800507"
+}

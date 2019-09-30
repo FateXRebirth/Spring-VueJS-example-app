@@ -13,14 +13,16 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "@nuxtjs/axios": "^5.0.0",
-    "element-ui": "^2.2.1",
+    "element-ui": "^2.9.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
     "koa-session": "^5.8.1",
-    "nuxt": "^1.0.0"
+    "nuxt": "^1.0.0",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

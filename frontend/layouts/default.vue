@@ -7,6 +7,7 @@
     <nuxt/>
     <hr class="hr-30">
     <Footer />
+    <Message />
   </div>
 </template>
 
@@ -15,13 +16,15 @@ import Loading from '~/components/Loading.vue'
 import ProgressBar from '~/components/ProgressBar.vue'
 import Nav from '~/components/Nav.vue'
 import Footer from '~/components/Footer.vue'
+import Message from '~/components/Message.vue'
 
 export default {
   components: {
     Loading,
     ProgressBar,
     Nav,
-    Footer
+    Footer,
+    Message
   }
 }
 </script>

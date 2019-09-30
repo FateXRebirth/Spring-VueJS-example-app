@@ -36,6 +36,7 @@ export default {
   align-items: center;
   background-color: #f6f6f6;
   & .button {
+    z-index: 10;
     color: white;
     display: none;
     justify-content: center;
@@ -43,8 +44,8 @@ export default {
     position: fixed;
     right: 0;
     bottom: 0;
-    margin-right: 30px;
-    margin-bottom: 50px;
+    margin-right: 10px;
+    margin-bottom: 30px;
     background-color: #41B883;
     height: 50px;
     width: 50px;
