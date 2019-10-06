@@ -94,6 +94,21 @@ export default {
               if(res.data.returnCode != 0) {
                  throw new Error("Server Error");
               } else {
+                // Save to Log
+                this.$axios({
+                  method: 'post',
+                  url: `/users/login/${authUser.id}?Time=${new Date().toISOString()}`,
+                  headers: {
+                    'User': authUser.account,
+                    'ID': authUser.id,
+                    'Authorization': authUser.token
+                  }
+                })
+                .then((res) => {
+                  if(res.data.returnCode != 0) {
+                    throw new Error("Log Error");
+                  }
+                })
                 // Save to Client
                 this.$store.dispatch('login', authUser);
                 this.$message({

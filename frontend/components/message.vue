@@ -8,13 +8,15 @@
       <div class="header">與ＸＸＸ的對話
         <div class="close" @click="HandleClose()"><i class="el-icon-minus"></i></div>
       </div>
-      <div class="messages">
-        <p class="message message--receiver">我說：abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚</p>
-        <p class="message message--sender">他說：abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛</p>
+      <div class="messages" id="messages">
+        <div class="notice" v-show="notice"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close" @click="notice = false"></i></div>
+        <div class="message message--receiver"><i class="el-icon-user-solid"></i><p class="text">他說：abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛</p></div>
+        <div class="message message--sender"><i class="el-icon-s-custom"></i><p class="text">我說：abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚</p></div>
+        <div class="message message--sender" v-for="message in messages" :key="message"><i class="el-icon-s-custom"></i><p class="text">我說：{{ message }}</p></div>
       </div>
       <div class="input">
-        <textarea cols="30" rows="10" class="content" placeholder="輸入訊息..."></textarea>
-        <button class="submit">送出</button>
+        <textarea cols="30" rows="10" class="content" placeholder="輸入訊息..." id="content" @keyup.enter.exact="HandleClick()"></textarea>
+        <button id="submit" class="submit" @click="HandleClick()">送出</button>
       </div>
     </div>
   </section>
@@ -24,7 +26,8 @@
 export default {
   data() {
     return {
-      Active: false
+      notice: true,
+      messages: []
     }
   },
   methods: {
@@ -35,6 +38,13 @@ export default {
     HandleClose: function() {
       this.$el.querySelector('.model').classList.remove('show');
       this.$el.querySelector('.button').classList.remove('hide');
+    },
+    HandleClick: function() {
+      this.messages.push(document.getElementById('content').value);
+      setTimeout(() => {
+        document.getElementById('content').value = '';
+        document.getElementById('messages').scrollTo({ top: 330 });
+      })
     }
   }
 }
@@ -114,19 +124,55 @@ export default {
         }
       }
     }
+    & .notice {
+      position: absolute;
+      top: 30px;
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      background: #fffaeb;
+      border: 1px solid #feecb6;
+      color: #67541F;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+      & .el-icon-close {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-top: -10px;
+        margin-right: 10px;
+        font-size: 20px;
+      }
+    }
     & .messages {
-      height: 300px;
+      height: 330px;
       width: 100%;
       overflow-y: scroll;
       background-color: #f6f6f6;
-      border: 1px red solid;
       & .message {
-        margin: 5px 0px;
+        margin: 10px;
+        display: flex;
         &--sender {
-          float: right;
+          flex-direction: row-reverse;
         }
         &--receiver {
-          float: left;
+        }
+        & .text {
+          max-width: calc(100% - 40px);
+          background-color: #39AF78;
+          color: white;
+          padding: 10px;
+          border-radius: 10px;
+          word-break: break-all;
+        }
+        & .el-icon-user-solid {
+          font-size: 30px;
+          margin-right: 10px;
+        }
+        & .el-icon-s-custom {
+          font-size: 30px;
+          margin-left: 10px;
         }
       }
     }
@@ -134,7 +180,7 @@ export default {
       clear: both;
       & .content {
         width: 100%;
-        height: 120px;
+        height: 100px;
         border: none;
         padding: 5px;
         outline: 0;

@@ -25,12 +25,28 @@ export default {
   },
   methods: {
     logout: function() {
+      const User = this.$store.getters.getAuthenticatedUser;
       // Clear Session
       this.$axios.get(process.env.BASE_URL + '/api/session')
       .then((res) => {
         if(res.data.returnCode != 0) {
           throw new Error("Server Error");
         } else {
+          // Clear Log
+          this.$axios({
+            method: 'post',
+            url: `/users/logout/${User.ID}?Time=${new Date().toISOString()}`,
+            headers: {
+              'User': User.Username,
+              'ID': User.ID,
+              'Authorization': User.Token
+            }
+          })
+          .then((res) => {
+            if(res.data.returnCode != 0) {
+              throw new Error("Log Error");
+            }
+          })
           this.$message({
             showClose: true,
             message: 'Logout Successfully',

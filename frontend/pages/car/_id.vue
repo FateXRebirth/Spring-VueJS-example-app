@@ -36,7 +36,7 @@
           <span class="line"><i class="el-icon-mobile-phone"></i> Line：<strong>Abc123</strong></span>
           <span class="address"><i class="el-icon-location"></i> 地址：<strong> {{ Car.city + Car.area + Car.address }} </strong></span>
           <hr class="hr-10">
-          <span class="call"><i class="el-icon-phone-outline"></i> 立即聯絡 </span>
+          <span class="call" @click="Contact()"><i class="el-icon-chat-dot-round"></i> 立即聯絡 </span>
         </div>        
       </el-main>
     </el-container>
@@ -117,7 +117,6 @@ export default {
   },
   computed: {
     classList: function(a) {
-      console.log(a)
       return {
         'el-icon-circle-check': this.type == "left",
         'el-icon-circle-check-outline': this.type == "right"
@@ -132,6 +131,31 @@ export default {
       Car: {},
       EquipmentOptions: [],
       SafetyOptions: []
+    }
+  },
+  methods: {
+    Contact: async function() {
+      const User = this.$store.getters.getAuthenticatedUser;
+      if(User === null) {
+        location.href = "/login";
+        return;
+      }
+
+      // Check if owner is online
+      let Result = await this.$axios({
+        method: 'get',
+        url: '/users/isOnline/' + this.Car.ownerID,
+        headers: {
+          'User': User.Username,
+          'ID': User.ID,
+          'Authorization': User.Token
+        },
+      })
+      if(Result.data.returnCode == 0) {
+        console.log(Result.data.returnData.isOnline);
+      } else {
+          throw new Error(Result.data.returnMessage)
+      }
     }
   }
 }
@@ -178,6 +202,7 @@ export default {
         padding-right: 20px;
       }
       &.call {
+        cursor: pointer;
         background-color: #cd001d;
         border-radius: 5px;
         text-align: center;

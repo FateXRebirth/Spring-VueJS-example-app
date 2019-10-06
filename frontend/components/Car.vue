@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     Go(CarID) {
-      console.log(this.$router);
       this.$router.push('/car/' + CarID );
     },
     Update(authUser) {
