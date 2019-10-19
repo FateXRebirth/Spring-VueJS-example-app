@@ -7,7 +7,7 @@
     <nuxt/>
     <hr class="hr-30">
     <Footer />
-    <Message />
+    <Message v-show="auth" />
   </div>
 </template>
 
@@ -25,6 +25,11 @@ export default {
     Nav,
     Footer,
     Message
+  },
+  computed: {
+    auth: function() {
+      return this.$store.getters.getAuthenticatedUser;
+    }
   }
 }
 </script>

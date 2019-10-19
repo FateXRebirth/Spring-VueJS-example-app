@@ -1,22 +1,22 @@
 <template>
   <section class="talking">
-    <div class="button" @click="HandleOpen()">
+    <div class="button" @click="HandleToggle()" :class="{ hide: toggle }">
        <i class="el-icon-chat-dot-square"></i> &nbsp; 聊聊
       <div class="notice"></div>
     </div>
-    <div class="model show">
+    <div class="model" :class="{ show: toggle }">
       <div class="header">與ＸＸＸ的對話
-        <div class="close" @click="HandleClose()"><i class="el-icon-minus"></i></div>
+        <div class="close" @click="HandleToggle()"><i class="el-icon-minus"></i></div>
       </div>
       <div class="messages" id="messages">
-        <div class="notice" v-show="notice"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close" @click="notice = false"></i></div>
+        <div class="notice"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close" @click="notice = false"></i></div>
         <div class="message message--receiver"><i class="el-icon-user-solid"></i><p class="text">他說：abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛 abc好車網 爛爛爛</p></div>
         <div class="message message--sender"><i class="el-icon-s-custom"></i><p class="text">我說：abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚 abc好車網 讚讚讚</p></div>
         <div class="message message--sender" v-for="message in messages" :key="message"><i class="el-icon-s-custom"></i><p class="text">我說：{{ message }}</p></div>
       </div>
       <div class="input">
-        <textarea cols="30" rows="10" class="content" placeholder="輸入訊息..." id="content" @keyup.enter.exact="HandleClick()"></textarea>
-        <button id="submit" class="submit" @click="HandleClick()">送出</button>
+        <textarea cols="30" rows="10" class="content" placeholder="輸入訊息..." id="content" @keyup.enter.exact="HandleType()"></textarea>
+        <button id="submit" class="submit" @click="HandleType()">送出</button>
       </div>
     </div>
   </section>
@@ -24,22 +24,49 @@
 
 <script>
 export default {
+  mounted() {
+    if(this.$store.getters.isAuthenticated) {
+      const User = this.$store.getters.getAuthenticatedUser;
+      this.$axios({
+        method: 'get',
+        url: '/users/messages/' + User.ID,
+        headers: {
+          'User': User.Username,
+          'ID': User.ID,
+          'Authorization': User.Token
+        },
+      }).then((res => {
+        if(res.data.returnCode == 0) {
+          this.messages = res.data.returnData.message;
+        } else {
+            throw new Error(res.data.returnMessage)
+        }
+      }))
+    }    
+  },
+  computed: {
+    toggle: function() {
+      // console.log(this)
+      return this.$store.getters.getToggle;
+    }
+  },
+  watch: {
+    'active': function(newValue, oldValue) {
+      console.log(newValue, oldValue)
+    },
+  },
   data() {
     return {
-      notice: true,
+      isOnline: false,
+      active: true,
       messages: []
     }
   },
   methods: {
-    HandleOpen: function() {
-      this.$el.querySelector('.button').classList.add('hide');
-      this.$el.querySelector('.model').classList.add('show');
+    HandleToggle: function() {
+      this.$store.dispatch('toggle');
     },
-    HandleClose: function() {
-      this.$el.querySelector('.model').classList.remove('show');
-      this.$el.querySelector('.button').classList.remove('hide');
-    },
-    HandleClick: function() {
+    HandleType: function() {
       this.messages.push(document.getElementById('content').value);
       setTimeout(() => {
         document.getElementById('content').value = '';

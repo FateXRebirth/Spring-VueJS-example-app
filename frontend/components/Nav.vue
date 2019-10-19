@@ -53,11 +53,8 @@ export default {
             type: 'success',
             duration: 1500
           });
-          const Vue = this;
           setTimeout(function() {
             window.location.href = '/';
-            // Clear Client
-            this.$store.dispatch('logout'); 
           }, 1500)
         }
       })

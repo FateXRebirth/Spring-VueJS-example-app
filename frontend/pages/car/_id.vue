@@ -36,7 +36,7 @@
           <span class="line"><i class="el-icon-mobile-phone"></i> Line：<strong>Abc123</strong></span>
           <span class="address"><i class="el-icon-location"></i> 地址：<strong> {{ Car.city + Car.area + Car.address }} </strong></span>
           <hr class="hr-10">
-          <span class="call" @click="Contact()"><i class="el-icon-chat-dot-round"></i> 立即聯絡 </span>
+          <span class="call" v-show="IsNotOwner" @click="Contact()"><i class="el-icon-chat-dot-round"></i> 立即聯絡 </span>
         </div>        
       </el-main>
     </el-container>
@@ -115,6 +115,15 @@ export default {
     }
 
   },
+  created() {
+    // Store Car to Vuex
+    const message = {
+      CarID: this.Car.carID,
+      Receiver: this.Car.ownerID,
+      Sender: this.$store.getters.getAuthenticatedUser.ID
+    }
+    this.$store.dispatch('message', message);
+  },
   computed: {
     classList: function(a) {
       return {
@@ -124,6 +133,9 @@ export default {
     },
     Img: function() {
       return require('~/static/images/banner/banner' + this.img + '.jpeg');
+    },
+    IsNotOwner: function() {
+      return this.$store.getters.getAuthenticatedUser.ID !== this.Car.ownerID;
     }
   },
   data() {
@@ -140,22 +152,9 @@ export default {
         location.href = "/login";
         return;
       }
-
-      // Check if owner is online
-      let Result = await this.$axios({
-        method: 'get',
-        url: '/users/isOnline/' + this.Car.ownerID,
-        headers: {
-          'User': User.Username,
-          'ID': User.ID,
-          'Authorization': User.Token
-        },
-      })
-      if(Result.data.returnCode == 0) {
-        console.log(Result.data.returnData.isOnline);
-      } else {
-          throw new Error(Result.data.returnMessage)
-      }
+      // document.querySelector('.talking').querySelector('.button').classList.add('hide');
+      // document.querySelector('.talking').querySelector('.model').classList.add('show');
+      this.$store.dispatch('toggle');
     }
   }
 }

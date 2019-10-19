@@ -1,17 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import user from './modules/user'
+// import car from './modules/car'
 
 Vue.use(Vuex)
 
 const store = () => new Vuex.Store({
   
   state: {
-    authUser: null
+    authUser: null,
+    message: null,
+    toggle: false
   },
 
   mutations: {
     SET_USER: function (state, user) {
       state.authUser = user
+    },
+    SET_MESSAGE: function (state, message) {
+      state.message = message
+    },
+    SET_TOGGLE: function(state) {
+      state.toggle = !state.toggle;
     }
   },
 
@@ -21,6 +31,12 @@ const store = () => new Vuex.Store({
     },
     isAuthenticated: state => {
       return state.authUser === null ? false : true;
+    },
+    getMessage: state => {
+      return state.message;
+    },
+    getToggle: state => {
+      return state.toggle;
     }
   },
 
@@ -28,16 +44,18 @@ const store = () => new Vuex.Store({
     nuxtServerInit ({ commit }, { req }) {
       if (req.session && req.session.authUser) {
         commit('SET_USER', req.session.authUser)
+      } else {
+        commit('SET_USER', null)
       }
     },
-    login ({ commit }, { authUser }) {
-      commit('SET_USER', authUser);
+    message ({ commit }, message ) {
+      commit('SET_MESSAGE', message);
     },
-    logout ({ commit }) {
-      commit('SET_USER', null);
-    },
+    toggle ({ commit }) {
+      commit('SET_TOGGLE');
+    }
   }
 
 })
 
-export default store
+export default store;

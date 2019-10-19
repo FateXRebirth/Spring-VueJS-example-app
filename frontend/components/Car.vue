@@ -1,5 +1,5 @@
 <template>
-  <a @click="Go(Car.carID)">
+  <a :href="`/car/${Car.carID}`" class="Link">
     <el-card shadow="hover" class="Car">
       <img :src="Car.image" class="Image">
       <hr class="hr-20">
@@ -32,9 +32,6 @@ export default {
     }
   },
   methods: {
-    Go(CarID) {
-      this.$router.push('/car/' + CarID );
-    },
     Update(authUser) {
       this.$axios.post(process.env.BASE_URL + '/api/session', {
         id: authUser.ID,
@@ -74,8 +71,6 @@ export default {
           User.FavoriteCars.push(CarID);
           // Update Session
           this.Update(User);
-          // Update Vuex
-          this.$store.dispatch('login', { authUser: User });
         }
       })
     },
@@ -104,8 +99,6 @@ export default {
           User.FavoriteCars.splice(User.FavoriteCars.indexOf(CarID), 1);
           // Update Session
           this.Update(User);
-          // Update Vuex
-          this.$store.dispatch('login', { authUser: User });
         }
       })
     }
@@ -114,6 +107,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.Link {
+  text-decoration: none;
+}
 .Car {
   cursor: pointer;
   position: relative;

@@ -109,8 +109,6 @@ export default {
                     throw new Error("Log Error");
                   }
                 })
-                // Save to Client
-                this.$store.dispatch('login', authUser);
                 this.$message({
                   showClose: true,
                   message: 'Login Successfully',

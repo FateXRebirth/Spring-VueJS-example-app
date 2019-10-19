@@ -96,10 +96,10 @@ export default {
   },
   methods: {
     HandleCreate() {
-      this.$router.push('carNew');
+      window.location.href = '/dashboard/carNew';
     },
     HandleEdit(CarID) {
-      this.$router.push('carEdit/' + CarID );
+      window.location.href = `/dashboard/carEdit/${CarID}`;
     },
     HandleDelete(CarID) {
       const User = this.$store.getters.getAuthenticatedUser;
