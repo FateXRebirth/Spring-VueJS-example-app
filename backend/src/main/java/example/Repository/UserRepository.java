@@ -151,11 +151,6 @@ public class UserRepository {
         }
     }
 
-    public Result logout(int MemberID) {
-        Result result = new Result();
-        return result;
-    }
-
     public Result register(MemberRegister memberRegister) {
         Result result = new Result();
         if(isEmailExist(memberRegister.getEmail())) {

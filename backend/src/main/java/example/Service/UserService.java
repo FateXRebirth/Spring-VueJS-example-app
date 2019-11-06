@@ -28,6 +28,8 @@ public class UserService {
 
     public Result logout(int MemberID, String time) { return logRepository.logout(MemberID, time); }
 
+    public Result isOnline(int MemberID) { return logRepository.isOnline(MemberID); }
+
     public Result getUsers() { return userRepository.getUsers(); }
 
     public Result getUserByID(int MemberID) { return userRepository.getUserByID(MemberID); }

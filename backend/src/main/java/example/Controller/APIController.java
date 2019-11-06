@@ -1,6 +1,7 @@
 package example.Controller;
 import example.Request.*;
 import example.Request.Car;
+import example.Request.Dialogue;
 import example.Request.Message;
 import example.Response.*;
 import example.Service.CarService;
@@ -86,21 +87,6 @@ public class APIController {
         return carService.getCarDetailByID(CarID);
     }
 
-    @PostMapping("/api/messages")
-    public Result create(@RequestBody Message message) {
-        return messageService.create(message);
-    }
-
-    @GetMapping("/api/messages/{ID}")
-    public Result getMessagesByID(@PathVariable("ID") int MemberID) {
-        return messageService.getMessagesByID(MemberID);
-    }
-
-    @GetMapping("/api/messages/check/{ID}")
-    public Result hasUnReadMessagesByID(@PathVariable("ID") int MemberID) {
-        return messageService.hasUnReadMessagesByID(MemberID);
-    }
-
     // Private
 
     @GetMapping("/cars")
@@ -169,13 +155,40 @@ public class APIController {
     }
 
     @PostMapping("/users/login/{ID}")
-    public Result login(@RequestHeader("ID") int MemberID, String time) {
+    public Result login(@RequestHeader("ID") int MemberID, @RequestParam("Time") String time) {
         return userService.login(MemberID, time);
     }
 
     @PostMapping("/users/logout/{ID}")
-    public Result logout(@RequestHeader("ID") int MemberID, String time) {
+    public Result logout(@RequestHeader("ID") int MemberID, @RequestParam("Time") String time) {
         return userService.logout(MemberID, time);
     }
 
+    @GetMapping("/users/isOnline/{ID}")
+    public Result isOnline(@PathVariable("ID") int MemberID) { return userService.isOnline(MemberID); }
+
+    @PostMapping("/users/messages")
+    public Result create(@RequestBody Message message) {
+        return messageService.Message(message);
+    }
+
+    @GetMapping("/users/messages/{ID}")
+    public Result getMessagesByID(@RequestHeader("ID") int MemberID) {
+        return messageService.getMessagesByID(MemberID);
+    }
+
+    @GetMapping("/users/messages/check/{ID}")
+    public Result hasUnReadMessagesByID(@RequestHeader("ID") int MemberID) {
+        return messageService.hasUnReadMessagesByID(MemberID);
+    }
+
+    @PostMapping("/users/dialogues")
+    public Result create(@RequestBody Dialogue dialogue) {
+        return messageService.Dialogue(dialogue);
+    }
+
+    @GetMapping("/users/dialogues/{ID}")
+    public Result getDialoguesByID(@RequestHeader("ID") int MemberID) {
+        return messageService.getDialoguesByID(MemberID);
+    }
 }

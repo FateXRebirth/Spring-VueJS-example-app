@@ -46,7 +46,7 @@ public class LogRepository  {
             SqlParameterSource parameters = new MapSqlParameterSource()
                     .addValue("user", MemberID)
                     .addValue("end", time);
-            String query = "UPDATE log SET end = :end, online = 0 WHERE user = :user AND online = 1 AND end = '';";
+            String query = "UPDATE log SET end = :end, online = 0 WHERE user = :user AND online = 1 AND start IS NOT NULL AND end IS NULL;";
             namedParameterJdbcTemplate.update(query, parameters);
             result.setReturnCode(0);
             result.setReturnMessage("Updated Successfully");
