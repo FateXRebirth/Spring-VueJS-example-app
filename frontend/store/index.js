@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import user from './modules/user'
-// import car from './modules/car'
 
 Vue.use(Vuex)
 
@@ -10,19 +8,15 @@ const store = () => new Vuex.Store({
   state: {
     authUser: null,
     message: null,
-    toggle: false
   },
 
   mutations: {
     SET_USER: function (state, user) {
-      state.authUser = user
+      state.authUser = user;
     },
     SET_MESSAGE: function (state, message) {
-      state.message = message
+      state.message = message;
     },
-    SET_TOGGLE: function(state) {
-      state.toggle = !state.toggle;
-    }
   },
 
   getters: {
@@ -35,9 +29,6 @@ const store = () => new Vuex.Store({
     getMessage: state => {
       return state.message;
     },
-    getToggle: state => {
-      return state.toggle;
-    }
   },
 
   actions: {
@@ -51,9 +42,6 @@ const store = () => new Vuex.Store({
     message ({ commit }, message ) {
       commit('SET_MESSAGE', message);
     },
-    toggle ({ commit }) {
-      commit('SET_TOGGLE');
-    }
   }
 
 })

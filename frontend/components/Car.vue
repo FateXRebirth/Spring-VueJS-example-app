@@ -1,5 +1,5 @@
 <template>
-  <a :href="`/car/${Car.carID}`" class="Link">
+  <a @click="Redirect(Car.carID)" class="Link">
     <el-card shadow="hover" class="Car">
       <img :src="Car.image" class="Image">
       <hr class="hr-20">
@@ -32,6 +32,9 @@ export default {
     }
   },
   methods: {
+    Redirect(CarID) {
+      location.href = `/car/${CarID}`;
+    },
     Update(authUser) {
       this.$axios.post(process.env.BASE_URL + '/api/session', {
         id: authUser.ID,

@@ -115,15 +115,6 @@ export default {
     }
 
   },
-  created() {
-    // Store Car to Vuex
-    const message = {
-      CarID: this.Car.carID,
-      Receiver: this.Car.ownerID,
-      Sender: this.$store.getters.getAuthenticatedUser.ID
-    }
-    this.$store.dispatch('message', message);
-  },
   computed: {
     classList: function(a) {
       return {
@@ -147,14 +138,45 @@ export default {
   },
   methods: {
     Contact: async function() {
+      function _uuid() {
+        var d = Date.now();
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+          d += performance.now(); //use high-precision timer if available
+        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          var r = (d + Math.random() * 16) % 16 | 0;
+          d = Math.floor(d / 16);
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+      }
       const User = this.$store.getters.getAuthenticatedUser;
       if(User === null) {
         location.href = "/login";
         return;
       }
-      // document.querySelector('.talking').querySelector('.button').classList.add('hide');
-      // document.querySelector('.talking').querySelector('.model').classList.add('show');
-      this.$store.dispatch('toggle');
+      document.querySelector('.talking').querySelector('.button').classList.add('hide');
+      document.querySelector('.talking').querySelector('.model').classList.add('show');
+      const dialogue = {
+        uuid: _uuid(),
+        item: this.Car.carID,
+        title: `${this.Car.brandName} ${this.Car.seriesName} ${this.Car.categoryName} ${this.Car.year}`,
+        sender: this.$store.getters.getAuthenticatedUser.ID,
+        receiver: this.Car.ownerID,
+      }
+      this.$axios({
+        method: 'post',
+        url: '/users/dialogues',
+        headers: {
+          'User': User.Username,
+          'ID': User.ID,
+          'Authorization': User.Token
+        },
+        data: dialogue
+      }).then((res => {
+        if(res.data.returnCode != 0) {
+          throw new Error(res.data.returnMessage)
+        }
+      }))
     }
   }
 }
