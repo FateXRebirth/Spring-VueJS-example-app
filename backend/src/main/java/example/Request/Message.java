@@ -2,25 +2,25 @@ package example.Request;
 
 public class Message {
 
-    private String sender;
-    private String receiver;
+    private String uuid;
+    private String speaker;
     private String content;
     private String time;
 
-    public String getSender() {
-        return sender;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getSpeaker() {
+        return speaker;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setSpeaker(String speaker) {
+        this.speaker = speaker;
     }
 
     public String getContent() {
@@ -42,8 +42,8 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "sender='" + sender + '\'' +
-                ", receiver='" + receiver + '\'' +
+                "uuid='" + uuid + '\'' +
+                ", speaker='" + speaker + '\'' +
                 ", content='" + content + '\'' +
                 ", time='" + time + '\'' +
                 '}';

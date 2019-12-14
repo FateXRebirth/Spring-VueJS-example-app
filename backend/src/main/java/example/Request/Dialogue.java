@@ -2,10 +2,19 @@ package example.Request;
 
 public class Dialogue {
 
+    private String uuid;
     private String item;
     private String title;
     private String sender;
     private String receiver;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getItem() {
         return item;
@@ -42,7 +51,8 @@ public class Dialogue {
     @Override
     public String toString() {
         return "Dialogue{" +
-                "item='" + item + '\'' +
+                "uuid='" + uuid + '\'' +
+                ", item='" + item + '\'' +
                 ", title='" + title + '\'' +
                 ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +

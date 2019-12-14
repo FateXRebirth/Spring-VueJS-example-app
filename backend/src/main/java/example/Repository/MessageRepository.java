@@ -24,8 +24,8 @@ public class MessageRepository  {
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("message").usingGeneratedKeyColumns("id");
             SqlParameterSource parameters = new MapSqlParameterSource()
-                    .addValue("sender", message.getSender())
-                    .addValue("receiver", message.getReceiver())
+                    .addValue("uuid", message.getUuid())
+                    .addValue("speaker", message.getSpeaker())
                     .addValue("content", message.getContent())
                     .addValue("time", message.getTime())
                     .addValue("unread", 1);
@@ -63,11 +63,11 @@ public class MessageRepository  {
         return result;
     }
 
-    public Result getMessagesByID(int MemberID) {
+    public Result getMessagesByID(String UUID) {
         Result result = new Result();
         try {
-            SqlParameterSource parameters = new MapSqlParameterSource("receiver", MemberID);
-            String query = "SELECT sender, receiver, content, time, unread FROM message WHERE receiver = :receiver;";
+            SqlParameterSource parameters = new MapSqlParameterSource("UUID", UUID);
+            String query = "SELECT speaker, content, time FROM message WHERE uuid = :UUID;";
             List<example.Response.Message> message = namedParameterJdbcTemplate.query(query, parameters, BeanPropertyRowMapper.newInstance(example.Response.Message.class));
             JSONObject obj = new JSONObject();
             obj.put("message", message);

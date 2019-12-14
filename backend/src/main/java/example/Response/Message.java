@@ -2,26 +2,16 @@ package example.Response;
 
 public class Message {
 
-    private String sender;
-    private String receiver;
+    private String speaker;
     private String content;
     private String time;
-    private Integer unread;
 
-    public String getSender() {
-        return sender;
+    public String getSpeaker() {
+        return speaker;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setSpeaker(String speaker) {
+        this.speaker = speaker;
     }
 
     public String getContent() {
@@ -40,15 +30,6 @@ public class Message {
         this.time = time;
     }
 
-    public Integer getUnread() {
-        return unread;
-    }
-
-    public void setUnread(Integer unread) {
-        this.unread = unread;
-    }
-
     public Message() {
-        
     }
 }

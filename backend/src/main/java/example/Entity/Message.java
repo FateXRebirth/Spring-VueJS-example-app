@@ -11,8 +11,8 @@ public class Message {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer ID;
-    private String sender;
-    private String receiver;
+    private String uuid;
+    private String speaker;
     private String content;
     private String time;
     private Integer unread;
@@ -25,20 +25,20 @@ public class Message {
         this.ID = ID;
     }
 
-    public String getSender() {
-        return sender;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getSpeaker() {
+        return speaker;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setSpeaker(String speaker) {
+        this.speaker = speaker;
     }
 
     public String getContent() {
@@ -66,12 +66,11 @@ public class Message {
     }
 
     public Message() {
-
     }
 
-    public Message(String sender, String receiver, String content, String time, Integer unread) {
-        this.sender = sender;
-        this.receiver = receiver;
+    public Message(String uuid, String speaker, String content, String time, Integer unread) {
+        this.uuid = uuid;
+        this.speaker = speaker;
         this.content = content;
         this.time = time;
         this.unread = unread;

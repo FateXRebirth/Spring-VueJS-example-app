@@ -19,7 +19,7 @@ public class MessageService {
 
     public Result Message(Message message) { return messageRepository.create(message); }
 
-    public Result getMessagesByID(int MemberID) { return messageRepository.getMessagesByID(MemberID); }
+    public Result getMessagesByID(String UUID) { return messageRepository.getMessagesByID(UUID); }
 
     public Result hasUnReadMessagesByID(int MemberID) { return messageRepository.hasUnReadMessagesByID(MemberID); }
 

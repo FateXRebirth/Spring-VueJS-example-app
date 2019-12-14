@@ -1,6 +1,5 @@
 package example.Repository;
 import example.Config.SpringJdbcConfig;
-import example.Request.Message;
 import example.Response.Dialogue;
 import example.Response.Result;
 import org.json.simple.JSONObject;
@@ -25,6 +24,7 @@ public class DialogueRepository  {
         try {
             SimpleJdbcInsert create = new SimpleJdbcInsert(SpringJdbcConfig.mysqlDataSource()).withTableName("dialogue").usingGeneratedKeyColumns("id");
             SqlParameterSource parameters = new MapSqlParameterSource()
+                    .addValue("uuid", dialogue.getUuid())
                     .addValue("item", dialogue.getItem())
                     .addValue("title", dialogue.getTitle())
                     .addValue("sender", dialogue.getSender())
@@ -43,8 +43,8 @@ public class DialogueRepository  {
     public Result getDialogueByID(int MemberID) {
         Result result = new Result();
         try {
-            SqlParameterSource parameters = new MapSqlParameterSource("receiver", MemberID);
-            String query = "SELECT item, title, sender, receiver FROM dialogue WHERE receiver = :receiver;";
+            SqlParameterSource parameters = new MapSqlParameterSource("memberID", MemberID);
+            String query = "SELECT uuid, item, title, sender, receiver FROM dialogue WHERE receiver = :memberID OR sender = :memberID;";
             List<Dialogue> dialogue = namedParameterJdbcTemplate.query(query, parameters, BeanPropertyRowMapper.newInstance(Dialogue.class));
             JSONObject obj = new JSONObject();
             obj.put("dialogue", dialogue);

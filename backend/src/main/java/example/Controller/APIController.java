@@ -173,8 +173,8 @@ public class APIController {
     }
 
     @GetMapping("/users/messages/{ID}")
-    public Result getMessagesByID(@RequestHeader("ID") int MemberID) {
-        return messageService.getMessagesByID(MemberID);
+    public Result getMessagesByID(@PathVariable("ID") String UUID) {
+        return messageService.getMessagesByID(UUID);
     }
 
     @GetMapping("/users/messages/check/{ID}")
