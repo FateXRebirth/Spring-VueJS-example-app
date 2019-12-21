@@ -8,30 +8,28 @@
       <section class="list">
         <ul class="contacts">
           <li class="title">對話清單</li>
-          <!-- <li class="contact" v-if="current" @click="HandleSelect(current)">{{ current.Title }}</li> -->
           <li class="contact" v-for="dialogue in dialogues" :key="dialogue.title" @click="HandleFetch(dialogue)">{{ dialogue.title }}</li>
         </ul>
       </section>
       <section class="dialogue">
-        <div class="header">與 {{ message.receiver }} 的對話
+        <div class="header">與 XXX 的對話
           <div class="close" @click="HandleToggle()"><i class="el-icon-minus"></i></div>
         </div>
         <div class="messages" id="messages">
           <div class="notice"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close"></i></div>
-          <div class="message" v-for="context in OrderedMessages" :key="context.time" :class="{ 'message--receiver': context.speaker == 'receiver', 'message--sender': context.speaker == 'sender' }">
-            <i class="el-icon-user-solid" v-if="context.speaker == 'receiver'"></i>
-            <i class="el-icon-s-custom" v-if="context.speaker == 'sender'"></i>
-            <p class="text">{{ context.content }}</p>
-          </div>
-          
-          <div class="message" v-for="text in dialogue" :key="text.time" :class="{ 'message--receiver': text.speaker != User.Username, 'message--sender': text.speaker == User.Username }">
+          <div class="message" v-for="text in OrderedMessages" :key="text.time" :class="{ 'message--receiver': text.speaker != User.Username, 'message--sender': text.speaker == User.Username }">
             <i class="el-icon-user-solid" v-if="text.speaker != User.Username"></i>
             <i class="el-icon-s-custom" v-if="text.speaker == User.Username"></i>
             <p class="text">{{ text.content }}</p>
           </div>
+          <div class="message" v-for="message in messages" :key="message.time" :class="{ 'message--receiver': message.speaker != User.Username, 'message--sender': message.speaker == User.Username }">
+            <i class="el-icon-user-solid" v-if="message.speaker != User.Username"></i>
+            <i class="el-icon-s-custom" v-if="message.speaker == User.Username"></i>
+            <p class="text">{{ message.content }}</p>
+          </div>
         </div>
         <div class="input">
-          <textarea cols="30" rows="10" class="content" placeholder="輸入訊息..." id="content"></textarea>
+          <textarea cols="30" rows="10" class="content" placeholder="輸入訊息..." id="content" @keyup.enter.exact="HandleType()"></textarea>
           <button id="submit" class="submit" @click.stop="HandleType()">送出</button>
         </div>
       </section>
@@ -42,6 +40,13 @@
 <script>
 export default {
   mounted() {
+    $messaging.onMessage(payload => {
+      this.messages.push(JSON.parse(payload.data.message));
+      setTimeout(() => {
+        const scrollHeight = document.getElementById('messages').scrollHeight;
+        document.getElementById('messages').scrollTo({ top: scrollHeight })
+      })
+    })
     if(this.$store.getters.isAuthenticated) {
       this.User = this.$store.getters.getAuthenticatedUser;
       this.$axios({
@@ -60,80 +65,29 @@ export default {
             throw new Error(res.data.returnMessage)
         }
       }))
-    }    
+    }
   },
   data() {
     return {
-      isOnline: false,
-      active: true,
       User: null,
       uuid: null,
+      token: '',
       dialogues: [],
       dialogue: [],
-      messages: [
-        {
-          title: "abc is Best1",
-          sender: "Kevin",
-          receiver: "Peter",
-          contents: [
-            {
-              speaker: "sender",
-              content: "YES",
-              time: '2019-06-12T02:46:43.309Z'
-            },
-            {
-              speaker: "receiver",
-              content: "NO",
-              time: '2019-06-12T02:46:56.308Z'
-            },
-          ]
-        },
-        {
-          title: "abc is Best2",
-          sender: "Kevin",
-          receiver: "Sam",
-          contents: [
-            {
-              speaker: "sender",
-              content: "GOOD",
-              time: '2019-06-12T02:46:43.309Z'
-            },
-            {
-              speaker: "receiver",
-              content: "BAD",
-              time: '2019-06-12T02:46:56.308Z'
-            },
-          ]
-        }
-      ],
-      message:  {
-        title: "abc is Best1",
-        sender: "Kevin",
-        receiver: "Peter",
-        contents: [
-          {
-            speaker: "sender",
-            content: "YES",
-            time: 1
-          },
-          {
-            speaker: "receiver",
-            content: "NO",
-            time: 2
-          },
-        ]
-      }
+      messages: [],
     }
   },
-  computed: {    
+  computed: {
     OrderedMessages: function() {
-      return this.message.contents.sort(function(a, b) {
-        if(a.time > b.time) return 1;
-        if(a.time < b.time) return -1;
+      return this.dialogue.sort((a, b) => {
+        const timeA = new Date(a.time).getTime();
+        const timeB = new Date(b.time).getTime();
+        if(timeA > timeB) return 1;
+        if(timeA < timeB) return -1;
         return 0;
       })
     }
-  }, 
+  },
   methods: {
     HandleToggle: function() {
       this.$el.querySelector('.button').classList.toggle('hide');
@@ -141,6 +95,11 @@ export default {
     },
     HandleFetch: function(dialogue) {
       this.uuid = dialogue.uuid;
+      if(this.User.ID == dialogue.sender) {
+        this.token = dialogue.receiverToken;
+      } else {
+        this.token = dialogue.senderToken;
+      }
       this.$axios({
         method: 'get',
         url: `/users/messages/${this.uuid}`,
@@ -152,6 +111,10 @@ export default {
       }).then((res) => {
         if (res.data.returnCode == 0) {
           this.dialogue = res.data.returnData.message;
+          setTimeout(() => {
+            const scrollHeight = document.getElementById('messages').scrollHeight;
+            document.getElementById('messages').scrollTo({ top: scrollHeight })
+          })
         } else {
           throw new Error(res.data.returnMessage)
         }
@@ -159,12 +122,30 @@ export default {
     },
     HandleType: function() {
       if(document.getElementById('content').value == "") return;
-      let message = {
+      const message = {
         uuid: this.uuid,
         speaker: this.User.Username,
         content: document.getElementById('content').value,
         time: new Date().toISOString()
       }
+      this.messages.push(message);
+      const data = {
+        data: {
+          message: message
+        },
+        to: this.token
+      }
+      this.$axios({
+        url: 'https://fcm.googleapis.com/fcm/send',
+        method: 'POST',
+        headers: {
+            'Authorization': `key=${$messaging.getServerKey()}`,
+            'Content-Type': 'application/json',
+        },
+        data: data
+      }).then((res) => {
+        console.log(res);
+      })
       this.$axios({
         method: 'post',
         url: '/users/messages',
@@ -177,11 +158,12 @@ export default {
       }).then((res) => {
         if (res.data.returnCode != 0) {
           throw new Error(res.data.returnMessage)
-        } 
+        }
       })
       setTimeout(() => {
         document.getElementById('content').value = '';
-        document.getElementById('messages').scrollTo({ top: 330 });
+        const scrollHeight = document.getElementById('messages').scrollHeight;
+        document.getElementById('messages').scrollTo({ top: scrollHeight });
       })
     }
   }

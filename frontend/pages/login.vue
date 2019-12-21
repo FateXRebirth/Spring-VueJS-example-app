@@ -109,6 +109,38 @@ export default {
                     throw new Error("Log Error");
                   }
                 })
+              }
+            })
+            // Check FCM Token
+            this.$axios({
+              method: 'get',
+              url: '/users/token',
+              headers: {
+                'User': authUser.account,
+                'ID': authUser.id,
+                'Authorization': authUser.token
+              }
+            })
+            .then((res) => {
+              if(res.data.returnCode == 0) {
+                // Check If the token exist in database, store this token if not
+                this.$axios({
+                  method: res.data.returnData == null ? 'post' : 'put',
+                  url: '/users/token',
+                  headers: {
+                    'User': authUser.account,
+                    'ID': authUser.id,
+                    'Authorization': authUser.token
+                  },
+                  params: {
+                    Token: window.RegistrationToken
+                  }
+                })
+                .then((res) => {
+                  if(res.data.returnCode != 0) {
+                    throw new Error("Token Error");
+                  }
+                })
                 this.$message({
                   showClose: true,
                   message: 'Login Successfully',
@@ -118,6 +150,9 @@ export default {
                 setTimeout(function() {
                   window.location.href = '/dashboard';
                 }, 1500)
+              }
+              else {
+                throw new Error("Token Error");
               }
             })
           })
