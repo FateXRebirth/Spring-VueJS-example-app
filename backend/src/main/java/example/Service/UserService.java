@@ -1,6 +1,7 @@
 package example.Service;
 
 import example.Repository.LogRepository;
+import example.Repository.TokenRepository;
 import example.Repository.UserRepository;
 import example.Request.*;
 import example.Response.Result;
@@ -16,6 +17,9 @@ public class UserService {
     @Autowired
     LogRepository logRepository;
 
+    @Autowired
+    TokenRepository tokenRepository;
+
     public Result sign_in(MemberLogin memberLogin) {
         return userRepository.login(memberLogin);
     }
@@ -23,6 +27,12 @@ public class UserService {
     public Result sign_up(MemberRegister memberRegister) {
         return userRepository.register(memberRegister);
     }
+
+    public Result createToken(int MemberID, String Token) { return tokenRepository.create(MemberID, Token); }
+
+    public Result getTokenByID(int MemberID) { return tokenRepository.getTokenByID(MemberID); }
+
+    public Result updateTokenByID(int MemberID, String Token) { return tokenRepository.updateTokenByID(MemberID, Token); }
 
     public Result login(int MemberID, String time) { return logRepository.login(MemberID, time); }
 

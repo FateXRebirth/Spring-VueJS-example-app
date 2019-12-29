@@ -154,6 +154,21 @@ public class APIController {
         return userService.removeFavoriteCars(MemberID, CarID);
     }
 
+    @PostMapping("/users/token")
+    public Result createToken(@RequestHeader("ID") int MemberID, @RequestParam("Token") String Token) {
+        return userService.createToken(MemberID, Token);
+    }
+
+    @GetMapping("/users/token")
+    public Result getTokenByID(@RequestHeader("ID") int MemberID) {
+        return userService.getTokenByID(MemberID);
+    }
+
+    @PutMapping("/users/token")
+    public Result updateTokenByID(@RequestHeader("ID") int MemberID, @RequestParam("Token") String Token) {
+        return userService.updateTokenByID(MemberID, Token);
+    }
+
     @PostMapping("/users/login/{ID}")
     public Result login(@RequestHeader("ID") int MemberID, @RequestParam("Time") String time) {
         return userService.login(MemberID, time);

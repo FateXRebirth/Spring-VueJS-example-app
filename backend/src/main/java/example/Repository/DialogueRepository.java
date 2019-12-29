@@ -44,7 +44,7 @@ public class DialogueRepository  {
         Result result = new Result();
         try {
             SqlParameterSource parameters = new MapSqlParameterSource("memberID", MemberID);
-            String query = "SELECT uuid, item, title, sender, receiver FROM dialogue WHERE receiver = :memberID OR sender = :memberID;";
+            String query = "SELECT uuid, item, title, sender, receiver, (SELECT token FROM token WHERE user = sender) AS senderToken, (SELECT token FROM token WHERE user = receiver) AS receiverToken FROM dialogue WHERE receiver = :memberID OR sender = :memberID;";
             List<Dialogue> dialogue = namedParameterJdbcTemplate.query(query, parameters, BeanPropertyRowMapper.newInstance(Dialogue.class));
             JSONObject obj = new JSONObject();
             obj.put("dialogue", dialogue);
@@ -52,7 +52,7 @@ public class DialogueRepository  {
             result.setReturnMessage("OK");
             result.setReturnData(obj);
         } catch (DataAccessException e) {
-            result.setReturnCode(999);
+            result.setReturnCode(999); 
             result.setReturnMessage(e.toString());
         }
         return result;

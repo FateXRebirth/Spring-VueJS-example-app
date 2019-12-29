@@ -7,6 +7,8 @@ public class Dialogue {
     private String title;
     private String sender;
     private String receiver;
+    private String senderToken;
+    private String receiverToken;
 
     public String getUuid() {
         return uuid;
@@ -46,6 +48,22 @@ public class Dialogue {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+    public String getSenderToken() {
+        return senderToken;
+    }
+
+    public void setSenderToken(String senderToken) {
+        this.senderToken = senderToken;
+    }
+
+    public String getReceiverToken() {
+        return receiverToken;
+    }
+
+    public void setReceiverToken(String receiverToken) {
+        this.receiverToken = receiverToken;
     }
 
     public Dialogue() {

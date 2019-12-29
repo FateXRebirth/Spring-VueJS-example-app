@@ -1,19 +1,14 @@
 package example.Repository;
 import example.Config.SpringJdbcConfig;
-import example.Request.Message;
 import example.Response.Result;
 import org.json.simple.JSONObject;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
-import java.util.List;
 
 @Repository
 public class LogRepository  {
