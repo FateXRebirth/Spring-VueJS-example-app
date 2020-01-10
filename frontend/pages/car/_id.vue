@@ -37,7 +37,7 @@
           <span class="address"><i class="el-icon-location"></i> 地址：<strong> {{ Car.city + Car.area + Car.address }} </strong></span>
           <hr class="hr-10">
           <span class="call" v-show="IsNotOwner" @click="Contact()"><i class="el-icon-chat-dot-round"></i> 立即聯絡 </span>
-        </div>        
+        </div>
       </el-main>
     </el-container>
     <hr class="hr-30">
@@ -105,7 +105,7 @@ export default {
         EquipmentOptions.push(spec);
       } else if(spec.category == "Safety") {
         SafetyOptions.push(spec);
-      } 
+      }
     })
 
     return {
@@ -126,7 +126,7 @@ export default {
       return require('~/static/images/banner/banner' + this.img + '.jpeg');
     },
     IsNotOwner: function() {
-      return this.$store.getters.getAuthenticatedUser.ID !== this.Car.ownerID;
+      return this.$store.getters.getAuthenticatedUser == null ? true : this.$store.getters.getAuthenticatedUser.ID !== this.Car.ownerID;
     }
   },
   data() {
@@ -200,7 +200,7 @@ export default {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;  
+    -webkit-box-orient: vertical;
   }
   & .price {
     color: red;
@@ -213,7 +213,7 @@ export default {
     & span {
       margin: 7px 0px;
       display: block;
-      &.warning { 
+      &.warning {
         color: #999999;
         font-size: 12px;
         margin: 8px 0px;

@@ -12,11 +12,12 @@
         </ul>
       </section>
       <section class="dialogue">
-        <div class="header">與 XXX 的對話
+        <div class="header">對話內容
           <div class="close" @click="HandleToggle()"><i class="el-icon-minus"></i></div>
         </div>
-        <div class="messages" id="messages">
-          <div class="notice"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close"></i></div>
+        <div class="messages" id="messages" :class="{ 'messages--empty': dialogues.length == 0 }">
+          <div class="empty">目前還沒有任何對話訊息喔！</div>
+          <div class="notice" id="prompt"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close" @click="HandlePrompt()"></i></div>
           <div class="message" v-for="text in OrderedMessages" :key="text.time" :class="{ 'message--receiver': text.speaker != User.Username, 'message--sender': text.speaker == User.Username }">
             <i class="el-icon-user-solid" v-if="text.speaker != User.Username"></i>
             <i class="el-icon-s-custom" v-if="text.speaker == User.Username"></i>
@@ -28,7 +29,7 @@
             <p class="text">{{ message.content }}</p>
           </div>
         </div>
-        <div class="input">
+        <div class="input" v-show="dialogues.length != 0">
           <textarea cols="30" rows="10" class="content" placeholder="輸入訊息..." id="content" @keyup.enter.exact="HandleType()"></textarea>
           <button id="submit" class="submit" @click.stop="HandleType()">送出</button>
         </div>
@@ -40,13 +41,6 @@
 <script>
 export default {
   mounted() {
-    $messaging.onMessage(payload => {
-      this.messages.push(JSON.parse(payload.data.message));
-      setTimeout(() => {
-        const scrollHeight = document.getElementById('messages').scrollHeight;
-        document.getElementById('messages').scrollTo({ top: scrollHeight })
-      })
-    })
     if(this.$store.getters.isAuthenticated) {
       this.User = this.$store.getters.getAuthenticatedUser;
       this.$axios({
@@ -60,7 +54,7 @@ export default {
       }).then((res => {
         if(res.data.returnCode == 0) {
           this.dialogues = res.data.returnData.dialogue;
-          this.HandleFetch(this.dialogues[0]);
+          if(this.dialogues.length) this.HandleFetch(this.dialogues[0]);
         } else {
             throw new Error(res.data.returnMessage)
         }
@@ -88,13 +82,49 @@ export default {
       })
     }
   },
+  watch: {
+    'dialogue': function(newValue, oldValue) {
+      $messaging.onMessage(payload => {
+      this.messages.push(JSON.parse(payload.data.message));
+        setTimeout(() => {
+          const scrollHeight = document.getElementById('messages').scrollHeight;
+          document.getElementById('messages').scrollTo({ top: scrollHeight })
+          if(document.getElementById('prompt').classList.contains('show')) document.getElementById('prompt').classList.remove('show');
+          if(!document.querySelector('.button').classList.contains('hide')) document.querySelector('.button').classList.add('hide');
+          if(!document.querySelector('.model').classList.contains('show')) document.querySelector('.model').classList.add('show');
+        })
+      })
+    }
+  },
   methods: {
+    HandlePrompt: function() {
+      this.$el.querySelector('#prompt').classList.toggle('show');
+    },
     HandleToggle: function() {
       this.$el.querySelector('.button').classList.toggle('hide');
       this.$el.querySelector('.model').classList.toggle('show');
     },
     HandleFetch: function(dialogue) {
       this.uuid = dialogue.uuid;
+      this.$axios({
+        method: 'get',
+        url: `/users/isOnline/${this.User.ID == dialogue.sender ? dialogue.receiver : dialogue.sender}`,
+        headers: {
+          'User': this.User.Username,
+          'ID': this.User.ID,
+          'Authorization': this.User.Token
+        },
+      }).then((res => {
+        if(res.data.returnCode == 0) {
+          if(!res.data.returnData.isOnline) {
+            document.getElementById('prompt').classList.add('show');
+          } else {
+            document.getElementById('prompt').classList.remove('show');
+          }
+        } else {
+          throw new Error(res.data.returnMessage)
+        }
+      }))
       if(this.User.ID == dialogue.sender) {
         this.token = dialogue.receiverToken;
       } else {
@@ -291,6 +321,13 @@ export default {
         font-size: 12px;
         font-weight: bold;
         text-align: center;
+        opacity: 0;
+        transition: opacity 1s;
+        pointer-events: none;
+        &.show {
+          opacity: 1;
+          pointer-events: initial;
+        }
         & .el-icon-close {
           position: absolute;
           top: 50%;
@@ -305,13 +342,24 @@ export default {
         width: 100%;
         overflow-y: scroll;
         background-color: #f6f6f6;
+        & .empty {
+          display: none;
+        }
+        &--empty {
+          height: 100%;
+          & .empty {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            line-height: 500px;
+          }
+        }
         & .message {
           margin: 10px;
           display: flex;
           &--sender {
             flex-direction: row-reverse;
-          }
-          &--receiver {
           }
           & .text {
             max-width: calc(100% - 40px);

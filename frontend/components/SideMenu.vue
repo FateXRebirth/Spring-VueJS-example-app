@@ -18,11 +18,6 @@
         <i class="el-icon-star-on"></i> Favorite
       </a>
     </li>
-    <li class="submenu">
-      <a href="/dashboard/message" :class="{ active: PATH == '/dashboard/message'}">
-        <i class="el-icon-message"></i> Message
-      </a>
-    </li>
     <li class="submenu" v-if="TYPE == 0">
       <a href="/dashboard/upgrade" :class="{ active: PATH == '/dashboard/upgrade'}">
         <i class="el-icon-news"></i> Upgrade

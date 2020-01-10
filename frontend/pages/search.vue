@@ -15,6 +15,7 @@
       <div class="grid-item title">廠牌</div>
       <div class="grid-item option">
         <button class="el-button is-round" :class="{ active: FirstWord == key }" @click="FirstWord = key; Condition.brand = ''; Condition.series = ''; Condition.category = '';" v-for="(value, key) in OrderedBrandOptions" :key="key">{{ key }}</button>
+        <button class="el-button is-round" :class="{ active: Condition.brand == '' }" @click="Condition.brand = ''">不拘</button>
       </div>
 
       <template v-if="FirstWord != ''">
@@ -157,7 +158,7 @@
       <hr class="hr-50">
       <p class="Message">找不到相關結果，請變更搜尋條件</p>
       <hr class="hr-100">
-    </template> 
+    </template>
     <hr class="hr-30">
 
   </section>
@@ -241,7 +242,7 @@ export default {
       Category.SeriesID = category.seriesID;
       CategoryOptions.push(Category);
     })
-    
+
     FavoriteCars = store.getters.isAuthenticated ? store.getters.getAuthenticatedUser.FavoriteCars : [];
 
     return {
@@ -395,7 +396,7 @@ export default {
           if ( new Date(a.modifyDate).getTime() > new Date(b.modifyDate).getTime() ) { return 1;  }
           return 0;
         })
-      } 
+      }
       setTimeout(() => {
         this.Loading = false;
       }, 300)

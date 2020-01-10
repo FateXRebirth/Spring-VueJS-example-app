@@ -49,7 +49,14 @@ export default {
         }
       })
     },
+    IsLogin() {
+      return this.$store.getters.getAuthenticatedUser == null ? false : true;
+    },
     AddFavorite(CarID) {
+      if(!this.IsLogin()) {
+        window.location.href = '/login';
+        return false;
+      }
       let User = this.$store.getters.getAuthenticatedUser;
       if(User.FavoriteCars.indexOf(CarID) !== -1) return;
       this.$axios({
@@ -78,6 +85,10 @@ export default {
       })
     },
     RemoveFavorite(CarID) {
+      if(!this.IsLogin()) {
+        window.location.href = '/login';
+        return false;
+      }
       let User = this.$store.getters.getAuthenticatedUser;
       if(User.FavoriteCars.indexOf(CarID) === -1) return;
       this.$axios({
