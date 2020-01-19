@@ -25,9 +25,9 @@ module.exports = {
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' },
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js' },
-      { src: 'https://unpkg.com/ionicons@4.4.4/dist/ionicons.js'},
       { src: 'https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js'},
       { src: 'https://www.gstatic.com/firebasejs/6.0.2/firebase-messaging.js'},
+      { src: 'https://www.gstatic.com/firebasejs/6.0.2/firebase-storage.js'},
       { src: '/firebase.js'}
     ],
     link: [

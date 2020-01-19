@@ -1,23 +1,23 @@
 <template>
   <section class="talking">
-    <div class="button" @click="HandleToggle()">
+    <div class="button" :class="{ 'hide': show }" @click="show = true; HandleLoad();">
        <i class="el-icon-chat-dot-square"></i> &nbsp; 聊聊
-      <div class="notice"></div>
+      <div class="notice" v-show="unread"></div>
     </div>
-    <div class="model">
+    <div class="model" :class="{ 'show': show }">
       <section class="list">
         <ul class="contacts">
           <li class="title">對話清單</li>
-          <li class="contact" v-for="dialogue in dialogues" :key="dialogue.title" @click="HandleFetch(dialogue)">{{ dialogue.title }}</li>
+          <li class="contact" :class="{ 'active': selected == null ? false : dialogue.uuid == selected.uuid ? true : false, 'pending': dialogue.pending }" v-for="dialogue in dialogues" :key="dialogue.title" @click="HandleFetch(dialogue)">{{ dialogue.title }}<i class="el-icon-message"></i></li>
         </ul>
       </section>
       <section class="dialogue">
         <div class="header">對話內容
-          <div class="close" @click="HandleToggle()"><i class="el-icon-minus"></i></div>
+          <div class="close" @click="show = false"><i class="el-icon-minus"></i></div>
         </div>
         <div class="messages" id="messages" :class="{ 'messages--empty': dialogues.length == 0 }">
           <div class="empty">目前還沒有任何對話訊息喔！</div>
-          <div class="notice" id="prompt"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close" @click="HandlePrompt()"></i></div>
+          <div class="notice" :class="{ 'show': hasPrompt }"><span>對面現在不在線上，您可以留言給他</span><i class="el-icon-close" @click="hasPrompt = !hasPrompt"></i></div>
           <div class="message" v-for="text in OrderedMessages" :key="text.time" :class="{ 'message--receiver': text.speaker != User.Username, 'message--sender': text.speaker == User.Username }">
             <i class="el-icon-user-solid" v-if="text.speaker != User.Username"></i>
             <i class="el-icon-s-custom" v-if="text.speaker == User.Username"></i>
@@ -41,28 +41,42 @@
 <script>
 export default {
   mounted() {
-    if(this.$store.getters.isAuthenticated) {
-      this.User = this.$store.getters.getAuthenticatedUser;
-      this.$axios({
-        method: 'get',
-        url: '/users/dialogues/' + this.User.ID,
-        headers: {
-          'User': this.User.Username,
-          'ID': this.User.ID,
-          'Authorization': this.User.Token
-        },
-      }).then((res => {
-        if(res.data.returnCode == 0) {
-          this.dialogues = res.data.returnData.dialogue;
-          if(this.dialogues.length) this.HandleFetch(this.dialogues[0]);
+    $messaging.onMessage(payload => {
+      const source = JSON.parse(payload.data.dialogue);
+      const message = JSON.parse(payload.data.message);
+      if(!this.show) {
+        this.unread = true;
+        return;
+      } else {
+        this.unread = false;
+        if(this.selected != null && this.selected.uuid == source.uuid) {
+          this.messages.push(message);
+          const scrollHeight = document.getElementById('messages').scrollHeight;
+          document.getElementById('messages').scrollTo({ top: scrollHeight })
         } else {
-            throw new Error(res.data.returnMessage)
+          const isExist = this.dialogues.filter((dialogue) => dialogue.uuid == source.uuid).length == 0 ? false : true;
+          if(isExist) {
+            this.dialogues.map(dialogue => {
+              if(dialogue.uuid == source.uuid) {
+                dialogue.pending = true;
+              }
+            })
+            this.$forceUpdate();
+          } else {
+            this.HandleLoad();
+          }
         }
-      }))
-    }
+      }
+    })
+    this.User = this.$store.getters.getAuthenticatedUser;
   },
   data() {
     return {
+      hasPrompt: false,
+      show: false,
+      unread: false,
+      selected: null,
+      isOnline: false,
       User: null,
       uuid: null,
       token: '',
@@ -84,27 +98,31 @@ export default {
   },
   watch: {
     'dialogue': function(newValue, oldValue) {
-      $messaging.onMessage(payload => {
-      this.messages.push(JSON.parse(payload.data.message));
-        setTimeout(() => {
-          const scrollHeight = document.getElementById('messages').scrollHeight;
-          document.getElementById('messages').scrollTo({ top: scrollHeight })
-          if(document.getElementById('prompt').classList.contains('show')) document.getElementById('prompt').classList.remove('show');
-          if(!document.querySelector('.button').classList.contains('hide')) document.querySelector('.button').classList.add('hide');
-          if(!document.querySelector('.model').classList.contains('show')) document.querySelector('.model').classList.add('show');
-        })
-      })
+      this.messages = [];
     }
   },
   methods: {
-    HandlePrompt: function() {
-      this.$el.querySelector('#prompt').classList.toggle('show');
-    },
-    HandleToggle: function() {
-      this.$el.querySelector('.button').classList.toggle('hide');
-      this.$el.querySelector('.model').classList.toggle('show');
+    HandleLoad: async function() {
+      const Result = await this.$axios({
+        method: 'get',
+        url: '/users/dialogues/' + this.User.ID,
+        headers: {
+          'User': this.User.Username,
+          'ID': this.User.ID,
+          'Authorization': this.User.Token
+        },
+      });
+      if(Result.data.returnCode == 0) {
+        this.dialogues = Result.data.returnData.dialogue;
+        if(this.dialogues.length) this.HandleFetch(this.dialogues[0]);
+        this.show = true;
+      } else {
+        throw new Error(Result.data.returnMessage);
+      }
     },
     HandleFetch: function(dialogue) {
+      this.selected = dialogue;
+      this.selected.pending = false;
       this.uuid = dialogue.uuid;
       this.$axios({
         method: 'get',
@@ -116,11 +134,8 @@ export default {
         },
       }).then((res => {
         if(res.data.returnCode == 0) {
-          if(!res.data.returnData.isOnline) {
-            document.getElementById('prompt').classList.add('show');
-          } else {
-            document.getElementById('prompt').classList.remove('show');
-          }
+          this.hasPrompt = !res.data.returnData.isOnline;
+          this.isOnline = res.data.returnData.isOnline;
         } else {
           throw new Error(res.data.returnMessage)
         }
@@ -151,7 +166,6 @@ export default {
       })
     },
     HandleType: function() {
-      if(document.getElementById('content').value == "") return;
       const message = {
         uuid: this.uuid,
         speaker: this.User.Username,
@@ -159,23 +173,26 @@ export default {
         time: new Date().toISOString()
       }
       this.messages.push(message);
-      const data = {
-        data: {
-          message: message
-        },
-        to: this.token
+      if(this.isOnline && this.token !== null && this.token !== undefined) {
+        const data = {
+          data: {
+            dialogue: this.selected,
+            message: message
+          },
+          to: this.token
+        }
+        this.$axios({
+          url: 'https://fcm.googleapis.com/fcm/send',
+          method: 'POST',
+          headers: {
+              'Authorization': `key=${$messaging.getServerKey()}`,
+              'Content-Type': 'application/json',
+          },
+          data: data
+        }).then((res) => {
+          console.log(res);
+        })
       }
-      this.$axios({
-        url: 'https://fcm.googleapis.com/fcm/send',
-        method: 'POST',
-        headers: {
-            'Authorization': `key=${$messaging.getServerKey()}`,
-            'Content-Type': 'application/json',
-        },
-        data: data
-      }).then((res) => {
-        console.log(res);
-      })
       this.$axios({
         method: 'post',
         url: '/users/messages',
@@ -277,8 +294,15 @@ export default {
           border-bottom: 1px solid #efefef;
           user-select: none;
           &.active, &:hover {
-            color: #fff;
-            background: grey;
+            color: #39AF78;
+          }
+          &.pending {
+            position: relative;
+            & .el-icon-message {
+              position: absolute;
+              top: 1px;
+              right: 1px
+            }
           }
         }
       }

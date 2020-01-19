@@ -7,7 +7,7 @@
     <nuxt/>
     <hr class="hr-30">
     <Footer />
-    <Message v-show="auth" />
+    <Message v-show="auth" ref="Messenger"/>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ import ProgressBar from '~/components/ProgressBar.vue'
 import Nav from '~/components/Nav.vue'
 import Footer from '~/components/Footer.vue'
 import Message from '~/components/Message.vue'
+import Vue from 'vue';
 
 export default {
   components: {
@@ -30,6 +31,9 @@ export default {
     auth: function() {
       return this.$store.getters.getAuthenticatedUser;
     }
+  },
+  mounted() {
+    Vue.prototype.Messenger = this.$refs.Messenger;
   }
 }
 </script>

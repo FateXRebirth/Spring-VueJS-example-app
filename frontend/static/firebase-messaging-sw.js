@@ -11,10 +11,10 @@ firebase.initializeApp(config);
 // Retrieve an instance of Firebase Data Messaging so that it can handle background messages.
 $messaging = firebase.messaging()
 $messaging.setBackgroundMessageHandler(function(payload) {
-  const notificationTitle = 'You have an new message!';
+  const notificationTitle = 'Notification';
   const notificationOptions = {
-    body: payload,
-    icon: 'alarm.png'
+    body: "You have an new message!",
+    icon: 'logo.png'
   };
 
   return self.registration.showNotification(notificationTitle,

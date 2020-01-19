@@ -4,19 +4,15 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const store = () => new Vuex.Store({
-  
+
   state: {
-    authUser: null,
-    message: null,
+    authUser: null
   },
 
   mutations: {
     SET_USER: function (state, user) {
       state.authUser = user;
-    },
-    SET_MESSAGE: function (state, message) {
-      state.message = message;
-    },
+    }
   },
 
   getters: {
@@ -25,10 +21,7 @@ const store = () => new Vuex.Store({
     },
     isAuthenticated: state => {
       return state.authUser === null ? false : true;
-    },
-    getMessage: state => {
-      return state.message;
-    },
+    }
   },
 
   actions: {
@@ -38,10 +31,7 @@ const store = () => new Vuex.Store({
       } else {
         commit('SET_USER', null)
       }
-    },
-    message ({ commit }, message ) {
-      commit('SET_MESSAGE', message);
-    },
+    }
   }
 
 })

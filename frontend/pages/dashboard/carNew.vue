@@ -223,7 +223,7 @@ export default {
         this.EquipmentOptions.push(spec);
       } else if(spec.category == "Safety") {
         this.SafetyOptions.push(spec);
-      } 
+      }
     })
 
     Result = await this.$axios.get('/api/region');
@@ -261,11 +261,6 @@ export default {
       Category.SeriesID = category.seriesID;
       this.CategoryOptions.push(Category);
     })
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(process.env.FIREBASE_CONFIG);
-      this.storage = firebase.storage().ref();
-    }
 
   },
   data() {
@@ -552,12 +547,12 @@ export default {
         //   this.Photos.push(Source);
         // }.bind(this);
 
-        let file = e.target.files[i];      
+        let file = e.target.files[i];
         file.label = (new Date().getTime()) + '_' + file.name;
         let metadata = {
           contentType: file.type
         };
-        let uploadTask = this.storage.child('images/' + file.label).put(file, metadata);
+        let uploadTask = $storage.child('images/' + file.label).put(file, metadata);
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, {
           'complete': function() {
             uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
@@ -569,9 +564,9 @@ export default {
         });
       }
     },
-    HandlePhotoDelete(photo) {    
+    HandlePhotoDelete(photo) {
       // Create a reference to the file to delete
-      var desertRef = this.storage.child('images/' + photo.label);
+      var desertRef = $storage.child('images/' + photo.label);
       // Delete the file
       desertRef.delete().then(function() {
         // File deleted successfully

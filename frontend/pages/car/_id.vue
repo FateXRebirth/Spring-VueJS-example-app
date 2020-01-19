@@ -75,6 +75,7 @@
 import Breadcrumb from '~/components/Breadcrumb.vue';
 import Carousel from '~/components/Carousel.vue';
 import Header from '~/components/Header.vue';
+import Vue from 'vue';
 
 export default {
   components: {
@@ -154,8 +155,6 @@ export default {
         location.href = "/login";
         return;
       }
-      document.querySelector('.talking').querySelector('.button').classList.add('hide');
-      document.querySelector('.talking').querySelector('.model').classList.add('show');
       const dialogue = {
         uuid: _uuid(),
         item: this.Car.carID,
@@ -175,6 +174,8 @@ export default {
       }).then((res => {
         if(res.data.returnCode != 0) {
           throw new Error(res.data.returnMessage)
+        } else {
+          Vue.prototype.Messenger.HandleLoad();
         }
       }))
     }

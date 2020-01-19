@@ -10,6 +10,8 @@ var config = {
 };
 firebase.initializeApp(config);
 
+$storage = firebase.storage().ref();
+
 $messaging = firebase.messaging()
 $messaging.usePublicVapidKey('BHUTBF3t8_VV49A8IziDb-2JFkj0S2sLNmrMcH3kECVl7WdYS_PbrWrtoRgpQrr51F-abvQSKUAn6Rr7BQWlfYs')
 
@@ -30,11 +32,10 @@ navigator.serviceWorker.register('firebase-messaging-sw.js')
         $messaging.getToken()
           .then(function (currentToken) {
             if (currentToken) {
-              console.log('Token: ' + currentToken)
 
               // Store Token in Global
               window.RegistrationToken = currentToken;
-              console.log(`Global Token: ${window.RegistrationToken}`)
+              // console.log(`Global Token: ${window.RegistrationToken}`)
 
               sendTokenToServer(currentToken);
             } else {
