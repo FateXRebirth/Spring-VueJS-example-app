@@ -3,34 +3,56 @@
 <head th:replace="fragments/header :: header('dashboard')"></head>
 <body >
     <div th:replace="fragments/navbar :: navbar"></div>
-        <div id="Dashboard">
-          <hr class="hr-20" />
-          <div class="tabs is-centered is-boxed is-medium">
+      <div class="section">
+        <div class="container">
+          <div class="tabs">
             <ul>
-              <li :class="{ 'is-active' : tab == 'car' }"  v-on:click="Switch('car');">
-                <a>
-                  <span class="icon is-medium"><i class="fas fa-car" aria-hidden="true"></i></span>
-                  <span>Car</span>
-                </a>
-              </li>
-              <li :class="{ 'is-active' : tab == 'member' }"  v-on:click="Switch('member');">
-                <a>
-                  <span class="icon is-medium"><i class="fas fa-users" aria-hidden="true"></i></span>
-                  <span>Memeber</span>
-                </a>
-              </li>
-              <li :class="{ 'is-active' : tab == 'setting' }"  v-on:click="Switch('setting');">
-                <a>
-                  <span class="icon is-medium"><i class="fas fa-sliders-h" aria-hidden="true"></i></span>
-                  <span>Setting</span>
-                </a>
-              </li>
+              <li class="is-active"><a>Cars</a></li>
+              <li><a>Users</a></li>
+              <li><a>News</a></li>
             </ul>
           </div>
-          <div v-if="tab == 'car' ">car</div>
-          <div v-if="tab == 'member' ">member</div>
-          <div v-if="tab == 'setting' ">setting</div>
+          <a class="button is-info">新增</a>
+          <hr class="hr-20"/>
+          <table class="table is-striped is-hoverable is-fullwidth">
+            <thead>
+            <tr>
+              <th>CarID</th>
+              <th>Brand</th>
+              <th>Series</th>
+              <th>Category</th>
+              <th>Year</th>
+              <th>Mileage</th>
+              <th>Price</th>
+              <th>City</th>
+              <th>Image</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="car : ${CarList}">
+              <tr>
+                <td th:text="${car.getCarID()}"></td>
+                <td th:text="${car.getBrandName()}"></td>
+                <td th:text="${car.getSeriesName()}"></td>
+                <td th:text="${car.getCategoryName()}"></td>
+                <td th:text="${car.getYear()}"></td>
+                <td th:text="${car.getMileage()}"></td>
+                <td th:text="${car.getPrice()}"></td>
+                <td th:text="${car.getCity()}"></td>
+                <td>
+                  <img th:src="${car.getImage()}"/>
+                </td>
+                <td>
+                  <a class="button is-warning">編輯</a>
+                  <a class="button is-danger">刪除</a>
+                </td>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
         </div>
+      </div>
     <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

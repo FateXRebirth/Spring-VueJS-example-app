@@ -1,0 +1,27 @@
+.table {
+    background-color: #fff;
+    color: #363636;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.table img {
+    max-width: 100px;
+    height: auto;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table a {
+    margin: 0px 5px;
+}
+
+@media screen and (max-width: 1024px) {
+    .table {
+        overflow: auto;
+        display: block;
+    }
+}

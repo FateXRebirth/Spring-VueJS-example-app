@@ -3,9 +3,20 @@
     <meta charset="UTF-8" />
     <title th:text="${title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <!--JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.6.3/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.6.3/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--Script-->
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+    <!--CSS-->
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <!--<link rel="stylesheet" th:href="@{'/css/' + ${#strings.toLowerCase(title) + '.css' }}" />-->
+    <link rel="stylesheet" th:href="@{/css/{file}(file=${#strings.toLowerCase(title) + '.css' })}" />
 </head>
 </html>

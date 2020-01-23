@@ -25,6 +25,40 @@ public class CarRepository {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
+    public Result getCarsList() {
+        Result result = new Result();
+        String query =
+                "SELECT \n" +
+                        "Car.id AS CarID,\n" +
+                        "Brand.name AS BrandName,\n" +
+                        "Series.name AS SeriesName,\n" +
+                        "Category.name AS CategoryName,\n" +
+                        "Year.label AS Year,\n" +
+                        "Car.mileage AS Mileage,\n" +
+                        "Car.price AS Price,\n" +
+                        "City.label AS City,\n" +
+                        "Car.modifyDate AS ModifyDate,\n" +
+                        "(SELECT File.url FROM file AS File WHERE File.carid = Car.id LIMIT 1) AS Image\n" +
+                        "FROM car AS Car\n" +
+                        "LEFT JOIN brand AS Brand\n" +
+                        "ON Car.brand = Brand.id\n" +
+                        "LEFT JOIN series AS Series\n" +
+                        "ON Car.series = Series.id\n" +
+                        "LEFT JOIN category AS Category\n" +
+                        "ON Car.category = Category.id\n" +
+                        "LEFT JOIN (SELECT label, value FROM specification WHERE category = 'Year') as Year\n" +
+                        "ON Car.year = Year.value\n" +
+                        "LEFT JOIN (SELECT label, value FROM region WHERE country = 0) AS City\n" +
+                        "ON Car.city = City.value;";
+        List<CarList> cars = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(CarList.class));
+        JSONObject obj = new JSONObject();
+        obj.put("cars", cars);
+        result.setReturnCode(0);
+        result.setReturnMessage("Fetched Successfully");
+        result.setReturnData(obj);
+        return result;
+    }
+
     public Result getCars(CarSearch carSearch) {
         Result result = new Result();
         try {

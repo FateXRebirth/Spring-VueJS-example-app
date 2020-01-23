@@ -3,6 +3,7 @@ package example.Controller;
 import example.Request.MemberLogin;
 import example.Request.MemberRegister;
 import example.Response.Result;
+import example.Service.CarService;
 import example.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by FateXRebirth on 20/10/2017.
@@ -31,6 +33,8 @@ public class ViewController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    CarService carService;
 
     // git log --pretty=format:'{%n "subject": "%s",%n "name": "%cn",%n "hash": "%h",%n "date": "%ci" %n},'  | sed "$ s/,$//" | sed ':a;N;$!ba;s/\r\n\([^{]\)/\\n\1/g'| awk 'BEGIN { print("[") } { print($0) } END { print("]") }' > log.json
 
@@ -126,10 +130,14 @@ public class ViewController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session) {
+    public String dashboard(HttpSession session, Model model) {
         if(session.getAttribute("uid") == null) {
             return "redirect:/login";
         }
+
+        Result result = carService.getCarsList();
+
+        model.addAttribute("CarList", result.getReturnData().get("cars"));
         return "dashboard";
     }
 

@@ -7,6 +7,8 @@ import example.Response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarService {
 
@@ -26,6 +28,8 @@ public class CarService {
     public Result getSeries() { return seriesRepository.getSeries(); }
 
     public Result getCategories() { return categoryRepository.getCategories(); }
+
+    public Result getCarsList() { return  carRepository.getCarsList(); }
 
     public Result getCars(CarSearch carSearch) { return  carRepository.getCars(carSearch); }
 
