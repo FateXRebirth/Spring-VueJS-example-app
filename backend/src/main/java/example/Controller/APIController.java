@@ -121,7 +121,7 @@ public class APIController {
 
     @GetMapping("/users")
     public Result getUsers() {
-        return userService.getUsers();
+        return userService.getUserList();
     }
 
     @GetMapping("/users/{ID}")

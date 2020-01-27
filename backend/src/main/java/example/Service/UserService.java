@@ -40,7 +40,7 @@ public class UserService {
 
     public Result isOnline(int MemberID) { return logRepository.isOnline(MemberID); }
 
-    public Result getUsers() { return userRepository.getUsers(); }
+    public Result getUserList() { return userRepository.getUserList(); }
 
     public Result getUserByID(int MemberID) { return userRepository.getUserByID(MemberID); }
 

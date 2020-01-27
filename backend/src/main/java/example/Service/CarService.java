@@ -29,7 +29,7 @@ public class CarService {
 
     public Result getCategories() { return categoryRepository.getCategories(); }
 
-    public Result getCarsList() { return  carRepository.getCarsList(); }
+    public Result getCarList() { return  carRepository.getCarList(); }
 
     public Result getCars(CarSearch carSearch) { return  carRepository.getCars(carSearch); }
 

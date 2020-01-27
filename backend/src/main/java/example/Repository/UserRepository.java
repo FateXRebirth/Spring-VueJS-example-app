@@ -23,13 +23,13 @@ public class UserRepository {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
-    public Result getUsers() {
+    public Result getUserList() {
         Result result = new Result();
         try {
             String query = "SELECT id, account, password, email, type, name, phone, address FROM user";
             List<User> users = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(User.class));
             JSONObject obj = new JSONObject();
-            obj.put("user", users);
+            obj.put("users", users);
             result.setReturnCode(0);
             result.setReturnMessage("Fetched Successfully");
             result.setReturnData(obj);

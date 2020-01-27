@@ -25,7 +25,7 @@ public class CarRepository {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.mysqlDataSource());
     NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(SpringJdbcConfig.mysqlDataSource());
 
-    public Result getCarsList() {
+    public Result getCarList() {
         Result result = new Result();
         String query =
                 "SELECT \n" +

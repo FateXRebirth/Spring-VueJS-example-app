@@ -3,25 +3,33 @@
   color: #363636;
   margin-bottom: 1.5rem;
   width: 100%;
-}
 
-.table img {
-  max-width: 100px;
-  height: auto;
-}
+  & img {
+    max-width: 100px;
+    height: auto;
+  }
 
-.table th, .table td {
-  vertical-align: middle;
-  text-align: center;
-}
+  & tr {
+    & th, & td {
+      &:last-child {
+        width: 200px;
+      }
+    }
+  }
 
-.table a {
-  margin: 0px 5px;
-}
+  & th, & td {
+    vertical-align: middle;
+    text-align: center;
+  }
 
-@media screen and (max-width: 1024px) {
-  .table {
-    overflow: auto;
-    display: block;
+  & a {
+    margin: 0px 5px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .table {
+      overflow: auto;
+      display: block;
+    }
   }
 }

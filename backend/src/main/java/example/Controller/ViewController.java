@@ -2,8 +2,12 @@ package example.Controller;
 
 import example.Request.MemberLogin;
 import example.Request.MemberRegister;
+import example.Response.CarList;
+import example.Response.News;
 import example.Response.Result;
+import example.Response.User;
 import example.Service.CarService;
+import example.Service.CommonService;
 import example.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +36,11 @@ import java.util.List;
 public class ViewController {
 
     @Autowired
+    CarService carService;
+    @Autowired
     UserService userService;
     @Autowired
-    CarService carService;
+    CommonService commonService;
 
     // git log --pretty=format:'{%n "subject": "%s",%n "name": "%cn",%n "hash": "%h",%n "date": "%ci" %n},'  | sed "$ s/,$//" | sed ':a;N;$!ba;s/\r\n\([^{]\)/\\n\1/g'| awk 'BEGIN { print("[") } { print($0) } END { print("]") }' > log.json
 
@@ -134,10 +140,12 @@ public class ViewController {
         if(session.getAttribute("uid") == null) {
             return "redirect:/login";
         }
-
-        Result result = carService.getCarsList();
-
-        model.addAttribute("CarList", result.getReturnData().get("cars"));
+        List<CarList> carResult = (List<CarList>)carService.getCarList().getReturnData().get("cars");
+        List<User> userResult = (List<User>)userService.getUserList().getReturnData().get("users");
+        List<News> newsResult = (List<News>)commonService.getNews().getReturnData().get("news");
+        model.addAttribute("CarList", carResult);
+        model.addAttribute("UserList", userResult);
+        model.addAttribute("NewsList", newsResult);
         return "dashboard";
     }
 
