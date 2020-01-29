@@ -1,0 +1,110 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="Cars(CarList)" th:remove="tag">
+    <hr class="hr-20"/>
+    <a class="button is-info">新增</a>
+    <hr class="hr-20"/>
+    <table class="table is-striped is-hoverable is-fullwidth" id="CarList">
+        <thead>
+        <tr>
+            <th>CarID</th>
+            <th>Brand</th>
+            <th>Series</th>
+            <th>Category</th>
+            <th>Year</th>
+            <th>Mileage</th>
+            <th>Price</th>
+            <th>City</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="car : ${CarList}">
+            <tr>
+                <td th:text="${car.getCarID()}"></td>
+                <td th:text="${car.getBrandName()}"></td>
+                <td th:text="${car.getSeriesName()}"></td>
+                <td th:text="${car.getCategoryName()}"></td>
+                <td th:text="${car.getYear()}"></td>
+                <td th:text="${car.getMileage()}"></td>
+                <td th:text="${car.getPrice()}"></td>
+                <td th:text="${car.getCity()}"></td>
+                <td>
+                    <img th:src="${car.getImage()}"/>
+                </td>
+                <td>
+                    <a class="button is-warning">編輯</a>
+                    <a class="button is-danger">刪除</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div th:fragment="Users(UserList)" th:remove="tag">
+    <hr class="hr-20"/>
+    <a class="button is-info">新增</a>
+    <hr class="hr-20"/>
+    <table class="table is-striped is-hoverable is-fullwidth" id="UserList">
+        <thead>
+        <tr>
+            <th>UserID</th>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Account</th>
+            <th>Password</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Type</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="user : ${UserList}">
+            <tr>
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getName()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td th:text="${user.getAccount()}"></td>
+                <td th:text="${user.getPassword()}"></td>
+                <td th:text="${user.getPhone()}"></td>
+                <td th:text="${user.getAddress()}"></td>
+                <td th:text="${user.getType()}"></td>
+                <td>
+                    <a class="button is-warning">編輯</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div th:fragment="News(NewsList)" th:remove="tag">
+    <hr class="hr-20"/>
+    <a class="button is-info">新增</a>
+    <hr class="hr-20"/>
+    <table class="table is-striped is-hoverable is-fullwidth" id="NewsList">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="news : ${NewsList}">
+            <tr>
+                <td th:text="${news.getType()}"></td>
+                <td th:text="${news.getTitle()}"></td>
+                <td th:text="${news.getContent()}"></td>
+                <td th:text="${news.getDate()}"></td>
+                <td>
+                    <a class="button is-warning">編輯</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+</html>

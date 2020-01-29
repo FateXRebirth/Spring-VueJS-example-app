@@ -5,116 +5,29 @@
     <div th:replace="fragments/navbar :: navbar"></div>
       <div class="section">
         <div class="container">
-          <div class="tabs">
-            <ul>
-              <li class="is-active"><a>Cars</a></li>
-              <li><a>Users</a></li>
-              <li><a>News</a></li>
-            </ul>
-          </div>
-          <a class="button is-info">新增</a>
-          <hr class="hr-20"/>
-          <table class="table is-striped is-hoverable is-fullwidth">
-            <thead>
-            <tr>
-              <th>CarID</th>
-              <th>Brand</th>
-              <th>Series</th>
-              <th>Category</th>
-              <th>Year</th>
-              <th>Mileage</th>
-              <th>Price</th>
-              <th>City</th>
-              <th>Image</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="car : ${CarList}">
-              <tr>
-                <td th:text="${car.getCarID()}"></td>
-                <td th:text="${car.getBrandName()}"></td>
-                <td th:text="${car.getSeriesName()}"></td>
-                <td th:text="${car.getCategoryName()}"></td>
-                <td th:text="${car.getYear()}"></td>
-                <td th:text="${car.getMileage()}"></td>
-                <td th:text="${car.getPrice()}"></td>
-                <td th:text="${car.getCity()}"></td>
-                <td>
-                  <img th:src="${car.getImage()}"/>
-                </td>
-                <td>
-                  <a class="button is-warning">編輯</a>
-                  <a class="button is-danger">刪除</a>
-                </td>
-              </tr>
-            </th:block>
-            </tbody>
-          </table>
 
-          <hr class="hr-20"/>
-          <a class="button is-info">新增</a>
-          <hr class="hr-20"/>
-          <table class="table is-striped is-hoverable is-fullwidth">
-            <thead>
-            <tr>
-              <th>Type</th>
-              <th>Title</th>
-              <th>Content</th>
-              <th>Date</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="news : ${NewsList}">
-              <tr>
-                <td th:text="${news.getType()}"></td>
-                <td th:text="${news.getTitle()}"></td>
-                <td th:text="${news.getContent()}"></td>
-                <td th:text="${news.getDate()}"></td>
-                <td>
-                  <a class="button is-warning">編輯</a>
-                  <a class="button is-danger">刪除</a>
-                </td>
-              </tr>
-            </th:block>
-            </tbody>
-          </table>
+          <th:block th:if="true">
+            <div class="tabs" th:if="${CarList} and ${UserList} and ${NewsList}">
+              <ul>
+                <li onclick="scrollToTarget('#CarList')"><a>Cars</a></li>
+                <li onclick="scrollToTarget('#UserList')"><a>Users</a></li>
+                <li onclick="scrollToTarget('#NewsList')"><a>News</a></li>
+              </ul>
+            </div>
 
-          <hr class="hr-20"/>
-          <a class="button is-info">新增</a>
-          <hr class="hr-20"/>
-          <table class="table is-striped is-hoverable is-fullwidth">
-            <thead>
-            <tr>
-              <th>Name</th>
-              <th>E-mail</th>
-              <th>Account</th>
-              <th>Password</th>
-              <th>Phone</th>
-              <th>Address</th>
-              <th>Type</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="user : ${UserList}">
-              <tr>
-                <td th:text="${user.getName()}"></td>
-                <td th:text="${user.getEmail()}"></td>
-                <td th:text="${user.getAccount()}"></td>
-                <td th:text="${user.getPassword()}"></td>
-                <td th:text="${user.getPhone()}"></td>
-                <td th:text="${user.getAddress()}"></td>
-                <td th:text="${user.getType()}"></td>
-                <td>
-                  <a class="button is-warning">編輯</a>
-                  <a class="button is-danger">刪除</a>
-                </td>
-              </tr>
+            <th:block th:if="${CarList}">
+              <section th:replace="fragments/list :: Cars(${CarList})"></section>
             </th:block>
-            </tbody>
-          </table>
+
+            <th:block th:if="${UserList}">
+              <section th:replace="fragments/list :: Users(${UserList})"></section>
+            </th:block>
+
+            <th:block th:if="${NewsList}">
+              <section th:replace="fragments/list :: News(${NewsList})"></section>
+            </th:block>
+          </th:block>
+
         </div>
       </div>
     <div th:replace="fragments/footer :: footer"></div>

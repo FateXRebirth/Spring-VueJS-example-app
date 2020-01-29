@@ -1,384 +1,248 @@
-// navbar-burger
-document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function() {
+  // Check for click events on the navbar burger icon
+  $(".navbar-burger").click(function() {
+      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+      $(".navbar-burger").toggleClass("is-active");
+      $(".navbar-menu").toggleClass("is-active");
 
-  // Get all "navbar-burger" elements
-  var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-  // Check if there are any navbar burgers
-  if ($navbarBurgers.length > 0) {
-
-    // Add a click event on each of them
-    $navbarBurgers.forEach(function ($el) {
-      $el.addEventListener('click', function () {
-
-        // Get the target from the "data-target" attribute
-        var target = $el.dataset.target;
-        var $target = document.getElementById(target);
-
-        // Toggle the class on both the "navbar-burger" and the "navbar-menu"
-        $el.classList.toggle('is-active');
-        $target.classList.toggle('is-active');
-
-      });
-    });
-  }
-
+  });
 });
 
-$('.delete').click(function(event) {
-    $(this).closest('.message').fadeOut();
-})
-
-// Regular Expression
-var Pattern = {
-    email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+// Add the novalidate attribute when the JS loads
+var forms = document.querySelectorAll('.validate');
+for (var i = 0; i < forms.length; i++) {
+    forms[i].setAttribute('novalidate', true);
 }
 
-// Create custom message
-var message = function(message) {
-    var element = document.createElement("p");
-    element.className = "help is-danger ";
-    element.innerText = message;
-    return element;
-}
 
-// Check input dynamically
-var check = function(event, type) {
+// Validate the field
+var hasError = function (field) {
 
-    var element = event.target;
-    var error = $(element).parent().next();
-    error.empty();
+    // Don't validate submits, buttons, file and reset inputs, and disabled fields
+    if (field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') return;
 
-    switch(type) {
+    // Get validity
+    var validity = field.validity;
 
-        case "username":
-            if(element.value.length == 0 ) {
-                error.append(message("Username Required"));
-            } else if (element.value.length < 4 || element.value.length > 20 ) {
-                error.append(message("Length of username should between 4 and 20"));
-            } else {
-                error.empty()
-            }
-        break;
+    // If valid, return null
+    if (validity.valid) return;
 
-        case "password":
-            if(element.value.length == 0 ) {
-                error.append(message("Password Required"));
-            } else if (element.value.length < 4 || element.value.length > 20 ) {
-                error.append(message("Length of password should between 4 and 20"));
-            } else {
-                error.empty()
-            }
-        break;
+    // If field is required and empty
+    if (validity.valueMissing) return 'Please fill out this field.';
 
-        case "email":
-            if(element.value.length == 0 ) {
-              error.append(message("Email Required"));
-            } else if (!Pattern.email.test(element.value)) {
-              error.append(message("Email Invalid"));
-            } else {
-                error.empty()
-            }
-        break;
+    // If not the right type
+    if (validity.typeMismatch) {
 
-        case "confirmation":
-            if(element.value.length == 0 ) {
-                error.append(message("Confirmation Required"));
-            } else if (element.value.length < 4 || element.value.length > 20 ) {
-                error.append(message("Length of confirmation should between 4 and 20"));
-            } else {
-                error.empty()
-            }
-        ;
-        break;
+        // Email
+        if (field.type === 'email') return 'Please enter an email address.';
+
+        // URL
+        if (field.type === 'url') return 'Please enter a URL.';
+
     }
 
-}
+    // If too short
+    if (validity.tooShort) return 'Please lengthen this text to ' + field.getAttribute('minLength') + ' characters or more. You are currently using ' + field.value.length + ' characters.';
 
-// Validate login form
-$('#loginForm').submit(function(event) {
+    // If too long
+    if (validity.tooLong) return 'Please shorten this text to no more than ' + field.getAttribute('maxLength') + ' characters. You are currently using ' + field.value.length + ' characters.';
 
-    var exist = false;
+    // If number input isn't a number
+    if (validity.badInput) return 'Please enter a number.';
 
-    $('.message-body').empty();
+    // If a number value doesn't match the step interval
+    if (validity.stepMismatch) return 'Please select a valid value.';
 
-    var username = $('input[name=username]');
-    var password = $('input[name=password]');
+    // If a number field is over the max
+    if (validity.rangeOverflow) return 'Please select a value that is no more than ' + field.getAttribute('max') + '.';
 
-    if($('.help.is-danger').length > 0) return false;
+    // If a number field is below the min
+    if (validity.rangeUnderflow) return 'Please select a value that is no less than ' + field.getAttribute('min') + '.';
 
-    if(username.val() == "" || password.val() == "") {
-        if(username.val() == "") username.parent().next().append(message("Username Required"));
-        if(password.val() == "") password.parent().next().append(message("Password Required"));
-        return false;
-    } else {
-        $.ajax("http://localhost:8081/api/person/GetAllPerson", { async: false })
-        .done(function(data) {
-            data.forEach( function(person) {
-                if(person.username == username.val()) {
-                    exist = true;
-                    if(person.password == password.val()) {
-                        $('#success-message .message-body').append(message("Successfully!"));
-                        $('#success-message').fadeIn();
-                        setTimeout(function() {
-                           $('#success-message').fadeOut();
-                        }, 1500)
-                        return false;
-                    } else {
-                        $('#failure-message .message-body').append(message("Password is not correct"));
-                    }
-                }
-            })
-            if(!exist) {
-                $('#failure-message .message-body').append(message("Username does not exist"));
+    // If pattern doesn't match
+    if (validity.patternMismatch) {
+
+        // If pattern info is included, return custom error
+        if (field.hasAttribute('title')) return field.getAttribute('title');
+
+        // Otherwise, generic error
+        return 'Please match the requested format.';
+
+    }
+
+    // If all else fails, return a generic catchall error
+    return 'The value you entered for this field is invalid.';
+
+};
+
+
+// Show an error message
+var showError = function (field, error) {
+
+    // Add error class to field
+    field.classList.add('is-danger');
+
+    // If the field is a radio button and part of a group, error all and get the last item in the group
+    if (field.type === 'radio' && field.name) {
+        var group = document.getElementsByName(field.name);
+        if (group.length > 0) {
+            for (var i = 0; i < group.length; i++) {
+                // Only check fields in current form
+                if (group[i].form !== field.form) continue;
+                group[i].classList.add('is-danger');
             }
-        })
+            field = group[group.length - 1];
+        }
     }
 
-    if($('#failure-message .message-body').children().length > 0) {
-        $('#failure-message').fadeIn();
-        setTimeout(function() {
-            $('#failure-message').fadeOut();
-        }, 1500)
-        return false;
+    // Get field id or name
+    var id = field.id || field.name;
+    if (!id) return;
+
+    // Check if error message field already exists
+    // If not, create one
+    var message = field.form.querySelector('.help.is-danger#error-for-' + id );
+    if (!message) {
+        message = document.createElement('p');
+        message.className = 'help is-danger';
+        message.id = 'error-for-' + id;
+
+        // If the field is a radio button or checkbox, insert error after the label
+        var label;
+        if (field.type === 'radio' || field.type ==='checkbox') {
+            label = field.form.querySelector('label[for="' + id + '"]') || field.parentNode;
+            if (label) {
+                label.parentNode.insertBefore( message, label.nextSibling );
+            }
+        }
+
+        // Otherwise, insert it after the field
+        if (!label) {
+            field.parentNode.insertBefore( message, field.nextSibling );
+        }
+
     }
-})
 
-// Validate register form
-$('#registerForm').submit(function(event) {
+    // Add ARIA role to the field
+    field.setAttribute('aria-describedby', 'error-for-' + id);
 
-    event.preventDefault();
+    // Update error message
+    message.innerHTML = error;
 
-    var exist = false;
+    // Show error message
+    message.style.display = 'block';
+    message.style.visibility = 'visible';
 
-    $('.message-body').empty();
+};
 
-    var username = $('input[name=username]');
-    var email = $('input[name=email]');
-    var password = $('input[name=password]');
-    var confirmation = $('input[name=confirmation]');
 
-    if($('.help.is-danger').length > 0) return false;
+// Remove the error message
+var removeError = function (field) {
 
-    if(username.val() == "" || password.val() == "") {
-        if(username.val() == "") username.parent().next().append(message("Username Required"));
-        if(email.val() == "") email.parent().next().append(message("E-mail Required"));
-        if(password.val() == "") password.parent().next().append(message("Password Required"));
-        if(confirmation.val() == "") confirmation.parent().next().append(message("Confirmation Required"));
-        return false;
-    } else {
-        $.ajax("http://localhost:8081/api/person/GetAllPersonEmail", { async: false })
-        .done(function(data) {
-            data.forEach( function(Email) {
-                if(Email == email.val()) {
-                    exist = true;
-                    $('#failure-message .message-body').append(message("This email has been used"));
-                }
-            })
-        })
-        if(!exist) {
-            if(password.val() == confirmation.val()) {
-                var data = {
-                    username: username.val(),
-                    email: email.val(),
-                    password: password.val(),
-                    type: 'user'
-                }
-                $.ajax({
-                    async: false,
-                    type: "POST",
-                    contentType: "application/json",
-                    url: "http://localhost:8081/api/person/Create",
-                    data: JSON.stringify(data),
-                    dataType: 'json',
-                })
-                $('#success-message .message-body').append(message("Successfully! You can login now"));
-                $('#success-message').fadeIn();
-                setTimeout(function() {
-                   $('#success-message').fadeOut();
-                   window.location.replace("/login")
-                }, 1500)
-                return false;
-            } else {
-                $('#failure-message .message-body').append(message("Password should be same"));
+    // Remove error class to field
+    field.classList.remove('is-danger');
+
+    // Remove ARIA role from the field
+    field.removeAttribute('aria-describedby');
+
+    // If the field is a radio button and part of a group, remove error from all and get the last item in the group
+    if (field.type === 'radio' && field.name) {
+        var group = document.getElementsByName(field.name);
+        if (group.length > 0) {
+            for (var i = 0; i < group.length; i++) {
+                // Only check fields in current form
+                if (group[i].form !== field.form) continue;
+                group[i].classList.remove('is-danger');
+            }
+            field = group[group.length - 1];
+        }
+    }
+
+    // Get field id or name
+    var id = field.id || field.name;
+    if (!id) return;
+
+
+    // Check if an error message is in the DOM
+    var message = field.form.querySelector('.help.is-danger#error-for-' + id + '');
+    if (!message) return;
+
+    // If so, hide it
+    message.innerHTML = '';
+    message.style.display = 'none';
+    message.style.visibility = 'hidden';
+
+};
+
+
+// Listen to all blur events
+document.addEventListener('blur', function (event) {
+
+    // Only run if the field is in a form to be validated
+    if (!event.target.form.classList.contains('validate')) return;
+
+    // Validate the field
+    var error = hasError(event.target);
+
+    // If there's an error, show it
+    if (error) {
+        showError(event.target, error);
+        return;
+    }
+
+    // Otherwise, remove any existing error message
+    removeError(event.target);
+
+}, true);
+
+
+// Check all fields on submit
+document.addEventListener('submit', function (event) {
+
+    // Only run on forms flagged for validation
+    if (!event.target.classList.contains('validate')) return;
+
+    // Get all of the form elements
+    var fields = event.target.elements;
+
+    // Validate each field
+    // Store the first field with an error to a variable so we can bring it into focus later
+    var error, hasErrors;
+    for (var i = 0; i < fields.length; i++) {
+        error = hasError(fields[i]);
+        if (error) {
+            showError(fields[i], error);
+            if (!hasErrors) {
+                hasErrors = fields[i];
             }
         }
     }
 
-    if($('#failure-message .message-body').children().length > 0) {
-        $('#failure-message').fadeIn();
-        setTimeout(function() {
-            $('#failure-message').fadeOut();
-        }, 1500)
-        return false;
+    // If there are errrors, don't submit form and focus on first element with error
+    if (hasErrors) {
+        event.preventDefault();
+        hasErrors.focus();
     }
-})
 
-// Reset target form
-function ResetForm(target) {
-    if(target == 'brand') {
-        $('form[name=' + target + ']').get(0).reset();
-    } else if(target == 'model') {
-        $('form[name=' + target + ']').get(0).reset();
-        $('form[name=' + target + ']').find('.brands').val("0").change();
-    } else {
-        $('form[name=' + target + ']').find('.brands').val("0").change();
-        $('form[name=' + target + ']').find('.models').val("0").change();
-        $('form[name=' + target + ']').find('.years').val("0").change();
-    }
-}
+    // Otherwise, let the form submit normally
+    // You could also bolt in an Ajax form submit process here
 
-// Update brand select options after creating a new brand
-function UpdateBrands() {
-    $('.brands').empty();
-    $('.brands').append($('<option>', { value : 0 }).text("Select Brand"));
-    $.ajax("http://localhost:8081/api/brand/GetAllBrand", { async: false })
-        .done(function(data) {
-            data.forEach( function(option) {
-                $('.brands').append($('<option>', { value : option.id }).text(option.name));
-            })
+}, false);
+
+// Check Password and Confirmation are same.
+if(document.getElementsByName('confirmation').length) {
+    document.querySelector('input[name=password]').addEventListener('input', function() {
+        document.querySelector('input[name=confirmation]').setAttribute("pattern", document.querySelector('input[name=password]').value);
+    })
+    document.querySelector('input[name=confirmation]').addEventListener('input', function() {
+        document.querySelector('input[name=password]').setAttribute("pattern", document.querySelector('input[name=confirmation]').value);
     })
 }
 
-$('#brands').change(function() {
-    const BrandID = $(event.target).val();
-    const data = {
-        brandID : BrandID
-    }
-    $.ajax({
-        async: false,
-        type: "POST",
-        contentType: "application/json",
-        url: "http://localhost:8081/api/model/GetAllModelByBrandID",
-        data: JSON.stringify(data),
-        dataType: 'json'
-        })
-        .done(function(data) {
-            $('.models').empty();
-            $('.models').append($('<option>', { value : 0 }).text("Select Model"));
-            data.forEach( function(option) {
-                $('.models').append($('<option>', { value : option.id }).text(option.name));
-            })
-    })
-})
-
-function UpdateYears() {
-    $('.years').empty();
-    $('.years').append($('<option>', { value : 0 }).text("Select Year"));
-    $.ajax("http://localhost:8081/api/year/GetAllYear", { async: false })
-        .done(function(data) {
-            data.forEach( function(option) {
-                $('.years').append($('<option>', { value : option.id }).text(option.name));
-            })
-    })
+function Close(event) {
+    event.parentElement.style.display = 'none';
 }
 
-function BrandCreate() {
-    $('.message-body').empty();
-    var form = $('form[name=brand]');
-    const Name = form.find($('input[name=brand]')).val();
-    if(Name != "") {
-        const data = {
-            name: Name
-        }
-        $.ajax({
-            async: false,
-            type: "POST",
-            contentType: "application/json",
-            url: "http://localhost:8081/api/brand/Create",
-            data: JSON.stringify(data),
-            dataType: 'json',
-        }).done(function(response) {
-            if(response == 0) {
-                $('#success-message-right .message-body').append(message("Create Successfully!"));
-                $('#success-message-right').fadeIn();
-                setTimeout(function() {
-                   $('#success-message-right').fadeOut();
-                }, 1500)
-                UpdateBrands()
-                ResetForm('brand')
-            } else {
-                $('#failure-message-left .message-body').append(message("Duplicate Brand Name"));
-                $('#failure-message-left').fadeIn();
-                setTimeout(function() {
-                    $('#failure-message-left').fadeOut();
-                }, 1500)
-            }
-        })
-    }
-}
-
-function ModelCreate() {
-    $('.message-body').empty();
-    var form = $('form[name=model]');
-    const ID = form.find($('.brands')).val();
-    const Name = form.find($('input[name=model]')).val();
-    if(Name != "" && ID != 0) {
-        const data = {
-            brandID: ID,
-            name: Name
-        }
-        $.ajax({
-            async: false,
-            type: "POST",
-            contentType: "application/json",
-            url: "http://localhost:8081/api/model/Create",
-            data: JSON.stringify(data),
-            dataType: 'json',
-        }).done(function(response) {
-            if(response == 0) {
-                $('#success-message-right .message-body').append(message("Create Successfully!"));
-                $('#success-message-right').fadeIn();
-                setTimeout(function() {
-                   $('#success-message-right').fadeOut();
-                }, 1500)
-                ResetForm('model')
-                ResetForm('car')
-            } else {
-                $('#failure-message-left .message-body').append(message("Duplicate Model Name"));
-                $('#failure-message-left').fadeIn();
-                setTimeout(function() {
-                    $('#failure-message-left').fadeOut();
-                }, 1500)
-            }
-        })
-    }
-}
-
-function CarCreate() {
-    $('.message-body').empty();
-    var form = $('form[name=car]');
-    const brand = form.find($('.brands')).val();
-    const model = form.find($('.models')).val();
-    const year = form.find($('.years')).val();
-    if(brand != 0 && model != 0 && year != 0) {
-        const data = {
-            brandID: brand,
-            modelID: model,
-            yearID: year
-        }
-        $.ajax({
-            async: false,
-            type: "POST",
-            contentType: "application/json",
-            url: "http://localhost:8081/api/car/Create",
-            data: JSON.stringify(data),
-            dataType: 'json',
-        }).done(function(response) {
-            if(response == 0) {
-                $('#success-message-right .message-body').append(message("Create Successfully!"));
-                $('#success-message-right').fadeIn();
-                setTimeout(function() {
-                   $('#success-message-right').fadeOut();
-                }, 1500)
-                ResetForm('car')
-            } else {
-                $('#failure-message-left .message-body').append(message("This car already exists"));
-                $('#failure-message-left').fadeIn();
-                setTimeout(function() {
-                    $('#failure-message-left').fadeOut();
-                }, 1500)
-            }
-        })
-    }
+const scrollToTarget = (selector) => {
+    document.querySelector(selector).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
 }

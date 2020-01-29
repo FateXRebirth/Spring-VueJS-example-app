@@ -26,6 +26,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by FateXRebirth on 20/10/2017.
@@ -135,17 +136,38 @@ public class ViewController {
         return "redirect:/";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
+    @GetMapping(path = {"/dashboard", "/dashboard/{type}", "/dashboard/{type}/{id}"})
+    public String dashboard(@PathVariable("type") Optional<String> type, @PathVariable("id") Optional<Integer> id, HttpSession session, Model model) {
         if(session.getAttribute("uid") == null) {
             return "redirect:/login";
         }
-        List<CarList> carResult = (List<CarList>)carService.getCarList().getReturnData().get("cars");
-        List<User> userResult = (List<User>)userService.getUserList().getReturnData().get("users");
-        List<News> newsResult = (List<News>)commonService.getNews().getReturnData().get("news");
-        model.addAttribute("CarList", carResult);
-        model.addAttribute("UserList", userResult);
-        model.addAttribute("NewsList", newsResult);
+        if(id.isPresent() && type.isPresent()) {
+            if( type.get().equals("cars")) {
+
+            } else if(type.get().equals("users")) {
+
+            } else if(type.get().equals("news")) {
+
+            }
+        } else if(!id.isPresent() && type.isPresent()) {
+            if( type.get().equals("cars")) {
+                List<CarList> carResult = (List<CarList>)carService.getCarList().getReturnData().get("cars");
+                model.addAttribute("CarList", carResult);
+            } else if(type.get().equals("users")) {
+                List<User> userResult = (List<User>)userService.getUserList().getReturnData().get("users");
+                model.addAttribute("UserList", userResult);
+            } else if(type.get().equals("news")) {
+                List<News> newsResult = (List<News>)commonService.getNews().getReturnData().get("news");
+                model.addAttribute("NewsList", newsResult);
+            }
+        } else {
+            List<CarList> carResult = (List<CarList>)carService.getCarList().getReturnData().get("cars");
+            List<User> userResult = (List<User>)userService.getUserList().getReturnData().get("users");
+            List<News> newsResult = (List<News>)commonService.getNews().getReturnData().get("news");
+            model.addAttribute("CarList", carResult);
+            model.addAttribute("UserList", userResult);
+            model.addAttribute("NewsList", newsResult);
+        }
         return "dashboard";
     }
 
