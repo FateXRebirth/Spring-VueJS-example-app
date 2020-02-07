@@ -1,0 +1,806 @@
+[
+{
+ "subject": "Backend - Object List Done",
+ "name": "FateXRebirth",
+ "hash": "3057088",
+ "date": "2020-01-29 22:37:33 +0800" 
+},
+{
+ "subject": "Backend - Dashboard done",
+ "name": "FateXRebirth",
+ "hash": "5292e41",
+ "date": "2020-01-27 20:49:38 +0800" 
+},
+{
+ "subject": "Backend - Remove useless files and Refactoring",
+ "name": "FateXRebirth",
+ "hash": "5edb572",
+ "date": "2020-01-23 13:44:58 +0800" 
+},
+{
+ "subject": "Frontend - Fix Firebase Bugs",
+ "name": "FateXRebirth",
+ "hash": "5e75001",
+ "date": "2020-01-19 14:39:32 +0800" 
+},
+{
+ "subject": "Frontend - Remove Useless Files and Adjustment",
+ "name": "FateXRebirth",
+ "hash": "f8a688e",
+ "date": "2020-01-11 00:34:18 +0800" 
+},
+{
+ "subject": "Backend - Token API",
+ "name": "FateXRebirth",
+ "hash": "6e5f1d7",
+ "date": "2019-12-29 22:14:24 +0800" 
+},
+{
+ "subject": "Frontend - Implement Firebase Cloud Messaging",
+ "name": "FateXRebirth",
+ "hash": "9072846",
+ "date": "2019-12-21 23:12:25 +0800" 
+},
+{
+ "subject": "Backend - Message and Dialogue API",
+ "name": "FateXRebirth",
+ "hash": "0f5eb7c",
+ "date": "2019-12-14 19:47:36 +0800" 
+},
+{
+ "subject": "Frontend - Message Component Cont.",
+ "name": "FateXRebirth",
+ "hash": "a0090a4",
+ "date": "2019-11-17 23:14:39 +0800" 
+},
+{
+ "subject": "Backend - Dialogue API",
+ "name": "FateXRebirth",
+ "hash": "acafde2",
+ "date": "2019-11-06 20:47:50 +0800" 
+},
+{
+ "subject": "Frontend - Adjustment",
+ "name": "FateXRebirth",
+ "hash": "7cc3a64",
+ "date": "2019-10-19 15:44:49 +0800" 
+},
+{
+ "subject": "Frontend - Concatenate Backend Log API & Message Component Cont.",
+ "name": "FateXRebirth",
+ "hash": "7e22899",
+ "date": "2019-10-06 22:44:42 +0800" 
+},
+{
+ "subject": "Frontend - Message Component",
+ "name": "FateXRebirth",
+ "hash": "28c36a6",
+ "date": "2019-09-30 19:10:52 +0800" 
+},
+{
+ "subject": "Backend - Log Messages API",
+ "name": "FateXRebirth",
+ "hash": "3955db3",
+ "date": "2019-09-28 15:04:52 +0800" 
+},
+{
+ "subject": "Backend - Socket.io and Messages API",
+ "name": "FateXRebirth",
+ "hash": "c483562",
+ "date": "2019-09-24 21:01:13 +0800" 
+},
+{
+ "subject": "Backend - Car Favorite API Done",
+ "name": "FateXRebirth",
+ "hash": "a0e86ce",
+ "date": "2019-09-14 16:57:08 +0800" 
+},
+{
+ "subject": "Frontend - Car Favorite Done",
+ "name": "FateXRebirth",
+ "hash": "8ca9651",
+ "date": "2019-08-17 21:32:13 +0800" 
+},
+{
+ "subject": "Backend - Car Search API Done",
+ "name": "FateXRebirth",
+ "hash": "251f70f",
+ "date": "2019-08-13 19:08:52 +0800" 
+},
+{
+ "subject": "Frontend - Car Search Done",
+ "name": "FateXRebirth",
+ "hash": "cabaf3a",
+ "date": "2019-08-09 21:59:39 +0800" 
+},
+{
+ "subject": "Frontend - Car Search Cont.",
+ "name": "FateXRebirth",
+ "hash": "e9c4b8d",
+ "date": "2019-08-03 14:41:19 +0800" 
+},
+{
+ "subject": "Backend - Car Search API",
+ "name": "FateXRebirth",
+ "hash": "6a12794",
+ "date": "2019-07-25 21:31:04 +0800" 
+},
+{
+ "subject": "Frontend - Car Search and Refactoring",
+ "name": "FateXRebirth",
+ "hash": "cf8c500",
+ "date": "2019-07-23 19:12:46 +0800" 
+},
+{
+ "subject": "Frontend - Car Management and Car Detail",
+ "name": "FateXRebirth",
+ "hash": "e7f6cff",
+ "date": "2019-07-19 23:35:42 +0800" 
+},
+{
+ "subject": "Backend - Car Management API Done",
+ "name": "FateXRebirth",
+ "hash": "8807593",
+ "date": "2019-07-16 23:23:49 +0800" 
+},
+{
+ "subject": "Frontend - Car Edit Refactoring",
+ "name": "FateXRebirth",
+ "hash": "60e2ee9",
+ "date": "2019-07-14 17:00:30 +0800" 
+},
+{
+ "subject": "Frontend - Car Edit Done ( No Format Validation )",
+ "name": "FateXRebirth",
+ "hash": "575f4e9",
+ "date": "2019-07-13 18:44:08 +0800" 
+},
+{
+ "subject": "Backend - Refactoring File Repository",
+ "name": "FateXRebirth",
+ "hash": "9aad3ef",
+ "date": "2019-07-11 21:59:22 +0800" 
+},
+{
+ "subject": "Backend - Refactoring Public API and Private API Cont.",
+ "name": "FateXRebirth",
+ "hash": "65765ed",
+ "date": "2019-06-22 11:11:05 +0800" 
+},
+{
+ "subject": "Backend - Refactoring Public API and Private API",
+ "name": "FateXRebirth",
+ "hash": "a798a78",
+ "date": "2019-06-19 22:44:15 +0800" 
+},
+{
+ "subject": "Frontend - Refactoring Public API and Private API",
+ "name": "FateXRebirth",
+ "hash": "e3140a5",
+ "date": "2019-06-18 23:20:20 +0800" 
+},
+{
+ "subject": "Backend - Region Repository and Refactoring",
+ "name": "FateXRebirth",
+ "hash": "d4408c4",
+ "date": "2019-06-17 22:21:34 +0800" 
+},
+{
+ "subject": "Frontend - Car Create Done ( No Format Validation )",
+ "name": "FateXRebirth",
+ "hash": "6635a22",
+ "date": "2019-06-14 13:50:43 +0800" 
+},
+{
+ "subject": "Backend - Car Create and File Repository",
+ "name": "Yu-Min Peng",
+ "hash": "d0e8509",
+ "date": "2019-06-13 09:25:27 +0800" 
+},
+{
+ "subject": "Frontend - Import Firebase to Handle Upload Image",
+ "name": "Yu-Min Peng",
+ "hash": "e083218",
+ "date": "2019-06-11 22:13:07 +0800" 
+},
+{
+ "subject": "Frontend - Dashboard Car Create, Info, Upgrade",
+ "name": "Yu-Min Peng",
+ "hash": "c112da0",
+ "date": "2019-06-08 23:25:50 +0800" 
+},
+{
+ "subject": "Frontend - Dashboard Index, Info, Upgrade Done",
+ "name": "Yu-Min Peng",
+ "hash": "607197d",
+ "date": "2019-06-03 23:39:27 +0800" 
+},
+{
+ "subject": "Backend - Refactoring API",
+ "name": "Yu-Min Peng",
+ "hash": "502c365",
+ "date": "2019-06-02 23:01:06 +0800" 
+},
+{
+ "subject": "Backend - Refactoring SQL and API",
+ "name": "Yu-Min Peng",
+ "hash": "fb45a80",
+ "date": "2019-06-01 15:37:41 +0800" 
+},
+{
+ "subject": "Backend - Common Specification API",
+ "name": "Yu-Min Peng",
+ "hash": "6556a9f",
+ "date": "2019-05-30 14:23:08 +0800" 
+},
+{
+ "subject": "Frontend - Refactoring and Removing Fake API JSON",
+ "name": "Yu-Min Peng",
+ "hash": "aed0876",
+ "date": "2019-05-24 22:42:54 +0800" 
+},
+{
+ "subject": "Backend - Common Banner API",
+ "name": "Yu-Min Peng",
+ "hash": "9a9abc0",
+ "date": "2019-05-22 23:21:50 +0800" 
+},
+{
+ "subject": "Backend - Car Management API & Common News API",
+ "name": "Yu-Min Peng",
+ "hash": "875f3e6",
+ "date": "2019-05-21 18:18:51 +0800" 
+},
+{
+ "subject": "Backend - Favorite Car API",
+ "name": "Yu-Min Peng",
+ "hash": "22e3b42",
+ "date": "2019-05-19 10:12:43 +0800" 
+},
+{
+ "subject": "Backend - Car Create and Edit API Cont.",
+ "name": "Yu-Min Peng",
+ "hash": "dc968d8",
+ "date": "2019-05-16 09:30:06 +0800" 
+},
+{
+ "subject": "Backend - Car Create and Edit API",
+ "name": "Yu-Min Peng",
+ "hash": "77c7ab0",
+ "date": "2019-05-14 22:44:21 +0800" 
+},
+{
+ "subject": "Frontend - Car Create Cont.",
+ "name": "Yu-Min Peng",
+ "hash": "36d248d",
+ "date": "2019-05-11 20:33:16 +0800" 
+},
+{
+ "subject": "Frontend - Car Create Cont.",
+ "name": "Yu-Min Peng",
+ "hash": "da1dbed",
+ "date": "2019-05-06 08:10:40 +0800" 
+},
+{
+ "subject": "Frontend - Car Create",
+ "name": "Yu-Min Peng",
+ "hash": "e7b98e7",
+ "date": "2019-05-02 23:31:49 +0800" 
+},
+{
+ "subject": "Backend - Member Edit and Upgrade API",
+ "name": "Yu-Min Peng",
+ "hash": "b1fd5e5",
+ "date": "2019-04-30 23:34:04 +0800" 
+},
+{
+ "subject": "Frontend - Refactoring API with JSON Web Token",
+ "name": "Yu-Min Peng",
+ "hash": "bc25ac9",
+ "date": "2019-04-28 23:27:27 +0800" 
+},
+{
+ "subject": "Backend - JSON Web Tokens Filter",
+ "name": "Yu-Min Peng",
+ "hash": "9bce3bf",
+ "date": "2019-03-29 19:12:15 +0800" 
+},
+{
+ "subject": "Frontend - Concatenate Backend Login API",
+ "name": "Yu-Min Peng",
+ "hash": "347bdfb",
+ "date": "2019-03-27 16:49:06 +0800" 
+},
+{
+ "subject": "Frontend - Concatenate Backend Register API",
+ "name": "Yu-Min Peng",
+ "hash": "35f2e06",
+ "date": "2019-03-25 10:59:47 +0800" 
+},
+{
+ "subject": "Backend - Enabling Cross-Origin Resource Sharing (CORS)",
+ "name": "Yu-Min Peng",
+ "hash": "66fc1f9",
+ "date": "2019-03-19 09:04:08 +0800" 
+},
+{
+ "subject": "Backend - User Repository API For Frontend",
+ "name": "Yu-Min Peng",
+ "hash": "c6ccab0",
+ "date": "2019-03-13 17:27:21 +0800" 
+},
+{
+ "subject": "Backend - Admin Repository > User Repository",
+ "name": "Yu-Min Peng",
+ "hash": "9b8993c",
+ "date": "2019-03-12 16:39:01 +0800" 
+},
+{
+ "subject": "Backend - Admin Repository Done",
+ "name": "Yu-Min Peng",
+ "hash": "5ea4fa7",
+ "date": "2019-03-10 09:17:29 +0800" 
+},
+{
+ "subject": "Backend - Admin Repository and Result Response Format",
+ "name": "Yu-Min Peng",
+ "hash": "9c5927b",
+ "date": "2019-03-07 10:01:16 +0800" 
+},
+{
+ "subject": "Backend - Refactor Register and Form Validation",
+ "name": "Yu-Min Peng",
+ "hash": "9157af6",
+ "date": "2019-03-05 17:48:49 +0800" 
+},
+{
+ "subject": "Backend - Refactor Login and Form Validation",
+ "name": "Yu-Min Peng",
+ "hash": "6258e9d",
+ "date": "2019-03-01 22:16:50 +0800" 
+},
+{
+ "subject": "Backend - Refactor Index and Import Sass Compiler",
+ "name": "Yu-Min Peng",
+ "hash": "447c83e",
+ "date": "2019-02-20 22:07:09 +0800" 
+},
+{
+ "subject": "Backend - Refactor Navbar Style",
+ "name": "Yu-Min Peng",
+ "hash": "4806706",
+ "date": "2019-02-19 23:35:11 +0800" 
+},
+{
+ "subject": "Backend - Refactor Category Repository",
+ "name": "Yu-Min Peng",
+ "hash": "b935fdb",
+ "date": "2019-02-17 22:50:30 +0800" 
+},
+{
+ "subject": "Backend - Refactor Series Repository",
+ "name": "Yu-Min Peng",
+ "hash": "1f9c610",
+ "date": "2019-02-15 11:38:44 +0800" 
+},
+{
+ "subject": "Backend - Refactor Brand Repository",
+ "name": "Yu-Min Peng",
+ "hash": "4b897ba",
+ "date": "2019-02-14 13:16:55 +0800" 
+},
+{
+ "subject": "Backend - Refactor Car Repository",
+ "name": "FateXRebirth",
+ "hash": "cc7be0d",
+ "date": "2019-02-08 17:53:37 +0800" 
+},
+{
+ "subject": "Backend - Refactor Repository For Query Flexible",
+ "name": "FateXRebirth",
+ "hash": "844b765",
+ "date": "2019-02-06 20:55:51 +0800" 
+},
+{
+ "subject": "Frontend - Search Page Design",
+ "name": "FateXRebirth",
+ "hash": "3f189fb",
+ "date": "2019-02-02 23:26:20 +0800" 
+},
+{
+ "subject": "Frontend - Navigator & Top Button",
+ "name": "FateXRebirth",
+ "hash": "3221d2e",
+ "date": "2019-01-29 23:23:54 +0800" 
+},
+{
+ "subject": "Frontend - Car Detail",
+ "name": "FateXRebirth",
+ "hash": "6aa9381",
+ "date": "2019-01-27 20:57:37 +0800" 
+},
+{
+ "subject": "Frontend - New Car & Element-UI cont.",
+ "name": "FateXRebirth",
+ "hash": "1b91e66",
+ "date": "2019-01-25 20:37:57 +0800" 
+},
+{
+ "subject": "Frontend - New Car & Element-UI",
+ "name": "FateXRebirth",
+ "hash": "51e70b4",
+ "date": "2019-01-23 19:27:55 +0800" 
+},
+{
+ "subject": "Frontend - New Car",
+ "name": "FateXRebirth",
+ "hash": "5134324",
+ "date": "2019-01-17 23:05:09 +0800" 
+},
+{
+ "subject": "Frontend - Info & Management",
+ "name": "FateXRebirth",
+ "hash": "1524133",
+ "date": "2019-01-14 23:47:51 +0800" 
+},
+{
+ "subject": "Frontend - Index & Favorite",
+ "name": "FateXRebirth",
+ "hash": "3e9e3e7",
+ "date": "2019-01-11 21:43:50 +0800" 
+},
+{
+ "subject": "Frontend - Info & Upgrade",
+ "name": "FateXRebirth",
+ "hash": "9b54674",
+ "date": "2019-01-08 23:05:41 +0800" 
+},
+{
+ "subject": "Frontend - Heading",
+ "name": "FateXRebirth",
+ "hash": "0969c69",
+ "date": "2019-01-06 11:25:53 +0800" 
+},
+{
+ "subject": "Frontend - Sidemenu & Breadcrumb",
+ "name": "FateXRebirth",
+ "hash": "4901b7f",
+ "date": "2019-01-03 00:26:43 +0800" 
+},
+{
+ "subject": "Frontend - Carousel Key Vision",
+ "name": "Kevin Peng",
+ "hash": "5a54bb7",
+ "date": "2018-12-19 22:50:11 +0800" 
+},
+{
+ "subject": "Frontend - Basic Login Authentication login",
+ "name": "Kevin Peng",
+ "hash": "5a0a121",
+ "date": "2018-12-17 22:44:08 +0800" 
+},
+{
+ "subject": "Frontend - Vuex & Koa-Session",
+ "name": "Kevin Peng",
+ "hash": "fe84b2a",
+ "date": "2018-12-15 23:11:07 +0800" 
+},
+{
+ "subject": "Frontend - Nav & Footer",
+ "name": "Kevin Peng",
+ "hash": "e09d8b5",
+ "date": "2018-12-13 08:18:49 +0800" 
+},
+{
+ "subject": "Frontend - Koa Server Design",
+ "name": "Kevin Peng",
+ "hash": "58b1797",
+ "date": "2018-12-09 12:35:27 +0800" 
+},
+{
+ "subject": "Frontend - Banner Component",
+ "name": "Kevin Peng",
+ "hash": "35519db",
+ "date": "2018-12-07 20:57:57 +0800" 
+},
+{
+ "subject": "Frontend - SideMenu added",
+ "name": "Kevin Peng",
+ "hash": "f96b20b",
+ "date": "2018-12-05 23:47:28 +0800" 
+},
+{
+ "subject": "Frontend - Design Dashboard",
+ "name": "Kevin Peng",
+ "hash": "d161729",
+ "date": "2018-12-03 23:40:38 +0800" 
+},
+{
+ "subject": "Frontend - Useful component",
+ "name": "Kevin Peng",
+ "hash": "002aa60",
+ "date": "2018-11-29 22:40:26 +0800" 
+},
+{
+ "subject": "Frontend - Using Element-UI Progress",
+ "name": "Kevin Peng",
+ "hash": "370ded6",
+ "date": "2018-11-25 23:35:26 +0800" 
+},
+{
+ "subject": "Frontend - Loading done",
+ "name": "Kevin Peng",
+ "hash": "62d61bf",
+ "date": "2018-11-23 19:54:37 +0800" 
+},
+{
+ "subject": "Frontend - Progress Bar & Sass & Middleware",
+ "name": "Kevin Peng",
+ "hash": "4796324",
+ "date": "2018-11-21 23:48:38 +0800" 
+},
+{
+ "subject": "Frontend - Register Page Prototype",
+ "name": "Kevin Peng",
+ "hash": "60a3508",
+ "date": "2018-11-17 23:48:11 +0800" 
+},
+{
+ "subject": "Frontend - Login Page Prototype",
+ "name": "Kevin Peng",
+ "hash": "885310c",
+ "date": "2018-11-14 23:29:30 +0800" 
+},
+{
+ "subject": "Frontend - Initialization",
+ "name": "Kevin Peng",
+ "hash": "5934aac",
+ "date": "2018-11-13 22:56:52 +0800" 
+},
+{
+ "subject": "Backend - Fix Bugs and Backend Almost Done",
+ "name": "Kevin Peng",
+ "hash": "4641dca",
+ "date": "2018-11-08 23:50:16 +0800" 
+},
+{
+ "subject": "Backend - Design for Year of Car",
+ "name": "Kevin Peng",
+ "hash": "ff32147",
+ "date": "2018-11-06 23:38:13 +0800" 
+},
+{
+ "subject": "Backend - API for Creating a New Car almost done",
+ "name": "Kevin Peng",
+ "hash": "038786f",
+ "date": "2018-11-05 23:46:34 +0800" 
+},
+{
+ "subject": "Backend - API design for Model",
+ "name": "Kevin Peng",
+ "hash": "0050bb7",
+ "date": "2018-11-03 23:45:59 +0800" 
+},
+{
+ "subject": "Backend - Request and Response",
+ "name": "Kevin Peng",
+ "hash": "d255106",
+ "date": "2018-11-01 23:10:46 +0800" 
+},
+{
+ "subject": "Backend - Create Brand Function Done",
+ "name": "Kevin Peng",
+ "hash": "ff112c7",
+ "date": "2018-10-29 22:10:28 +0800" 
+},
+{
+ "subject": "Backend - API design for Cars",
+ "name": "Kevin Peng",
+ "hash": "ddbb90d",
+ "date": "2018-10-25 23:23:38 +0800" 
+},
+{
+ "subject": "Backend - Dashboard Brand design",
+ "name": "Kevin Peng",
+ "hash": "188f3a9",
+ "date": "2018-10-03 23:26:12 +0800" 
+},
+{
+ "subject": "Backend - Dashboard design",
+ "name": "Kevin Peng",
+ "hash": "a3bb2fa",
+ "date": "2018-10-01 23:31:02 +0800" 
+},
+{
+ "subject": "Backend - Beautify Success, Failure",
+ "name": "Kevin Peng",
+ "hash": "4edd804",
+ "date": "2018-08-28 23:42:40 +0800" 
+},
+{
+ "subject": "Backend - Login, Register form with Bulma",
+ "name": "Kevin Peng",
+ "hash": "d8125d2",
+ "date": "2018-08-26 23:02:48 +0800" 
+},
+{
+ "subject": "Backend - Refactor register form in Ajax way",
+ "name": "Kevin Peng",
+ "hash": "0703c2b",
+ "date": "2018-08-21 23:14:58 +0800" 
+},
+{
+ "subject": "Backend - Car, Brand, Model Entity",
+ "name": "Kevin Peng",
+ "hash": "73a358d",
+ "date": "2018-08-09 23:26:18 +0800" 
+},
+{
+ "subject": "Backend - Refactor login form in Spring way",
+ "name": "Kevin Peng",
+ "hash": "cb6ca44",
+ "date": "2018-06-27 23:53:56 +0800" 
+},
+{
+ "subject": "Backend - Design customize Form Validate cont.",
+ "name": "Kevin Peng",
+ "hash": "ed0f805",
+ "date": "2018-06-02 00:18:48 +0800" 
+},
+{
+ "subject": "Backend - Design customize Form Validate",
+ "name": "Kevin Peng",
+ "hash": "5e0553a",
+ "date": "2018-05-27 18:13:11 +0800" 
+},
+{
+ "subject": "Frontend - Vue-Router config & sidebar design",
+ "name": "Kevin Peng",
+ "hash": "d068e78",
+ "date": "2018-05-02 22:05:20 +0800" 
+},
+{
+ "subject": "Backend - Beautify Navbar, Footer",
+ "name": "Kevin Peng",
+ "hash": "5b25cad",
+ "date": "2018-04-27 21:41:59 +0800" 
+},
+{
+ "subject": "Frontend - Root+NotFound",
+ "name": "Kevin Peng",
+ "hash": "886248a",
+ "date": "2018-04-19 22:45:44 +0800" 
+},
+{
+ "subject": "Backend - Logout, Dashboard, Session Config",
+ "name": "Kevin Peng",
+ "hash": "94daacc",
+ "date": "2018-04-19 22:45:02 +0800" 
+},
+{
+ "subject": "Frontend - Rename file with style guide",
+ "name": "Kevin Peng",
+ "hash": "6b3fbda",
+ "date": "2018-04-10 07:49:53 +0800" 
+},
+{
+ "subject": "Backend - Replace JDBC with JPA",
+ "name": "Kevin Peng",
+ "hash": "4ee562e",
+ "date": "2018-03-25 22:43:36 +0800" 
+},
+{
+ "subject": "Backend - RegisterPage, RegisterForm, Validation",
+ "name": "Kevin Peng",
+ "hash": "5b48794",
+ "date": "2018-02-22 22:54:30 +0800" 
+},
+{
+ "subject": "Backend - Header, Nav, Footer, Index",
+ "name": "Kevin Peng",
+ "hash": "f62dae0",
+ "date": "2018-02-20 11:57:37 +0800" 
+},
+{
+ "subject": "Backend - Person's Entity, Service, Repository",
+ "name": "Kevin Peng",
+ "hash": "95af2be",
+ "date": "2018-02-16 18:01:53 +0800" 
+},
+{
+ "subject": "Frontend - Index, NotFound, Root",
+ "name": "Kevin Peng",
+ "hash": "48249cd",
+ "date": "2018-02-15 10:41:57 +0800" 
+},
+{
+ "subject": "Backend - login, failure, success",
+ "name": "Kevin Peng",
+ "hash": "39e6e86",
+ "date": "2018-02-13 22:52:55 +0800" 
+},
+{
+ "subject": "Import Element UI framework",
+ "name": "Kevin Peng",
+ "hash": "9559933",
+ "date": "2018-02-12 19:10:30 +0800" 
+},
+{
+ "subject": "Import Vue.js as frontend",
+ "name": "Fate:Rebirth",
+ "hash": "af29b75",
+ "date": "2017-12-12 18:10:24 +0800" 
+},
+{
+ "subject": "Refactor application structure",
+ "name": "Fate:Rebirth",
+ "hash": "8c744da",
+ "date": "2017-12-12 12:24:24 +0800" 
+},
+{
+ "subject": "Change IDE from Spring Tool Suite to IntelliJ IDEA Ultimate",
+ "name": "Fate:Rebirth",
+ "hash": "ce3145c",
+ "date": "2017-12-11 16:46:29 +0800" 
+},
+{
+ "subject": "Change IDE from IntelliJ IDEA to Spring Tool Suite",
+ "name": "Fate:Rebirth",
+ "hash": "96383d9",
+ "date": "2017-12-10 23:27:31 +0800" 
+},
+{
+ "subject": "Integrated with Vue + MySQL",
+ "name": "FateXRebirth",
+ "hash": "7a0532a",
+ "date": "2017-11-25 15:18:28 +0800" 
+},
+{
+ "subject": "Spring Boot Mustache tutorial",
+ "name": "FateXRebirth",
+ "hash": "c759241",
+ "date": "2017-10-18 11:09:41 +0800" 
+},
+{
+ "subject": "Learn how to render template",
+ "name": "FateXRebirth",
+ "hash": "0f93e41",
+ "date": "2017-10-04 23:13:25 +0800" 
+},
+{
+ "subject": "A decent REST application with fake data",
+ "name": "FateXRebirth",
+ "hash": "3450a29",
+ "date": "2017-09-28 11:29:55 +0800" 
+},
+{
+ "subject": "Warm up",
+ "name": "FateXRebirth",
+ "hash": "76cf413",
+ "date": "2017-09-25 18:19:50 +0800" 
+},
+{
+ "subject": "Refactor",
+ "name": "FateXRebirth",
+ "hash": "02dc51c",
+ "date": "2017-09-25 17:12:04 +0800" 
+},
+{
+ "subject": "Get/Post",
+ "name": "FateXRebirth",
+ "hash": "36cd44a",
+ "date": "2017-09-16 23:47:34 +0800" 
+},
+{
+ "subject": "Hello world",
+ "name": "FateXRebirth",
+ "hash": "d73b401",
+ "date": "2017-09-14 09:33:06 +0800" 
+},
+{
+ "subject": "Create README.md",
+ "name": "GitHub",
+ "hash": "cc7be13",
+ "date": "2017-09-14 08:33:16 +0800" 
+}
+]

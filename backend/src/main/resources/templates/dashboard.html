@@ -6,26 +6,24 @@
       <div class="section">
         <div class="container">
 
-          <th:block th:if="true">
-            <div class="tabs" th:if="${CarList} and ${UserList} and ${NewsList}">
-              <ul>
-                <li onclick="scrollToTarget('#CarList')"><a>Cars</a></li>
-                <li onclick="scrollToTarget('#UserList')"><a>Users</a></li>
-                <li onclick="scrollToTarget('#NewsList')"><a>News</a></li>
-              </ul>
-            </div>
+          <div class="tabs" th:if="${CarList} and ${UserList} and ${NewsList}">
+            <ul>
+              <li onclick="scrollToTarget('#CarList')"><a>Cars</a></li>
+              <li onclick="scrollToTarget('#UserList')"><a>Users</a></li>
+              <li onclick="scrollToTarget('#NewsList')"><a>News</a></li>
+            </ul>
+          </div>
 
-            <th:block th:if="${CarList}">
-              <section th:replace="fragments/list :: Cars(${CarList})"></section>
-            </th:block>
+          <th:block th:if="${NewsList}">
+            <section th:replace="fragments/list :: News(${NewsList})"></section>
+          </th:block>
 
-            <th:block th:if="${UserList}">
-              <section th:replace="fragments/list :: Users(${UserList})"></section>
-            </th:block>
+          <th:block th:if="${CarList}">
+            <section th:replace="fragments/list :: Cars(${CarList})"></section>
+          </th:block>
 
-            <th:block th:if="${NewsList}">
-              <section th:replace="fragments/list :: News(${NewsList})"></section>
-            </th:block>
+          <th:block th:if="${UserList}">
+            <section th:replace="fragments/list :: Users(${UserList})"></section>
           </th:block>
 
         </div>

@@ -2,10 +2,7 @@ package example.Controller;
 
 import example.Request.MemberLogin;
 import example.Request.MemberRegister;
-import example.Response.CarList;
-import example.Response.News;
-import example.Response.Result;
-import example.Response.User;
+import example.Response.*;
 import example.Service.CarService;
 import example.Service.CommonService;
 import example.Service.UserService;
@@ -53,7 +50,7 @@ public class ViewController {
         try {
             ArrayList<String> backend = new ArrayList<String>();
             ArrayList<String> frontend = new ArrayList<String>();
-            JSONArray data = (JSONArray) parser.parse(new FileReader("log.json"));
+            JSONArray data = (JSONArray) parser.parse(new FileReader("../log.json"));
 
             for (Object input : data)
             {
@@ -64,7 +61,7 @@ public class ViewController {
                 log = log + (String)obj.get("hash") + ", ";
                 log = log + ((String)obj.get("date")).substring(0, 10) + "。";
 
-                if( ((String)obj.get("subject")).indexOf("Frontend") != -1 ) {
+                if( ((String)obj.get("subject")).startsWith("Frontend")) {
                     frontend.add(log);
                 } else {
                     backend.add(log);
@@ -136,20 +133,12 @@ public class ViewController {
         return "redirect:/";
     }
 
-    @GetMapping(path = {"/dashboard", "/dashboard/{type}", "/dashboard/{type}/{id}"})
-    public String dashboard(@PathVariable("type") Optional<String> type, @PathVariable("id") Optional<Integer> id, HttpSession session, Model model) {
+    @GetMapping(path = {"/dashboard", "/dashboard/{type}"})
+    public String dashboard(@PathVariable("type") Optional<String> type, HttpSession session, Model model) {
         if(session.getAttribute("uid") == null) {
             return "redirect:/login";
         }
-        if(id.isPresent() && type.isPresent()) {
-            if( type.get().equals("cars")) {
-
-            } else if(type.get().equals("users")) {
-
-            } else if(type.get().equals("news")) {
-
-            }
-        } else if(!id.isPresent() && type.isPresent()) {
+        if(type.isPresent()) {
             if( type.get().equals("cars")) {
                 List<CarList> carResult = (List<CarList>)carService.getCarList().getReturnData().get("cars");
                 model.addAttribute("CarList", carResult);
